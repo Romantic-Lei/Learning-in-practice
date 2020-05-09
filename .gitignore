@@ -4,3 +4,9 @@ VolatileDemo/.gitignore
 VolatileDemo/.classpath
 RemoteSystemsTempFiles/.project
 VolatileDemo/.settings/org.eclipse.jdt.core.prefs
+CASDemo/.settings/org.eclipse.jdt.core.prefs
+CASDemo/.project
+CASDemo/.gitignore
+CASDemo/.classpath
+.recommenders/caches/manual-mappings.json
+.recommenders/caches/identified-project-coordinates.json
