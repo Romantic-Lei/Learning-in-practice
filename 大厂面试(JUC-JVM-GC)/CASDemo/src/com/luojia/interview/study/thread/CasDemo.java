@@ -4,10 +4,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Romantic-Lei
- * @create 2020Äê5ÔÂ8ÈÕ
+ * @create 2020å¹´5æœˆ8æ—¥
  * 
- * CASÊÇÊ²Ã´£¿  ===> compareAndSet
- * ±È½Ï²¢½»»»
+ * CASæ˜¯ä»€ä¹ˆï¼Ÿ  ===> compareAndSet
+ * æ¯”è¾ƒå¹¶äº¤æ¢
  */
 public class CasDemo {
 	
