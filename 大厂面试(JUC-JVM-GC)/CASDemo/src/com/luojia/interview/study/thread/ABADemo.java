@@ -5,10 +5,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 /**
- * ABAÎÊÌâµÄ½â¾ö£¬AtomicStampedReference
+ * ABAé—®é¢˜çš„è§£å†³ï¼ŒAtomicStampedReference
  * 
  * @author Romantic-Lei
- * @create 2020Äê5ÔÂ9ÈÕ
+ * @create 2020å¹´5æœˆ9æ—¥
  */
 public class ABADemo {
 
@@ -17,14 +17,14 @@ public class ABADemo {
 
 	public static void main(String[] args) {
 		
-		System.out.println("===========ÒÔÏÂÊÇABAÎÊÌâµÄ²úÉú============");
+		System.out.println("===========ä»¥ä¸‹æ˜¯ABAé—®é¢˜çš„äº§ç”Ÿ============");
 		new Thread(() -> {
 			atomicReference.compareAndSet(100, 101);
 			atomicReference.compareAndSet(101, 100);
 		}, "t1").start();
 
 		new Thread(() -> {
-			// Ïß³Ìt2ÔİÍ£1ÃëÖÓ£¬±£Ö¤Ïß³Ìt1Íê³ÉÒ»´ÎABA²Ù×÷
+			// çº¿ç¨‹t2æš‚åœ1ç§’é’Ÿï¼Œä¿è¯çº¿ç¨‹t1å®Œæˆä¸€æ¬¡ABAæ“ä½œ
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (Exception e) {
@@ -34,36 +34,36 @@ public class ABADemo {
 			System.out.println(atomicReference.compareAndSet(100, 2020) + "\t" + atomicReference.get());
 		}, "t2").start();
 
-		// ÔİÍ£Ò»»áÏß³Ì£¬±£Ö¤ÉÏÃæÁ½¸öÏß³ÌÍê³É
+		// æš‚åœä¸€ä¼šçº¿ç¨‹ï¼Œä¿è¯ä¸Šé¢ä¸¤ä¸ªçº¿ç¨‹å®Œæˆ
 		try {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("===========ÒÔÏÂÊÇABAÎÊÌâµÄ½â¾ö============");
+		System.out.println("===========ä»¥ä¸‹æ˜¯ABAé—®é¢˜çš„è§£å†³============");
 		
 		new Thread(() -> {
 			int stamp = atomicStampedReference.getStamp();
-			System.out.println(Thread.currentThread().getName() + "µÚÒ»´Î°æ±¾ºÅ" + stamp);
+			System.out.println(Thread.currentThread().getName() + "ç¬¬ä¸€æ¬¡ç‰ˆæœ¬å·" + stamp);
 			
-			// ÔİÍ£Ïß³Ì1Ãë t3Ïß³Ì
+			// æš‚åœçº¿ç¨‹1ç§’ t3çº¿ç¨‹
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			atomicStampedReference.compareAndSet(100, 101, atomicStampedReference.getStamp(), atomicStampedReference.getStamp()+1);
-			System.out.println(Thread.currentThread().getName() + "µÚ¶ş´Î°æ±¾ºÅ" + atomicStampedReference.getStamp());
+			System.out.println(Thread.currentThread().getName() + "ç¬¬äºŒæ¬¡ç‰ˆæœ¬å·" + atomicStampedReference.getStamp());
 			
 			atomicStampedReference.compareAndSet(101, 100, atomicStampedReference.getStamp(), atomicStampedReference.getStamp()+1);
-			System.out.println(Thread.currentThread().getName() + "µÚÈı´Î°æ±¾ºÅ" + atomicStampedReference.getStamp());
+			System.out.println(Thread.currentThread().getName() + "ç¬¬ä¸‰æ¬¡ç‰ˆæœ¬å·" + atomicStampedReference.getStamp());
 		}, "t3").start();
 		
 		new Thread(() -> {
 			int stamp = atomicStampedReference.getStamp();
-			System.out.println(Thread.currentThread().getName() + "µÚÒ»´Î°æ±¾ºÅ" + stamp);
+			System.out.println(Thread.currentThread().getName() + "ç¬¬ä¸€æ¬¡ç‰ˆæœ¬å·" + stamp);
 			
-			// ÔİÍ£Ïß³Ì3Ãë t4Ïß³Ì, ±£Ö¤Ïß³Ìt3Íê³ÉÒ»´ÎABA²Ù×÷
+			// æš‚åœçº¿ç¨‹3ç§’ t4çº¿ç¨‹, ä¿è¯çº¿ç¨‹t3å®Œæˆä¸€æ¬¡ABAæ“ä½œ
 			try {
 				TimeUnit.SECONDS.sleep(3);
 			} catch (Exception e) {
@@ -71,9 +71,9 @@ public class ABADemo {
 			}
 			boolean result = atomicStampedReference.compareAndSet(100, 2020, stamp, stamp+1);
 			
-			System.out.println(Thread.currentThread().getName() + "\tĞŞ¸Ä³É¹¦·ñ " + result + "\tµ±Ç°×îĞÂ°æ±¾ºÅ" + atomicStampedReference.getStamp());
+			System.out.println(Thread.currentThread().getName() + "\tä¿®æ”¹æˆåŠŸå¦ " + result + "\tå½“å‰æœ€æ–°ç‰ˆæœ¬å·" + atomicStampedReference.getStamp());
 			
-			System.out.println(Thread.currentThread().getName() + "\tµ±Ç°Êµ¼Ê×îĞÂÖµ£º" + atomicStampedReference.getReference());
+			System.out.println(Thread.currentThread().getName() + "\tå½“å‰å®é™…æœ€æ–°å€¼ï¼š" + atomicStampedReference.getReference());
 		}, "t4").start();
 		
 	}
