@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 阻塞队列SychronousQueueDemo演示
+ * SynchronousQueue是一个不存储元素的BlockingQueue。
+ * 每一个put操作必须要等待一个take操作，否则不能继续添加元素，反之亦然。
  * @author Romantic-Lei
  * @create 2020年5月10日
  */
