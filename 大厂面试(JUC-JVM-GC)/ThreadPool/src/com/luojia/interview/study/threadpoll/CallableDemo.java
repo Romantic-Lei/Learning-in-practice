@@ -1,4 +1,4 @@
-package com.luojia.interview.study;
+package com.luojia.interview.study.threadpoll;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
