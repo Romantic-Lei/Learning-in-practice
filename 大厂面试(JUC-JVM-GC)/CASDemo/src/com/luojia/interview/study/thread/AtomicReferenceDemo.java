@@ -3,10 +3,9 @@ package com.luojia.interview.study.thread;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Ô­×ÓÒıÓÃ
- * 
+ * AtomicReferenceDemo
  * @author Romantic-Lei
- * @create 2020Äê5ÔÂ9ÈÕ
+ * @create 2020å¹´5æœˆ10æ—¥
  */
 public class AtomicReferenceDemo {
 
