@@ -11,10 +11,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * ¼¯ºÏÀà²»°²È«ÎÊÌâ
+ * é›†åˆç±»ä¸å®‰å…¨é—®é¢˜
  * 
  * @author Romantic-Lei
- * @create 2020Äê5ÔÂ9ÈÕ
+ * @create 2020å¹´5æœˆ9æ—¥
  */
 public class ContainerNotSafeDemo {
 
@@ -31,8 +31,8 @@ public class ContainerNotSafeDemo {
 	}
 
 	public static void setNotSafe() {
-		// HashSetµÄµ×²ã¾ÍÊÇHashMap£¬µ«ÊÇÎÒÃÇHashSetÊ¹ÓÃaddÊ±Ö»ÓĞÒ»¸öÖµµÄÔ­ÒòÊÇ£º
-		// ÎÒÃÇ´æ´¢µÄÕâ¸öÖµÊÇHashMapµÄkey£¬valueÊÇÒ»¸ö³£Á¿£¬²»ÓÃÎÒÃÇ¹ØĞÄ¡£
+		// HashSetçš„åº•å±‚å°±æ˜¯HashMapï¼Œä½†æ˜¯æˆ‘ä»¬HashSetä½¿ç”¨addæ—¶åªæœ‰ä¸€ä¸ªå€¼çš„åŸå› æ˜¯ï¼š
+		// æˆ‘ä»¬å­˜å‚¨çš„è¿™ä¸ªå€¼æ˜¯HashMapçš„keyï¼Œvalueæ˜¯ä¸€ä¸ªå¸¸é‡ï¼Œä¸ç”¨æˆ‘ä»¬å…³å¿ƒã€‚
 		Set<String> set = new CopyOnWriteArraySet<>();// Collections.synchronizedSet(new HashSet<>()); //new
 														// HashSet<>();
 		for (int i = 0; i < 30; i++) {
@@ -57,22 +57,22 @@ public class ContainerNotSafeDemo {
 			}, String.valueOf(i)).start();
 
 			/**
-			 * 1.¹ÊÕÏÏÖÏó java.util.ConcurrentModificationException
+			 * 1.æ•…éšœç°è±¡ java.util.ConcurrentModificationException
 			 * 
-			 * 2.µ¼ÖÂÔ­Òò ²¢·¢ÕùÇÀĞŞ¸Äµ¼ÖÂ·¢ÉúÒì³£
+			 * 2.å¯¼è‡´åŸå›  å¹¶å‘äº‰æŠ¢ä¿®æ”¹å¯¼è‡´å‘ç”Ÿå¼‚å¸¸
 			 * 
-			 * 3.½â¾ö·½°¸ 3.1 Ê¹ÓÃnew Vector<>(); 3.2 Ê¹ÓÃCollections.synchronizedList(new
-			 * ArrayList<>()); 3.3Ê¹ÓÃnew CopyOnWriteArrayList<>();
-			 * CopyOnWriteArrayList£ºĞ´Ê±¸´ÖÆ£¬Ö÷ÒªÊÇÒ»ÖÖ¶ÁĞ´·ÖÀëµÄË¼Ïë
-			 * Ğ´Ê±¸´ÖÆ£¬CopyOnWriteÈİÆ÷¼´Ğ´Ê±¸´ÖÆµÄÈİÆ÷£¬ÍùÒ»¸öÈİÆ÷ÖĞÌí¼ÓÔªËØµÄÊ±ºò£¬²»Ö±½ÓÍùµ±Ç°ÈİÆ÷Object[]Ìí¼Ó£¬
-			 * ¶øÊÇÏÈ½«Object[]½øĞĞcopy£¬¸´ÖÆ³öÒ»¸öĞÂµÄÈİÆ÷object[] newElements£¬È»ºóĞÂµÄÈİÆ÷Object[]
-			 * newElementsÀïÌí¼ÓÔ­Ê¼Êı¾İ£¬ Ìí¼ÓÔªËØÍêºó£¬ÔÚ½«Ô­ÈİÆ÷µÄÒıÓÃÖ¸ÏòĞÂµÄÈİÆ÷
-			 * setArray(newElements)£»ÕâÑù×öµÄºÃ´¦ÊÇ¿ÉÒÔ¶ÔcopyOnWriteÈİÆ÷½øĞĞ²¢·¢µÄ¶È£¬
-			 * ¶ø²»ĞèÒª¼ÓËø£¬ÒòÎªµ±Ç°ÈİÆ÷²»ĞèÒªÌí¼ÓÈÎºÎÔªËØ¡£ËùÒÔCopyOnWriteÈİÆ÷Ò²ÊÇÒ»ÖÖ¶ÁĞ´·ÖÀëµÄË¼Ïë£¬¶ÁºÍĞ´²»Í¬µÄÈİÆ÷
-			 * ¾ÍÊÇĞ´µÄÊ±ºò£¬°ÑArrayListÀ©ÈİÒ»¸ö³öÀ´£¬È»ºó°ÑÖµÌîĞ´ÉÏÈ¥£¬ÔÚÍ¨ÖªÆäËûµÄÏß³Ì£¬ArrayListµÄÒıÓÃÖ¸ÏòÀ©ÈİºóµÄµØÖ·
+			 * 3.è§£å†³æ–¹æ¡ˆ 3.1 ä½¿ç”¨new Vector<>(); 3.2 ä½¿ç”¨Collections.synchronizedList(new
+			 * ArrayList<>()); 3.3ä½¿ç”¨new CopyOnWriteArrayList<>();
+			 * CopyOnWriteArrayListï¼šå†™æ—¶å¤åˆ¶ï¼Œä¸»è¦æ˜¯ä¸€ç§è¯»å†™åˆ†ç¦»çš„æ€æƒ³
+			 * å†™æ—¶å¤åˆ¶ï¼ŒCopyOnWriteå®¹å™¨å³å†™æ—¶å¤åˆ¶çš„å®¹å™¨ï¼Œå¾€ä¸€ä¸ªå®¹å™¨ä¸­æ·»åŠ å…ƒç´ çš„æ—¶å€™ï¼Œä¸ç›´æ¥å¾€å½“å‰å®¹å™¨Object[]æ·»åŠ ï¼Œ
+			 * è€Œæ˜¯å…ˆå°†Object[]è¿›è¡Œcopyï¼Œå¤åˆ¶å‡ºä¸€ä¸ªæ–°çš„å®¹å™¨object[] newElementsï¼Œç„¶åæ–°çš„å®¹å™¨Object[]
+			 * newElementsé‡Œæ·»åŠ åŸå§‹æ•°æ®ï¼Œ æ·»åŠ å…ƒç´ å®Œåï¼Œåœ¨å°†åŸå®¹å™¨çš„å¼•ç”¨æŒ‡å‘æ–°çš„å®¹å™¨
+			 * setArray(newElements)ï¼›è¿™æ ·åšçš„å¥½å¤„æ˜¯å¯ä»¥å¯¹copyOnWriteå®¹å™¨è¿›è¡Œå¹¶å‘çš„åº¦ï¼Œ
+			 * è€Œä¸éœ€è¦åŠ é”ï¼Œå› ä¸ºå½“å‰å®¹å™¨ä¸éœ€è¦æ·»åŠ ä»»ä½•å…ƒç´ ã€‚æ‰€ä»¥CopyOnWriteå®¹å™¨ä¹Ÿæ˜¯ä¸€ç§è¯»å†™åˆ†ç¦»çš„æ€æƒ³ï¼Œè¯»å’Œå†™ä¸åŒçš„å®¹å™¨
+			 * å°±æ˜¯å†™çš„æ—¶å€™ï¼ŒæŠŠArrayListæ‰©å®¹ä¸€ä¸ªå‡ºæ¥ï¼Œç„¶åæŠŠå€¼å¡«å†™ä¸Šå»ï¼Œåœ¨é€šçŸ¥å…¶ä»–çš„çº¿ç¨‹ï¼ŒArrayListçš„å¼•ç”¨æŒ‡å‘æ‰©å®¹åçš„åœ°å€
 			 * 
 			 * 
-			 * 4.ÓÅ»¯½¨Òé
+			 * 4.ä¼˜åŒ–å»ºè®®
 			 */
 
 		}
