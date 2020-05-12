@@ -19,7 +19,7 @@ public class CountDownLatchDemo {
 			}, CountryEnum.forEach_countryEnum(i).getRetMessage()).start();
 		}
 		
-		countDownLatch.await();
+		countDownLatch.await();// 使得主线程（main）阻塞直到endLatch.countDown()为零才继续执行
 		System.out.println(Thread.currentThread().getName()+"\t*******秦帝国一统华夏");
 	}
 

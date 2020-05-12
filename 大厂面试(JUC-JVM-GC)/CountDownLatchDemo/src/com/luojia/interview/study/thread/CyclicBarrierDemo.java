@@ -20,6 +20,7 @@ public class CyclicBarrierDemo {
 			new Thread(() -> {
 				System.out.println(Thread.currentThread().getName()+"业务员编号："+tempInt);
 				try {
+					// 先到的被阻塞，等全部线程完成后，才能执行方法
 					cyclicBarrier.await();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
