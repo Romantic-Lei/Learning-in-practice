@@ -8,14 +8,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * 
  * @author Romantic-Lei
- * @create 2020Äê5ÔÂ9ÈÕ
- * ¶à¸öÏß³ÌÍ¬Ê±¶ÁÈ¡Ò»¸ö×ÊÔ´ÀàÃ»ÓĞÈÎºÎÎÊÌâ£¬ËùÒÔÎªÁËÂú×ã²¢·¢Á¿£¬¶ÁÈ¡¹²Ïí×ÊÔ´Ó¦¸Ã¿ÉÒÔÍ¬Ê±½øĞĞ
- * µ«ÊÇ
- * Èç¹ûÓĞÒ»¸öÏß³ÌÏëÈ¥Ğ´¹²Ïí×ÊÔ´£¬¾Í²»¸ÃÔÙÓĞÆäËûÏß³Ì¿ÉÒÔ¶Ô¸Ã×ÊÔ´½øĞĞ¶Á»òĞ´
- * ¼´£º
- * 	¶Á-¶ÁÄÜ¹²´æ
- * 	¶Á-Ğ´²»ÄÜ¹²´æ
- *	 Ğ´-Ğ´²»ÄÜ¹²´æ
+ * @create 2020å¹´5æœˆ9æ—¥
+ * å¤šä¸ªçº¿ç¨‹åŒæ—¶è¯»å–ä¸€ä¸ªèµ„æºç±»æ²¡æœ‰ä»»ä½•é—®é¢˜ï¼Œæ‰€ä»¥ä¸ºäº†æ»¡è¶³å¹¶å‘é‡ï¼Œè¯»å–å…±äº«èµ„æºåº”è¯¥å¯ä»¥åŒæ—¶è¿›è¡Œ
+ * ä½†æ˜¯
+ * å¦‚æœæœ‰ä¸€ä¸ªçº¿ç¨‹æƒ³å»å†™å…±äº«èµ„æºï¼Œå°±ä¸è¯¥å†æœ‰å…¶ä»–çº¿ç¨‹å¯ä»¥å¯¹è¯¥èµ„æºè¿›è¡Œè¯»æˆ–å†™
+ * å³ï¼š
+ * 	è¯»-è¯»èƒ½å…±å­˜
+ * 	è¯»-å†™ä¸èƒ½å…±å­˜
+ *	 å†™-å†™ä¸èƒ½å…±å­˜
  */
 public class ReadWriteLockDemo {
 	
@@ -37,19 +37,19 @@ public class ReadWriteLockDemo {
 	}
 }
 
-// ×ÊÔ´Àà
+//èµ„æºç±»
 class MyCache{
 	private volatile Map<String, Object> map = new HashMap<>();
 	private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 	
 	public void put(String key, Object value) {
 		rwLock.writeLock().lock();
-		System.out.println(Thread.currentThread().getName()+"\tÕıÔÚĞ´Èë"+key);
+		System.out.println(Thread.currentThread().getName()+"\tæ­£åœ¨å†™å…¥"+key);
 		try {
-			// Ä£ÄâÍøÂçÓµ¶Â
+			// æ¨¡æ‹Ÿç½‘ç»œæ‹¥å µ
 			TimeUnit.MILLISECONDS.sleep(300);
 			map.put(key, value);
-			System.out.println(Thread.currentThread().getName()+"\tĞ´ÈëÍê³É"+value);
+			System.out.println(Thread.currentThread().getName()+"\tå†™å…¥å®Œæˆ"+value);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -60,11 +60,11 @@ class MyCache{
 	public void get(String key) {
 		rwLock.readLock().lock();
 		try {
-			System.out.println(Thread.currentThread().getName()+"\tÕıÔÚ¶ÁÈ¡");
-			// Ä£ÄâÍøÂçÓµ¶Â
+			System.out.println(Thread.currentThread().getName()+"\tæ­£åœ¨è¯»å–");
+			// æ¨¡æ‹Ÿç½‘ç»œæ‹¥å µ
 			TimeUnit.MILLISECONDS.sleep(300);
 			Object res = map.get(key);
-			System.out.println(Thread.currentThread().getName()+"\t¶ÁÈ¡wÍê³É"+res);
+			System.out.println(Thread.currentThread().getName()+"\tè¯»å–å®Œæˆ"+res);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

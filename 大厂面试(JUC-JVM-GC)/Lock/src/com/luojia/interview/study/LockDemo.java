@@ -53,7 +53,7 @@ class Phone implements Runnable{
 	}
 	
 	public void get() {
-		// ¿ÉÒÔÍ¬Ê±¼Ó¶à°ÑËø£¬µ«ÊÇÒ»¶¨ÊÇ¼ÓËø´ÎÊýºÍ½âËø´ÎÊýÏàÍ¬²Å¿ÉÒÔ£¬·ñÔòËÀËø
+		// å¯ä»¥åŒæ—¶åŠ å¤šæŠŠé”ï¼Œä½†æ˜¯ä¸€å®šæ˜¯åŠ é”æ¬¡æ•°å’Œè§£é”æ¬¡æ•°ç›¸åŒæ‰å¯ä»¥ï¼Œå¦åˆ™æ­»é”
 		lock.lock();
 		lock.lock();
 		try {

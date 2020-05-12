@@ -6,36 +6,34 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * 
  * @author Romantic-Lei
- * @create 2020Äê5ÔÂ9ÈÕ
- * ÊµÏÖÒ»¸ö×ÔÐýËø
- * ×ÔÐýËøºÃ´¦£ºÑ­»·±È½Ï»ñÈ¡Ö±µ½³É¹¦ÎªÖ¹£¬Ã»ÓÐÀàËÆwaitµÄ×èÈû
+ * @create 2020å¹´5æœˆ9æ—¥ å®žçŽ°ä¸€ä¸ªè‡ªæ—‹é” è‡ªæ—‹é”å¥½å¤„ï¼šå¾ªçŽ¯æ¯”è¾ƒèŽ·å–ç›´åˆ°æˆåŠŸä¸ºæ­¢ï¼Œæ²¡æœ‰ç±»ä¼¼waitçš„é˜»å¡ž
  * 
- * Í¨¹ýCAS²Ù×÷Íê³É×ÔÐýËø£¬AÏß³ÌÏÈ½øÀ´µ÷ÓÃmyLock·½·¨×Ô¼º³ÖÓÐËø5ÃëÖÓ£¬BËæºó·¢ÏÖ
- * µ±Ç°ÓÐÏß³Ì³ÖÓÐËø£¬²»ÊÇnull£¬ËùÒÔÖ»ÄÜÍ¨¹ý×ÔÐýµÈ´ý£¬Ö±µ½AÊÍ·ÅËøBÇÀµ½ÎªÖ¹
+ *         é€šè¿‡CASæ“ä½œå®Œæˆè‡ªæ—‹é”ï¼ŒAçº¿ç¨‹å…ˆè¿›æ¥è°ƒç”¨myLockæ–¹æ³•è‡ªå·±æŒæœ‰é”5ç§’é’Ÿï¼ŒBéšåŽå‘çŽ°
+ *         å½“å‰æœ‰çº¿ç¨‹æŒæœ‰é”ï¼Œä¸æ˜¯nullï¼Œæ‰€ä»¥åªèƒ½é€šè¿‡è‡ªæ—‹ç­‰å¾…ï¼Œç›´åˆ°Aé‡Šæ”¾é”BæŠ¢åˆ°ä¸ºæ­¢
  */
 public class SpinLockDemo {
-	
-	// Ô­×ÓÒýÓÃÏß³Ì
+
+	// åŽŸå­å¼•ç”¨çº¿ç¨‹
 	AtomicReference<Thread> atomicReference = new AtomicReference<>();
-	
+
 	public void myLock() {
 		Thread thread = Thread.currentThread();
-		System.out.println(Thread.currentThread().getName()+"\t come in");
-		
+		System.out.println(Thread.currentThread().getName() + "\t come in");
+
 		while (!atomicReference.compareAndSet(null, thread)) {
-//			System.out.println("×èÈû");
+			// System.out.println("é˜»å¡ž");
 		}
 	}
-	
+
 	public void myUnlock() {
 		Thread thread = Thread.currentThread();
 		atomicReference.compareAndSet(thread, null);
-		System.out.println(Thread.currentThread().getName()+"\t invoked myUnlock()");
+		System.out.println(Thread.currentThread().getName() + "\t invoked myUnlock()");
 	}
-	
+
 	public static void main(String[] args) {
 		SpinLockDemo spinLockDemo = new SpinLockDemo();
-		
+
 		new Thread(() -> {
 			try {
 				spinLockDemo.myLock();
@@ -43,18 +41,22 @@ public class SpinLockDemo {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			spinLockDemo.myUnlock();
 		}, "AA").start();
-		
-		// ±£Ö¤AÏß³ÌÏÈ½øÈë
-		try {TimeUnit.SECONDS.sleep(1);} catch (InterruptedException e) { e.printStackTrace(); }
-		
+
+		// ä¿è¯Açº¿ç¨‹å…ˆè¿›å…¥
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		new Thread(() -> {
 			spinLockDemo.myLock();
 			spinLockDemo.myUnlock();
 		}, "BB").start();
-		
+
 	}
 
 }
