@@ -14,6 +14,9 @@ import java.util.Random;
  * 
  * 3
  * -Xms10m -Xmx10m -XX:+PrintGCDetails -XX:+PrintCommandLineFlags -XX:+UseParallelGC
+ * 
+ * 4
+ * -Xms10m -Xmx10m -XX:+PrintGCDetails -XX:+PrintCommandLineFlags -XX:+UseG1GC
  */
 public class GCDemo {
 
