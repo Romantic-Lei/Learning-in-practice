@@ -21,6 +21,7 @@ public class GCOverheadDemo {
 			}
 		} catch (Throwable e) {
 			System.out.println("*************i = " + i);
+			// java.lang.OutOfMemoryError: GC overhead limit exceeded
 			e.printStackTrace();
 		}
 	}
