@@ -254,3 +254,6 @@ Java设计模式/dependecyInversion/.idea/uiDesigner.xml
 Java设计模式/dependecyInversion/.idea/modules.xml
 Java设计模式/dependecyInversion/.idea/misc.xml
 Java设计模式/dependecyInversion/.idea/.gitignore
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/liskov/Liskov.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/liskov/B.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/liskov/A.class
