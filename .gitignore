@@ -240,3 +240,17 @@ Java设计模式/singleResponsibility/.idea/vcs.xml
 Java设计模式/singleResponsibility/.idea/modules.xml
 Java设计模式/singleResponsibility/.idea/misc.xml
 Java设计模式/singleResponsibility/.idea/.gitignore
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/WeiXin.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/Persion.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/IReceiver.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/Email.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/DependecyInversion.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/BasePersion.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/inversion/BaseEmail.class
+Java设计模式/dependecyInversion/dependecyInversion.iml
+Java设计模式/dependecyInversion/.idea/workspace.xml
+Java设计模式/dependecyInversion/.idea/vcs.xml
+Java设计模式/dependecyInversion/.idea/uiDesigner.xml
+Java设计模式/dependecyInversion/.idea/modules.xml
+Java设计模式/dependecyInversion/.idea/misc.xml
+Java设计模式/dependecyInversion/.idea/.gitignore
