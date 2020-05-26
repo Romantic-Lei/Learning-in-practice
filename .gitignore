@@ -257,3 +257,9 @@ Java设计模式/dependecyInversion/.idea/.gitignore
 Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/liskov/Liskov.class
 Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/liskov/B.class
 Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/liskov/A.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/ocp/Triangle.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/ocp/Shape.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/ocp/Rectangle.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/ocp/Ocp.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/ocp/GraphicEditor.class
+Java设计模式/dependecyInversion/out/production/dependecyInversion/com/luojia/principle/ocp/Circle.class
