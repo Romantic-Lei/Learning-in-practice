@@ -16,9 +16,9 @@ public class singletonTest01 {
     }
 }
 
-class Singleton{
+class Singleton {
     // 1. 构造器私有化
-    private Singleton(){
+    private Singleton() {
 
     }
 
@@ -26,7 +26,7 @@ class Singleton{
     private final static Singleton instance = new Singleton();
 
     // 3. 提供一个公有的静态方法，返回实例对象
-    public static Singleton getInstance(){
+    public static Singleton getInstance() {
         return instance;
     }
 }
