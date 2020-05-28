@@ -286,3 +286,15 @@ Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/singleton
 Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/singleton/Single05.class
 Java设计模式/DesignPattern/out/production/DesignPattern/singletonTest07.class
 Java设计模式/DesignPattern/out/production/DesignPattern/Singleton.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/singleton/singletonTest07.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/singleton/Singleton07.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/pizza/Pizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/pizza/LDPepperPizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/pizza/LDCheesePizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/pizza/BJPepperPizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/pizza/BJCheesePizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/order/PizzaStore.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/order/OrderPizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/order/LDOrderPizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/com/luojia/factory/order/BJOrderPizza.class
+Java设计模式/DesignPattern/out/production/DesignPattern/META-INF/DesignPattern.kotlin_module
