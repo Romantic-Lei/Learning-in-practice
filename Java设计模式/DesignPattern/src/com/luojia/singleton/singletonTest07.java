@@ -1,3 +1,5 @@
+package com.luojia.singleton;
+
 /**
  * @Author Romantic-Lei
  * @Date 2020/5/27
@@ -5,8 +7,8 @@
  */
 public class singletonTest07 {
     public static void main(String[] args) {
-        Singleton instance = Singleton.INSTANCE;
-        Singleton instance1 = Singleton.INSTANCE;
+        Singleton07 instance = Singleton07.INSTANCE;
+        Singleton07 instance1 = Singleton07.INSTANCE;
         System.out.println(instance == instance1);
 
         System.out.println(instance.hashCode());
@@ -16,7 +18,7 @@ public class singletonTest07 {
     }
 }
 
-enum Singleton {
+enum Singleton07{
     INSTANCE;
 
     public void enumOk() {
