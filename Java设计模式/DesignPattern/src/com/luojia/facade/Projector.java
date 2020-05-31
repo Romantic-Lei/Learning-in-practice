@@ -9,21 +9,22 @@ public class Projector {
 
     private static Projector instance = new Projector();
 
-    private Projector() {}
+    private Projector() {
+    }
 
-    public static Projector getInstance(){
+    public static Projector getInstance() {
         return instance;
     }
 
-    public void on(){
+    public void on() {
         System.out.println(" Project on");
     }
 
-    public void off(){
+    public void off() {
         System.out.println(" Project off");
     }
 
-    public void focus(){
+    public void focus() {
         System.out.println(" Project is focusing");
     }
 
