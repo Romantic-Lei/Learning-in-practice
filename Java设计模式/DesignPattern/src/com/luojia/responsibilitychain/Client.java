@@ -9,7 +9,7 @@ public class Client {
 
     public static void main(String[] args) {
         // 创建一个请求
-        PurchaseRequest purchaseRequest = new PurchaseRequest(1, 31000, 1);
+        PurchaseRequest purchaseRequest = new PurchaseRequest(1, 70000, 1);
 
         // 创建相关的审批人
         DepartmentApprover departmentApprover = new DepartmentApprover("张主任");
