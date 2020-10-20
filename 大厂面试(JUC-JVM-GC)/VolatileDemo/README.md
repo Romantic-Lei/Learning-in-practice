@@ -1,6 +1,6 @@
 # Volatile的应用
 
-## 单例模式DCL代码
+## 单例模式DCL代码 
 
 首先回顾一下，单线程下的单例模式代码
 
@@ -39,7 +39,7 @@ public class SingletonDemo {
 
 
 
-但是在多线程的环境下，我们的单例模式是否还是同一个对象了
+但是在多线程的环境下，我们的单例模式是否还是同一个对象呢
 
 ```java
 /**
@@ -55,6 +55,7 @@ public class SingletonDemo {
 
     public static SingletonDemo getInstance() {
         if(instance == null) {
+            // 创建一个构造方法
             instance = new SingletonDemo();
         }
         return instance;
@@ -101,7 +102,7 @@ public class SingletonDemo {
 
 就是在进来和出去的时候，进行检测
 
-```
+```java
     public static SingletonDemo getInstance() {
         if(instance == null) {
             // 同步代码段的时候，进行检测
@@ -145,7 +146,7 @@ DCL（双端检锁）机制不一定是线程安全的，原因是有指令重�
 
 所以需要引入volatile，来保证出现指令重排的问题，从而保证单例模式的线程安全性
 
-```
+```java
 private static volatile SingletonDemo instance = null;
 ```
 
