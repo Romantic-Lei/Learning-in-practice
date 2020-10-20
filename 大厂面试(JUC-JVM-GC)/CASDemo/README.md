@@ -12,26 +12,26 @@ CAS并发原语体现在Java语言中就是sun.misc.Unsafe类的各个方法。�
 
 首先调用AtomicInteger创建了一个实例， 并初始化为5
 
-```
+```java
 // 创建一个原子类
 AtomicInteger atomicInteger = new AtomicInteger(5);
 ```
 
 然后调用CAS方法，企图更新成2019，这里有两个参数，一个是5，表示期望值，第二个就是我们要更新的值
 
-```
+```java
 atomicInteger.compareAndSet(5, 2019)
 ```
 
 然后再次使用了一个方法，同样将值改成1024
 
-```
+```java
 atomicInteger.compareAndSet(5, 1024)
 ```
 
 完整代码如下：
 
-```
+```java
 /**
  * CASDemo
  *
@@ -62,7 +62,7 @@ public class CASDemo {
 
 ![image-20200310201311367](images/image-20200310201311367.png)
 
-这个就类似于SVN或者Git的版本号，如果没有人更改过，就能够正常提交，否者需要先将代码pull下来，合并代码后，然后提交
+这个就类似于SVN或者Git的版本号，如果没有人更改过，就能够正常提交，否则需要先将代码pull下来，合并代码后，然后提交
 
 ## CAS底层原理
 
