@@ -32,7 +32,7 @@ CAS只管开头和结尾，也就是头和尾是一样，那就修改成功，�
 
 原子引用其实和原子包装类是差不多的概念，就是将一个java类，用原子引用类进行包装起来，那么这个类就具备了原子性
 
-```
+```java
 /**
  * 原子引用
  */
@@ -97,7 +97,7 @@ public class AtomicReferenceDemo {
 
 我们首先创建了两个线程，然后T1线程，执行一次ABA的操作，T2线程在一秒后修改主内存的值
 
-```
+```java
 /**
  * ABA问题的解决，AtomicStampedReference
  */
@@ -149,7 +149,7 @@ T2：  100 1     101 2       100  3
 
 时间戳原子引用，来这里应用于版本号的更新，也就是每次更新的时候，需要比较期望值和当前值，以及期望版本号和当前版本号
 
-```
+```java
 /**
  * ABA问题的解决，AtomicStampedReference
  */
@@ -249,7 +249,7 @@ public class ABADemo {
 
 LongAdder是java8为我们提供的新的类，跟AtomicLong有相同的效果。是对CAS机制的优化
 
-```
+```java
 LongAdder：
 //变量声明
 public static LongAdder count = new LongAdder();
@@ -269,7 +269,7 @@ count
 
 比如说它可以将AtomicLong内部的内部核心数据value分离成一个数组，每个线程访问时，通过hash等算法映射到其中一个数字进行计数，而最终的计数结果则为这个数组的求和累加，其中热点数据value会被分离成多个单元的cell，每个cell独自维护内部的值。当前对象的实际值由所有的cell累计合成，这样热点就进行了有效地分离，并提高了并行度。这相当于将AtomicLong的单点的更新压力分担到各个节点上。在低并发的时候通过对base的直接更新，可以保障和AtomicLong的性能基本一致。而在高并发的时候通过分散提高了性能。
 
-```
+```java
 public void increment() {
     add(1L);
 }
