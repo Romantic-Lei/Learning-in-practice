@@ -39,6 +39,11 @@ public class LockSupportDemo {
 
     public static void synchronizedAwaitSignal(){
         new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             lock.lock();
             System.out.println(Thread.currentThread().getName() + "\t" + "-----come in");
             try {
