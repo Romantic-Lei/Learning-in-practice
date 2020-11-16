@@ -1,7 +1,9 @@
 package com.romanticLei;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -37,7 +39,7 @@ public class LockSupportDemo {
         }, "B").start();
     }
 
-    public static void synchronizedAwaitSignal(){
+    public static void lockAwaitSignal(){
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
@@ -71,9 +73,30 @@ public class LockSupportDemo {
 
     }
 
+    public static void lockSupportParkUnpark(){
+        Thread a = new Thread(() -> {
+            try { TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
+            System.out.println(Thread.currentThread().getName() + "\t" + "-----come in");
+            LockSupport.park(); // 被阻塞，等待通知，等待放行
+            System.out.println(Thread.currentThread().getName() + "\t" + "-----被唤醒");
+        }, "a");
+        a.start();
+
+        try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        Thread b = new Thread(() -> {
+            LockSupport.unpark(a); // 被阻塞，等待通知，等待放行
+            System.out.println(Thread.currentThread().getName() + "\t" + "-----b 发出唤醒通知了");
+        }, "b");
+        b.start();
+
+    }
+
     public static void main(String[] args) {
 //        synchronizedWaitNotify();
-        synchronizedAwaitSignal();
+//        lockAwaitSignal();
+        lockSupportParkUnpark();
     }
+
 
 }
