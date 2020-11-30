@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 public class InterviewApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Interview5Application.class, args);
+        SpringApplication.run(InterviewApplication.class, args);
     }
 
 }
