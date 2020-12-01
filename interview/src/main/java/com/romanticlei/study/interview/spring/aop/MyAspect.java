@@ -1,4 +1,4 @@
-package com.romanticlei.study.interview;
+package com.romanticlei.study.interview.spring.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -8,27 +8,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyAspect {
 
-    @Before("execution(public int com.romanticlei.study.interview.CalcServiceImpl.*(..))")
+    @Before("execution(public int com.romanticlei.study.interview.spring.aop.CalcServiceImpl.*(..))")
     public void beforeNotify(){
         System.out.println("*********@Before 我是前置通知MyAspect");
     }
 
-    @After("execution(public int com.romanticlei.study.interview.CalcServiceImpl.*(..))")
+    @After("execution(public int com.romanticlei.study.interview.spring.aop.CalcServiceImpl.*(..))")
     public void afterNotify(){
         System.out.println("*********@After 我是后置通知MyAspect");
     }
 
-    @AfterReturning("execution(public int com.romanticlei.study.interview.CalcServiceImpl.*(..))")
+    @AfterReturning("execution(public int com.romanticlei.study.interview.spring.aop.CalcServiceImpl.*(..))")
     public void afterReturningNotify(){
         System.out.println("*********@AfterReturning 我是返回后通知MyAspect");
     }
 
-    @AfterThrowing("execution(public int com.romanticlei.study.interview.CalcServiceImpl.*(..))")
+    @AfterThrowing("execution(public int com.romanticlei.study.interview.spring.aop.CalcServiceImpl.*(..))")
     public void afterThrowingNotify(){
         System.out.println("*********@AfterThrowing 我是异常通知MyAspect");
     }
 
-    @Around("execution(public int com.romanticlei.study.interview.CalcServiceImpl.*(..))")
+    @Around("execution(public int com.romanticlei.study.interview.spring.aop.CalcServiceImpl.*(..))")
     public Object aroundNotify(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object retValue = null;
         System.out.println("我是环绕通知之前 AAA");

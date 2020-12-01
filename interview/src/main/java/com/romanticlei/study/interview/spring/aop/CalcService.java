@@ -1,4 +1,4 @@
-package com.romanticlei.study.interview;
+package com.romanticlei.study.interview.spring.aop;
 
 public interface CalcService {
 
