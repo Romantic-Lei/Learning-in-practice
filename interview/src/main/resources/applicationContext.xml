@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang=""
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- 默认为单例模式，循环依赖创建成功-->
     <!--<bean id="a" class="com.romanticlei.study.interview.spring.circulardepend.javaSE.A">
         <property name="b" ref="b"/>
     </bean>
@@ -10,5 +11,14 @@
     <bean id="b" class="com.romanticlei.study.interview.spring.circulardepend.javaSE.B">
         <property name="a" ref="a"/>
     </bean>-->
+
+    <!-- 原型模式，循环依赖创建失败-->
+    <bean id="a" class="com.romanticlei.study.interview.spring.circulardepend.javaSE.A" scope="prototype">
+        <property name="b" ref="b"/>
+    </bean>
+
+    <bean id="b" class="com.romanticlei.study.interview.spring.circulardepend.javaSE.B" scope="prototype">
+        <property name="a" ref="a"/>
+    </bean>
 
 </beans>
