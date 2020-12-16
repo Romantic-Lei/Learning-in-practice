@@ -17,17 +17,19 @@ public class GoodController {
 
     @GetMapping("/buy_goods")
     public String buy_Goods(){
-        String result = stringRedisTemplate.opsForValue().get("goods:001");
-        int goodNumber = result == null ? 0 : Integer.parseInt(result);
+        synchronized (this) {
+            String result = stringRedisTemplate.opsForValue().get("goods:001");
+            int goodNumber = result == null ? 0 : Integer.parseInt(result);
 
-        if (goodNumber > 0){
-            int realNumber = goodNumber - 1;
-            stringRedisTemplate.opsForValue().set("goods:001", String.valueOf(realNumber));
-            System.out.println("成功买到商品，库存还剩下： " + realNumber + "件" + "\t 服务提供端口" + serverPort);
-            return "成功买到商品，库存还剩下： " + realNumber + "件" + "\t 服务提供端口" + serverPort;
+            if (goodNumber > 0){
+                int realNumber = goodNumber - 1;
+                stringRedisTemplate.opsForValue().set("goods:001", String.valueOf(realNumber));
+                System.out.println("成功买到商品，库存还剩下： " + realNumber + "件" + "\t 服务提供端口" + serverPort);
+                return "成功买到商品，库存还剩下： " + realNumber + "件" + "\t 服务提供端口" + serverPort;
+            }
+
+            return "商品已经售完"+ "\t 服务提供端口" + serverPort;
         }
-
-        return "商品已经售完"+ "\t 服务提供端口" + serverPort;
     }
 
 }
