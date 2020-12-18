@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class GoodController {
@@ -24,6 +25,7 @@ public class GoodController {
         String value = UUID.randomUUID().toString() + Thread.currentThread().getName();
         try {
             Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(REDIS_LOCK, value);// 该命令就是redis中的setnx
+            stringRedisTemplate.expire(REDIS_LOCK, 10L, TimeUnit.SECONDS);
 
             if (!flag) {
                 return "抢占失败，请重试！";
