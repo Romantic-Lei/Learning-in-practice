@@ -48,7 +48,9 @@ public class GoodController {
 
             return "商品已经售完" + "\t 服务提供端口" + serverPort;
         } finally {
-            stringRedisTemplate.delete(REDIS_LOCK);
+            if (value.equalsIgnoreCase(stringRedisTemplate.opsForValue().get(REDIS_LOCK))) {
+                stringRedisTemplate.delete(REDIS_LOCK);
+            }
         }
     }
 
