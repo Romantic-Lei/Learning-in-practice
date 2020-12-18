@@ -26,8 +26,10 @@ public class GoodController {
         String value = UUID.randomUUID().toString() + Thread.currentThread().getName();
         try {
             // 当前key不存在就设置key，返回true；当前key存在就不设置，返回false
-            Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(REDIS_LOCK, value);// 该命令就是redis中的setnx
-            stringRedisTemplate.expire(REDIS_LOCK, 10L, TimeUnit.SECONDS);
+            // Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(REDIS_LOCK, value);// 该命令就是redis中的setnx
+            // stringRedisTemplate.expire(REDIS_LOCK, 10L, TimeUnit.SECONDS);
+            // 设置过期时间
+            Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(REDIS_LOCK, value, 10L, TimeUnit.SECONDS);// 该命令就是redis中的setnx
 
             if (!flag) {
                 return "抢占失败，请重试！";
