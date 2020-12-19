@@ -79,7 +79,12 @@ public class GoodController {
             //     stringRedisTemplate.unwatch();
             //     break;
             // }
-            redissonLock.unlock();
+            if (redissonLock.isLocked()) {
+                if (redissonLock.isHeldByCurrentThread()) {
+                    // 当前锁存在并且是当前线程持有才解锁
+                    redissonLock.unlock();
+                }
+            }
         }
     }
 }
