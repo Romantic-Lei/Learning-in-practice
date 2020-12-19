@@ -1,10 +1,12 @@
 package com.romanticlei.redis.boot_redis02.controller;
 
+import com.romanticlei.redis.boot_redis02.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +22,7 @@ public class GoodController {
     private String serverPort;
 
     @GetMapping("/buy_goods")
-    public String buy_Goods() {
+    public String buy_Goods() throws Exception {
 
         String value = UUID.randomUUID().toString() + Thread.currentThread().getName();
         try {
@@ -49,9 +51,14 @@ public class GoodController {
 
             return "商品已经售完" + "\t 服务提供端口" + serverPort;
         } finally {
-            if (value.equalsIgnoreCase(stringRedisTemplate.opsForValue().get(REDIS_LOCK))) {
-                stringRedisTemplate.delete(REDIS_LOCK);
-            }
+            Jedis jedis = RedisUtils.getJedis();
+
+            String script = "if redis.call(\"get\",KEYS[1]) == ARGV[1]\n" +
+                    "then\n" +
+                    "    return redis.call(\"del\",KEYS[1])\n" +
+                    "else\n" +
+                    "    return 0\n" +
+                    "end";
         }
     }
 
