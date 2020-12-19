@@ -1,5 +1,8 @@
 package com.romanticlei.redis.boot_redis01.config;
 
+import org.redisson.Redisson;
+import org.redisson.config.Config;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,6 +22,15 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         return redisTemplate;
+    }
+
+    @Bean
+    public Redisson redisson(){
+        Config config = new Config();
+
+        config.useSingleServer().setAddress("redis://127.0.0.1:6379").setDatabase(0);
+
+        return (Redisson) Redisson.create(config);
     }
 }
 
