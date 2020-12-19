@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -59,7 +60,19 @@ public class GoodController {
                     "else\n" +
                     "    return 0\n" +
                     "end";
+
+            try {
+                Object obj = jedis.eval(script, Collections.singletonList(REDIS_LOCK), Collections.singletonList(value));
+                if ("1".equals(obj.toString())){
+                    System.out.println("--------del redis lock ok");
+                } else {
+                    System.out.println("--------del redis lock error");
+                }
+            }finally {
+                if (null != jedis){
+                    jedis.close();
+                }
+            }
         }
     }
-
 }
