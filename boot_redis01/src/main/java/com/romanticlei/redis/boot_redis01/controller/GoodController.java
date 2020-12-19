@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -48,8 +49,26 @@ public class GoodController {
 
             return "商品已经售完" + "\t 服务提供端口" + serverPort;
         } finally {
-            if (value.equalsIgnoreCase(stringRedisTemplate.opsForValue().get(REDIS_LOCK))) {
-                stringRedisTemplate.delete(REDIS_LOCK);
+            // // 判断加锁与解锁不是同一个客户端
+            // if (value.equalsIgnoreCase(stringRedisTemplate.opsForValue().get(REDIS_LOCK))) {
+            //     // 若在此时，这把锁突然不是这个客户端的，则会误解锁
+            //     stringRedisTemplate.delete(REDIS_LOCK);
+            // }
+            while (true){
+                stringRedisTemplate.watch(REDIS_LOCK);
+                if (stringRedisTemplate.opsForValue().get(REDIS_LOCK).equalsIgnoreCase(value)){
+                    // 设置开启事务
+                    stringRedisTemplate.setEnableTransactionSupport(true);
+                    stringRedisTemplate.multi();
+                    stringRedisTemplate.delete(REDIS_LOCK);
+                    List<Object> list = stringRedisTemplate.exec();
+                    // 如果不为空，表示删除成功
+                    if (list == null){
+                        continue;
+                    }
+                }
+                stringRedisTemplate.unwatch();
+                break;
             }
         }
     }
