@@ -141,8 +141,12 @@ public class LRUCacheDemo1 {
         System.out.println(lruCacheDemo.map.keySet());
         lruCacheDemo.put(3, 3);
         System.out.println(lruCacheDemo.map.keySet());
-        lruCacheDemo.put(31, 3);
+        lruCacheDemo.put(31, 31);
         System.out.println(lruCacheDemo.map.keySet());
+
+        for (Node<Integer, Integer> node : lruCacheDemo.map.values()){
+            System.out.println(node.value);
+        }
 
     }
 }
