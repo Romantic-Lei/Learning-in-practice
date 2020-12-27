@@ -53,8 +53,13 @@ public class LRUCacheDemo1 {
 
         // 2.3 删除节点
         public void removeNode(Node<K, V> node){
-            head.next.prev = node.prev;
-            head.next = node.next;
+            // head.next.prev = node.prev;
+            // head.next = node.next;
+            // node.prev = null;
+            // node.next = null;
+
+            tail.prev = node.prev;
+            node.prev.next = tail;
             node.prev = null;
             node.next = null;
 
