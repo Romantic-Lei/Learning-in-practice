@@ -58,11 +58,15 @@ public class LRUCacheDemo1 {
             // node.prev = null;
             // node.next = null;
 
-            tail.prev = node.prev;
-            node.prev.next = tail;
-            node.prev = null;
-            node.next = null;
+            // tail.prev = node.prev;
+            // node.prev.next = tail;
+            // node.prev = null;
+            // node.next = null;
 
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            node.next = null;
+            node.prev = null;
         }
 
         // 2.4 获得最后一个结点
