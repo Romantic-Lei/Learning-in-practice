@@ -59,7 +59,7 @@ public class ReEnterLockDemo {
             // 有lock加锁就需要有相应的解锁，不然会造成死锁
             // 如果解锁次数多于加锁次数 会出现异常java.lang.IllegalMonitorStateException
             // 此处故意让加锁次数和解锁次数不一致，让后面线程等待
-            lock.unlock();
+            // lock.unlock();
         }
     }
 
