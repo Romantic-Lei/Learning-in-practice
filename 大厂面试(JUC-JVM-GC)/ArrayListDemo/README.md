@@ -4,7 +4,7 @@
 
 1、当我们执行下面语句的时候，底层进行了什么操作
 
-```
+```java
 new ArrayList<Integer>();
 ```
 
@@ -12,7 +12,7 @@ new ArrayList<Integer>();
 
 当执行add方法后，如果超过了10，那么会进行扩容，扩容的大小为原值的一半，也就是5个，使用下列方法扩容
 
-```
+```java
 Arrays.copyOf(elementData, netCapacity)
 ```
 
@@ -20,7 +20,7 @@ Arrays.copyOf(elementData, netCapacity)
 
 单线程环境的ArrayList是不会有问题的
 
-```
+```java
 public class ArrayListNotSafeDemo {
     public static void main(String[] args) {
 
@@ -44,7 +44,7 @@ public class ArrayListNotSafeDemo {
 
 当我们同时启动30个线程去操作List的时候
 
-```
+```java
 /**
  * 集合类线程不安全举例
  */
