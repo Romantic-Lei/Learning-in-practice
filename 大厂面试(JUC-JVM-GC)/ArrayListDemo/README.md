@@ -169,7 +169,7 @@ newElements[len] = e;
 
 同理HashMap在多线程环境下，也是不安全的
 
-```
+```java
     public static void main(String[] args) {
 
         Map<String, String> map = new HashMap<>();
@@ -189,7 +189,7 @@ newElements[len] = e;
 
 2、使用 ConcurrentHashMap
 
-```
+```java
 Map<String, String> map = new ConcurrentHashMap<>();
 ```
 
