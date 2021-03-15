@@ -157,13 +157,13 @@ newElements[len] = e;
 
 首先我们查看hashSet的add方法
 
-```
+```java
     public boolean add(E e) {
         return map.put(e, PRESENT)==null;
     }
 ```
 
-我们能发现但我们调用add的时候，存储一个值进入map中，只是作为key进行存储，而value存储的是一个Object类型的常量，也就是说HashSet只关心key，而不关心value
+我们能发现当我们调用add的时候，存储一个值进入map中，只是作为key进行存储，而value存储的是一个Object类型的常量，也就是说HashSet只关心key，而不关心value
 
 ## HashMap线程不安全
 
