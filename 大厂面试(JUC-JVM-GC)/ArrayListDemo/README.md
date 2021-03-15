@@ -99,7 +99,7 @@ CopyOnWriteArrayList：写时复制，主要是一种读写分离的思想
 
 查看底层add方法源码
 
-```
+```java
     public boolean add(E e) {
         final ReentrantLock lock = this.lock;
         lock.lock();
@@ -118,14 +118,14 @@ CopyOnWriteArrayList：写时复制，主要是一种读写分离的思想
 
 首先需要加锁
 
-```
+```java
 final ReentrantLock lock = this.lock;
 lock.lock();
 ```
 
 然后在末尾扩容一个单位
 
-```
+```java
 Object[] elements = getArray();
 int len = elements.length;
 Object[] newElements = Arrays.copyOf(elements, len + 1);
@@ -133,7 +133,7 @@ Object[] newElements = Arrays.copyOf(elements, len + 1);
 
 然后在把扩容后的空间，填写上需要add的内容
 
-```
+```java
 newElements[len] = e;
 ```
 
