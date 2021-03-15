@@ -58,11 +58,20 @@ http://openjdk.java.net/
 
 
 
+## 总结
+
+```java
+String str1 = new StringBuilder("Hello").append("RomanticLei").toString();
+        System.out.println(str1 == str1.intern());
+        System.out.println();
+
+        String str2 = new StringBuilder("ja").append("va").toString();
+        System.out.println(str2.intern());
+```
+
+![1615815592](images\1615815592.jpg)
 
 
 
-
-
-
-
+sun.misc.Version 类会在JDK类库的初始化过程中被加载并初始化，而在初始化时它需要对静态常量字段根据指定的常量值（ConstantValue）做默认初始化，此时被sun.misc.Version.launcher静态常量字段所引用的“java”字符串字面量被intern到HotSpot VM的字符串常量池--StringTable里了。
 
