@@ -64,8 +64,8 @@ public class ReEnterLockDemo {
     }
 
     public static void main(String[] args) {
-//        m1();
-//        new ReEnterLockDemo().m2();
+       // m1();
+       // new ReEnterLockDemo().m2();
         new Thread(() -> {
             new ReEnterLockDemo().sycMethod();
         }, "t1").start();
