@@ -116,7 +116,7 @@ public static void synchronizedAwaitSignal(){
 }
 ```
 
-异常1：await和signal方法，两个都去掉lock.lock()
+异常1：await和signal方法，两个都去掉lock.lock()和 lock.unlock();
 
 ```java
 异常情况
@@ -129,13 +129,41 @@ Exception in thread "A" Exception in thread "B" java.lang.IllegalMonitorStateExc
 
 
 
+#### 传统的synchronized和Lock实现等待唤醒通知的约束
+
+线程先要获得并持有锁，必须在锁块（Synchronized或lock）中；必须要等
 
 
 
+### LockSupport类中的park等待和unpark唤醒
 
+是什么？
 
+通过park()和unpark()方法来实现阻塞和唤醒线程的操作
 
+![1616221421](images\1616221421.jpg)
 
+##### 主要方法：
+
+**API：**
+
+![1616221779](images\1616221779.jpg)
+
+**阻塞：**
+
+park()/park(Object blocker)
+
+![1616222203](images\1616222203.jpg)
+
+permit默认是0，所以一开始调用park()方法，当前线程就会阻塞，直到别的线程将当前线程的permit设置为1时，park方法会被唤醒，然后会将permit再次设置为0并返回。
+
+阻塞当前线程/阻塞传入的具体线程
+
+**唤醒：**
+
+unpark(Thread thread)
+
+![1616222756](images\1616222756.jpg)
 
 
 
