@@ -16,6 +16,8 @@ https://www.apiref.com/java11-zh/java.base/java/util/concurrent/locks/package-su
 
 ![1616122249](images\1616122249.jpg)
 
+
+
 **用于创建锁和其他同步类的基本线程阻塞原语。**
 
 LockSupport中的park()和unpark()的作用分别是阻塞线程和解除阻塞线程
