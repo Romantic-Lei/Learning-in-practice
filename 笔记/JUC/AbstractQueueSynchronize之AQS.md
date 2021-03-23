@@ -84,11 +84,5 @@ AbstractQueuedSynchronizer
 
 ![1616401147](images/1616401147.jpg)
 
-AQS内部体系架构
-
-![AQS内部体系架构](images/AQS内部体系架构.jpg)
-
-
-
 
 
