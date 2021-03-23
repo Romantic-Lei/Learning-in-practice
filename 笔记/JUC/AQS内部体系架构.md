@@ -27,9 +27,63 @@ CLH队列（三个大牛的名字），成为一个双向列表
 
 #### 内部类Node(Node类在AQS类的内部)
 
-Node的int变量，Node的等待状态waitState成员变量，volatile int waitStatus；
+Node的int变量，Node的等待状态waitState成员变量 --> volatile int waitStatus，**与AQS中的同步状态state成员变量命名不太一样哦** ;
 
 讲直白点，等候区其他顾客（其他线程）的等待状态，队列中每个队列的个体就是一个Node
+
+
+
+#### Node类的讲解
+
+内部结构 
+
+```java
+static final class Node {
+
+    // 共享
+    static final Node SHARED = new Node();
+
+    // 独占
+    static final Node EXCLUSIVE = null;
+
+    // 线程被取消了
+    static final int CANCELLED =  1;
+
+    // 后继线程需要被唤醒
+    static final int SIGNAL    = -1;
+
+    // 等待condition 唤醒
+    static final int CONDITION = -2;
+
+    // 共享式同步状态获取将会无条件地传播下去
+    static final int PROPAGATE = -3;
+
+    // 初始值为0，状态为上面的几种
+    volatile int waitStatus;
+
+    // 前置结点
+    volatile Node prev;
+
+    // 后继结点
+    volatile Node next;
+
+    volatile Thread thread;
+
+    Node nextWaiter;
+    ...
+```
+
+属性说明
+
+![node类属性说明1](images/node类属性说明1.jpg)
+
+![node类属性说明2](images/node类属性说明2.jpg)
+
+#### AQS 同步队列的基本结构
+
+![AQS 同步队列的基本结构](images/AQS 同步队列的基本结构.jpg)
+
+
 
 
 
