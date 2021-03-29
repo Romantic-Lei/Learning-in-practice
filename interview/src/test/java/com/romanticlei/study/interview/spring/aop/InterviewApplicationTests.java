@@ -1,15 +1,24 @@
 package com.romanticlei.study.interview.spring.aop;
 
-import org.junit.jupiter.api.Test;
+
+/* --------------spring4-------------------- */
+import org.junit.Test;
+import org.junit.runner.RunWith;
+/* --------------spring4-------------------- */
+
+/* --------------spring5-------------------- */
+// import org.junit.jupiter.api.Test;
+/* --------------spring5-------------------- */
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.SpringVersion;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
 @SpringBootTest
 // spring4 需要写上@RunWith(SpringRunner.class)，spring5不需要
-//@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class)
 public class InterviewApplicationTests {
 
     @Resource
@@ -40,7 +49,7 @@ public class InterviewApplicationTests {
          * *********@AfterThrowing 我是异常通知MyAspect
          */
         System.out.println();
-        calcService.div(10, 0);
+        // calcService.div(10, 0);
     }
 
     @Test
