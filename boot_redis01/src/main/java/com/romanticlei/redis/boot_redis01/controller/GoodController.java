@@ -59,7 +59,7 @@ public class GoodController {
             return "商品已经售完" + "\t 服务提供端口" + serverPort;
         } finally {
             // // 判断加锁与解锁不是同一个客户端
-            // if (value.equalsIgnoreCase(stringRedisTemplate.opsForValue().get(REDIS_LOCK))) {
+            // if (value.equals(stringRedisTemplate.opsForValue().get(REDIS_LOCK))) {
             //     // 若在此时，这把锁突然不是这个客户端的，则会误解锁
             //     stringRedisTemplate.delete(REDIS_LOCK);
             // }
