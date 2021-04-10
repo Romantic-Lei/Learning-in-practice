@@ -61,7 +61,7 @@ public class GoodController {
 
             return "商品已经售完" + "\t 服务提供端口" + serverPort;
         } finally {
-            // Jedis jedis = RedisUtils.getJedis();
+            Jedis jedis = RedisUtils.getJedis();
             //
             // String script = "if redis.call(\"get\",KEYS[1]) == ARGV[1]\n" +
             //         "then\n" +
