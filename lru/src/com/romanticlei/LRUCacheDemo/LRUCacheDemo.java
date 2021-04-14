@@ -27,7 +27,7 @@ public class LRUCacheDemo<K, V> extends LinkedHashMap<K, V> {
         System.out.println(lruCacheDemo.keySet());
 
         /**
-         * super(capacity, 0.75F, true);
+         * super(capacity, 0.75F, true); --> 最近最少使用先出
          * [1, 2, 3]
          * [2, 3, 5]
          * [2, 5, 3]
@@ -35,7 +35,7 @@ public class LRUCacheDemo<K, V> extends LinkedHashMap<K, V> {
          * [2, 5, 3]
          * [5, 3, 6]
          *
-         * super(capacity, 0.75F, false);
+         * super(capacity, 0.75F, false); --> 先进先出
          * [1, 2, 3]
          * [2, 3, 5]
          * [2, 3, 5]
