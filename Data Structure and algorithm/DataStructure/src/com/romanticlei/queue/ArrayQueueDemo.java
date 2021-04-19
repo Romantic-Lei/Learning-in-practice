@@ -46,10 +46,7 @@ public class ArrayQueueDemo {
                     break;
             }
         }
-
-
     }
-
 }
 
 // 使用数组模拟队列-编写一个ArrayQueue类
