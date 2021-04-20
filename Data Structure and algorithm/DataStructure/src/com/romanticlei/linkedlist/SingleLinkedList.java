@@ -26,6 +26,54 @@ public class SingleLinkedList {
         linkedListDemo.delete(5);
         linkedListDemo.list();
 
+        System.out.println("有效节点总个数为：" + getLength(linkedListDemo.getHead()));
+
+        int k = 3;
+        System.out.println("倒数第" + k + "个数据是" + findLastIndexNode(linkedListDemo.getHead(), k));
+    }
+
+    // 查找单链表中的倒数第k个结点
+    // 编写一个方法，接受head节点，同时接受一个index，index指的是倒数第几个节点
+    // 先遍历一遍链表，获得到链表总长度
+    // 得到size 后，我们从链表开始遍历（size - index）个就可以得到
+    // 如果找到了，就返回，否则返回null
+    public static HeroNode findLastIndexNode(HeroNode head, int index){
+        if (head == null){
+            return null; // 没有找到
+        }
+
+        // 第一遍遍历得到的链表长度
+        int size = getLength(head);
+        // 第二遍遍历链表到 size - index位置。就是我们倒数的第k个
+        HeroNode cur = head.next;
+        if (index < 0 || index > size){
+            return null;
+        }
+
+        for (int i = 0; i < size - index; i++) {
+            cur = cur.next;
+        }
+
+        return cur;
+    }
+
+    /**
+     * 获取单链表的个数
+     *
+     * @param head 头节点
+     * @return 节点总个数
+     */
+    public static int getLength(HeroNode head) {
+        int length = 0;
+        HeroNode cur = head;
+
+        while (true) {
+            if (cur.next == null) {
+                return length;
+            }
+            length++;
+            cur = cur.next;
+        }
     }
 }
 
@@ -33,6 +81,11 @@ public class SingleLinkedList {
 class SingleLinkedListDemo {
     // 先初始化一个头节点，头节点不要懂，不存储任何具体的数据
     HeroNode head = new HeroNode(0, "", "");
+
+    // 获取到头节点
+    public HeroNode getHead() {
+        return head;
+    }
 
     // 添加节点到单向链表
     // 思路，当不考虑编号顺序时
@@ -88,14 +141,14 @@ class SingleLinkedListDemo {
         temp.next = heroNode;
     }
 
-    public void delete(int no){
+    public void delete(int no) {
         HeroNode temp = head;
-        while (true){
-            if (temp.next == null){
+        while (true) {
+            if (temp.next == null) {
                 System.out.println("删除数据不存在，删除失败");
                 break;
             }
-            if (temp.next.no == no){
+            if (temp.next.no == no) {
                 temp.next = temp.next.next;
                 break;
             }
