@@ -30,6 +30,35 @@ public class SingleLinkedList {
 
         int k = 3;
         System.out.println("倒数第" + k + "个数据是" + findLastIndexNode(linkedListDemo.getHead(), k));
+
+        System.out.println("链表反转之后~");
+        reversetList(linkedListDemo.getHead());
+        linkedListDemo.list();
+    }
+
+    // 单链表的反转【腾讯面试题，有点难度】
+    public static HeroNode reversetList(HeroNode head) {
+        // 如果当前链表为空或者只有一个结点，那么无需反转直接返回即可
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // 创建一个新头节点
+        HeroNode newNode = new HeroNode(0, "", "");
+        // 原结点的第一个值
+        HeroNode cur = head.next;
+
+        while (cur != null) {
+            // 取出原节点的当前值值,然后将当前值后移
+            HeroNode oldCur = cur;
+            cur = cur.next;
+
+            oldCur.next = newNode.next;
+            newNode.next = oldCur;
+        }
+
+        head.next = newNode.next;
+        return head;
     }
 
     // 查找单链表中的倒数第k个结点
@@ -37,8 +66,8 @@ public class SingleLinkedList {
     // 先遍历一遍链表，获得到链表总长度
     // 得到size 后，我们从链表开始遍历（size - index）个就可以得到
     // 如果找到了，就返回，否则返回null
-    public static HeroNode findLastIndexNode(HeroNode head, int index){
-        if (head == null){
+    public static HeroNode findLastIndexNode(HeroNode head, int index) {
+        if (head == null) {
             return null; // 没有找到
         }
 
@@ -46,7 +75,7 @@ public class SingleLinkedList {
         int size = getLength(head);
         // 第二遍遍历链表到 size - index位置。就是我们倒数的第k个
         HeroNode cur = head.next;
-        if (index < 0 || index > size){
+        if (index < 0 || index > size) {
             return null;
         }
 
