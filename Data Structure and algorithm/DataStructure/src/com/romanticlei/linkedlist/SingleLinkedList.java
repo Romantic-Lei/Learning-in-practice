@@ -13,14 +13,19 @@ public class SingleLinkedList {
         // linkedListDemo.add(hero3);
         // linkedListDemo.add(hero2);
 
-        HeroNode hero4_1 = new HeroNode(4, "林冲1", "豹子头1");
+        HeroNode hero3_1 = new HeroNode(3, "小吴", "智多星");
         linkedListDemo.addByOrder(hero1);
         linkedListDemo.addByOrder(hero4);
         linkedListDemo.addByOrder(hero3);
         linkedListDemo.addByOrder(hero2);
-        linkedListDemo.addByOrder(hero4_1);
-
+        linkedListDemo.addByOrder(hero3_1);
         linkedListDemo.list();
+
+        linkedListDemo.delete(1);
+        linkedListDemo.delete(4);
+        linkedListDemo.delete(5);
+        linkedListDemo.list();
+
     }
 }
 
@@ -81,6 +86,21 @@ class SingleLinkedListDemo {
         }
 
         temp.next = heroNode;
+    }
+
+    public void delete(int no){
+        HeroNode temp = head;
+        while (true){
+            if (temp.next == null){
+                System.out.println("删除数据不存在，删除失败");
+                break;
+            }
+            if (temp.next.no == no){
+                temp.next = temp.next.next;
+                break;
+            }
+            temp = temp.next;
+        }
     }
 
     // 显示链表
