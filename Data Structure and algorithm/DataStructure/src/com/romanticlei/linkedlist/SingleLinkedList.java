@@ -8,10 +8,17 @@ public class SingleLinkedList {
         HeroNode hero3 = new HeroNode(3, "吴用", "智多星");
         HeroNode hero4 = new HeroNode(4, "林冲", "豹子头");
         SingleLinkedListDemo linkedListDemo = new SingleLinkedListDemo();
-        linkedListDemo.add(hero1);
-        linkedListDemo.add(hero2);
-        linkedListDemo.add(hero3);
-        linkedListDemo.add(hero4);
+        // linkedListDemo.add(hero1);
+        // linkedListDemo.add(hero4);
+        // linkedListDemo.add(hero3);
+        // linkedListDemo.add(hero2);
+
+        HeroNode hero4_1 = new HeroNode(4, "林冲1", "豹子头1");
+        linkedListDemo.addByOrder(hero1);
+        linkedListDemo.addByOrder(hero4);
+        linkedListDemo.addByOrder(hero3);
+        linkedListDemo.addByOrder(hero2);
+        linkedListDemo.addByOrder(hero4_1);
 
         linkedListDemo.list();
     }
@@ -40,6 +47,39 @@ class SingleLinkedListDemo {
 
         // 当退出while循环时，temp就指向了链表的最后
         // 并将最后这个节点的 next 指向新的节点
+        temp.next = heroNode;
+    }
+
+    // 对插入的数据进行排序插入到链表
+    public void addByOrder(HeroNode heroNode) {
+        HeroNode temp = head;
+        boolean flag = false;
+        while (true) {
+            if (temp.next == null) {
+                break;
+            }
+
+            if (temp.next.no > heroNode.no) {
+                break;
+            }
+
+            if (temp.next.no == heroNode.no) {
+                flag = true;
+                break;
+            }
+
+            temp = temp.next;
+        }
+
+        // 如果排序编号相同，那么我们就覆盖原来的值
+        if (flag) {
+            heroNode.next = temp.next.next;
+            temp.next.next = null;
+        } else {
+            // 如果编号不相同，那么我们直接插入到链表
+            heroNode.next = temp.next;
+        }
+
         temp.next = heroNode;
     }
 
