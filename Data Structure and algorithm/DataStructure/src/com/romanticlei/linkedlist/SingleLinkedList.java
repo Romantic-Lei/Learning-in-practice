@@ -40,7 +40,7 @@ public class SingleLinkedList {
         System.out.println("利用栈逆序打印链表数据，不破坏原来链表结构~~~");
         reversePrint(linkedListDemo.getHead());
 
-        System.out.println("两个有序单向链表合并成一个有序单向链表~~");
+        System.out.println("~~~~~~~~~~~~~~两个有序单向链表合并成一个有序单向链表~~~~~~~~~~~~~~");
         HeroNode hero01 = new HeroNode(2, "宋江", "及时雨");
         HeroNode hero02 = new HeroNode(3, "卢俊义", "玉麒麟");
         HeroNode hero03 = new HeroNode(6, "吴用", "智多星");
