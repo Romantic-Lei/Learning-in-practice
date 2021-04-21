@@ -21,9 +21,9 @@ public class SingleLinkedList {
         linkedListDemo.addByOrder(hero3_1);
         linkedListDemo.list();
 
-        linkedListDemo.delete(1);
-        linkedListDemo.delete(4);
-        linkedListDemo.delete(5);
+        // linkedListDemo.delete(1);
+        // linkedListDemo.delete(4);
+        // linkedListDemo.delete(5);
         linkedListDemo.list();
 
         System.out.println("有效节点总个数为：" + getLength(linkedListDemo.getHead()));
@@ -31,21 +31,21 @@ public class SingleLinkedList {
         int k = 3;
         System.out.println("倒数第" + k + "个数据是" + findLastIndexNode(linkedListDemo.getHead(), k));
 
-        System.out.println("链表反转之后~");
+        System.out.println("单链表反转之后~");
         reversetList(linkedListDemo.getHead());
         linkedListDemo.list();
     }
 
     // 单链表的反转【腾讯面试题，有点难度】
-    public static HeroNode reversetList(HeroNode head) {
+    public static void reversetList(HeroNode head) {
         // 如果当前链表为空或者只有一个结点，那么无需反转直接返回即可
         if (head == null || head.next == null) {
-            return head;
+            return ;
         }
 
         // 创建一个新头节点
         HeroNode newNode = new HeroNode(0, "", "");
-        // 原结点的第一个值
+        // 定义一个辅助变量，即原结点的第一个值
         HeroNode cur = head.next;
 
         while (cur != null) {
@@ -57,8 +57,8 @@ public class SingleLinkedList {
             newNode.next = oldCur;
         }
 
+        // 将 head.next 指向 newNode.next实现反转
         head.next = newNode.next;
-        return head;
     }
 
     // 查找单链表中的倒数第k个结点
