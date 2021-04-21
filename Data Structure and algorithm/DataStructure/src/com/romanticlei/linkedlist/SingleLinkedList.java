@@ -39,6 +39,96 @@ public class SingleLinkedList {
 
         System.out.println("利用栈逆序打印链表数据，不破坏原来链表结构~~~");
         reversePrint(linkedListDemo.getHead());
+
+        System.out.println("两个有序单向链表合并成一个有序单向链表~~");
+        HeroNode hero01 = new HeroNode(2, "宋江", "及时雨");
+        HeroNode hero02 = new HeroNode(3, "卢俊义", "玉麒麟");
+        HeroNode hero03 = new HeroNode(6, "吴用", "智多星");
+        HeroNode hero04 = new HeroNode(9, "林冲", "豹子头");
+
+        HeroNode hero10 = new HeroNode(1, "三国演义", "三国演义");
+        HeroNode hero20 = new HeroNode(5, "水浒传", "水浒传");
+        HeroNode hero30 = new HeroNode(7, "红楼梦", "红楼梦");
+        HeroNode hero40 = new HeroNode(8, "西游记", "西游记");
+
+        SingleLinkedListDemo mergeNode1 = new SingleLinkedListDemo();
+        mergeNode1.addByOrder(hero01);
+        mergeNode1.addByOrder(hero02);
+        mergeNode1.addByOrder(hero03);
+        mergeNode1.addByOrder(hero04);
+
+        SingleLinkedListDemo mergeNode2 = new SingleLinkedListDemo();
+        mergeNode2.addByOrder(hero10);
+        mergeNode2.addByOrder(hero20);
+        mergeNode2.addByOrder(hero30);
+        mergeNode2.addByOrder(hero40);
+
+        mergeNode1.list();
+        mergeNode2.list();
+        SingleLinkedListDemo mergeNode3 = new SingleLinkedListDemo();
+        HeroNode heroNode = mergeSingleLinkedList(mergeNode1.getHead(), mergeNode2.getHead());
+        mergeNode3.add(heroNode);
+        mergeNode3.list();
+
+
+    }
+
+    // 合并两个有序单链表
+    public static HeroNode mergeSingleLinkedList(HeroNode node1, HeroNode node2){
+        // 判断有没有链表是空
+        if (node1.next == null && node2.next == null){
+            return null;
+        }
+
+        if (node1.next == null){
+            return node2.next;
+        }
+
+        if (node2.next == null){
+            return node1.next;
+        }
+
+        HeroNode newNode = new HeroNode(0, "", "");
+        HeroNode cur;
+
+        if (node1.next.no > node2.next.no){
+            // 存储当前值
+            newNode = node2.next;
+            node1 = node1.next;
+            node2 = node2.next.next;
+
+            cur = newNode;
+            cur.next = null;
+
+        }else {
+            newNode = node1.next;
+            node1 = node1.next.next;
+            node2 = node2.next;
+
+            cur = newNode;
+            cur = cur.next;
+        }
+
+        while (node1 != null && node2 != null){
+            if (node1.no > node2.no){
+                cur.next = node2;
+                cur = cur.next;
+                node2 = node2.next;
+
+            } else {
+                cur.next = node1;
+                cur = cur.next;
+                node1 = node1.next;
+            }
+        }
+
+        if (node1 == null){
+            cur.next = node2;
+        }else {
+            cur.next = node1;
+        }
+
+        return newNode;
     }
 
     // 可以利用这个数据结构，将各个节点压入到栈中，然后利用栈的先进后出的特点实现逆序打印
@@ -49,7 +139,7 @@ public class SingleLinkedList {
 
         // 创建一个栈，将各个节点压入栈中
         Stack<HeroNode> stack = new Stack<>();
-        HeroNode cur = head.next;
+        HeroNode  cur = head.next;
         while (cur != null){
             stack.push(cur);
             cur = cur.next;
