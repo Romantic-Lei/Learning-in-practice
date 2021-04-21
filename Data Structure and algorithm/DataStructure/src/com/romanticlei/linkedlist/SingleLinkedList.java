@@ -41,12 +41,12 @@ public class SingleLinkedList {
         reversePrint(linkedListDemo.getHead());
 
         System.out.println("~~~~~~~~~~~~~~两个有序单向链表合并成一个有序单向链表~~~~~~~~~~~~~~");
-        HeroNode hero01 = new HeroNode(2, "宋江", "及时雨");
+        HeroNode hero01 = new HeroNode(1, "宋江", "及时雨");
         HeroNode hero02 = new HeroNode(3, "卢俊义", "玉麒麟");
         HeroNode hero03 = new HeroNode(6, "吴用", "智多星");
         HeroNode hero04 = new HeroNode(9, "林冲", "豹子头");
 
-        HeroNode hero10 = new HeroNode(1, "三国演义", "三国演义");
+        HeroNode hero10 = new HeroNode(2, "三国演义", "三国演义");
         HeroNode hero20 = new HeroNode(5, "水浒传", "水浒传");
         HeroNode hero30 = new HeroNode(7, "红楼梦", "红楼梦");
         HeroNode hero40 = new HeroNode(8, "西游记", "西游记");
@@ -91,12 +91,16 @@ public class SingleLinkedList {
         HeroNode newNode = new HeroNode(0, "", "");
         HeroNode cur;
 
+        // 比较第一个有效值的大小
         if (node1.next.no > node2.next.no){
-            // 存储当前值
+            // 将小值放在新链表后面
             newNode = node2.next;
+            // 头结点后移一位，即移到第一个有效值
             node1 = node1.next;
+            // 头结点后移两位，即移动到第二个值
             node2 = node2.next.next;
 
+            // 声明一个临时变量
             cur = newNode;
             cur.next = null;
 
@@ -106,9 +110,10 @@ public class SingleLinkedList {
             node2 = node2.next;
 
             cur = newNode;
-            cur = cur.next;
+            cur.next = null;
         }
 
+        // node1 node2 都已指向了实际的数据
         while (node1 != null && node2 != null){
             if (node1.no > node2.no){
                 cur.next = node2;
