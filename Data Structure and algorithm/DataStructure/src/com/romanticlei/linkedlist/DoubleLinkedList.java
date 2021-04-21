@@ -5,7 +5,7 @@ public class DoubleLinkedList {
 
 }
 
-class DoubleLinkedListDemo{
+class DoubleLinkedListDemo {
     // 先初始化一个头节点，头节点不要懂，不存储任何具体的数据
     HeroNode2 head = new HeroNode2(0, "", "");
 
@@ -55,8 +55,8 @@ class DoubleLinkedListDemo{
 
     }
 
-    public void update(HeroNode2 newHeroNode){
-        if (head == null){
+    public void update(HeroNode2 newHeroNode) {
+        if (head == null) {
             System.out.println("链表为空");
             return;
         }
@@ -64,29 +64,29 @@ class DoubleLinkedListDemo{
         // 找到需要修改的结点，根据编号no
         HeroNode2 temp = head.next;
         boolean flag = false;
-        while (true){
-            if (temp == null){
+        while (true) {
+            if (temp == null) {
                 break;
             }
 
-            if (temp.no == newHeroNode.no){
+            if (temp.no == newHeroNode.no) {
                 flag = true;
                 break;
             }
             temp = temp.next;
         }
 
-        if (flag){
+        if (flag) {
             temp.name = newHeroNode.name;
             temp.nickName = newHeroNode.nickName;
-        }else {
+        } else {
             System.out.println("没有找到编号为" + newHeroNode.no + "的节点");
         }
     }
 
     // 删除节点
     public void delete(int no) {
-        if (head.next == null){
+        if (head.next == null) {
             System.out.println("链表为空，无法删除");
             return;
         }
@@ -99,7 +99,10 @@ class DoubleLinkedListDemo{
             }
             if (temp.no == no) {
                 temp.pre.next = temp.next;
-                temp.next.pre = temp.pre;
+                // 如果是最后一个节点，就不需要执行这句话
+                if (temp.next != null) {
+                    temp.next.pre = temp.pre;
+                }
                 temp.next = null;
                 temp.pre = null;
                 break;
