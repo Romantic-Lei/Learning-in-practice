@@ -1,5 +1,7 @@
 package com.romanticlei.linkedlist;
 
+import java.util.Stack;
+
 public class SingleLinkedList {
 
     public static void main(String[] args) {
@@ -34,6 +36,28 @@ public class SingleLinkedList {
         System.out.println("单链表反转之后~");
         reversetList(linkedListDemo.getHead());
         linkedListDemo.list();
+
+        System.out.println("利用栈逆序打印链表数据，不破坏原来链表结构~~~");
+        reversePrint(linkedListDemo.getHead());
+    }
+
+    // 可以利用这个数据结构，将各个节点压入到栈中，然后利用栈的先进后出的特点实现逆序打印
+    public static void reversePrint(HeroNode head){
+        if (head.next == null){
+            return; // 空链表，不能打印
+        }
+
+        // 创建一个栈，将各个节点压入栈中
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode cur = head.next;
+        while (cur != null){
+            stack.push(cur);
+            cur = cur.next;
+        }
+
+        while (stack.size() > 0){
+            System.out.println(stack.pop());
+        }
     }
 
     // 单链表的反转【腾讯面试题，有点难度】
