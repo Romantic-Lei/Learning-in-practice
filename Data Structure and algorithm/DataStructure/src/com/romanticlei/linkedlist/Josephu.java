@@ -81,11 +81,7 @@ class CircleSingleLinkedList {
         // 创建一个辅助指针
         Boy helper = first;
         // 创建的这个辅助指针，应该遍历指向环形链表的最后一个节点
-        while (true) {
-            if (helper.getNext() == first) {
-                break;
-            }
-
+        while (helper.getNext() != first) {
             helper = helper.getNext();
         }
 
@@ -95,10 +91,7 @@ class CircleSingleLinkedList {
             helper = helper.getNext();
         }
         // 找到出圈节点，让 first 和 helper 移动 countNum-1次
-        while (true){
-            if (first == helper){
-                break;
-            }
+        while (first != helper){
             // 让 first 和 helper 指针同时移动 countNum - 1
             for (int i = 0; i < countNum - 1; i++) {
                 first = first.getNext();
