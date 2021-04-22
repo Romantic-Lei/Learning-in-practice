@@ -6,8 +6,8 @@ public class DoubleLinkedList {
         System.out.println("双向链表的测试");
         HeroNode2 hero1 = new HeroNode2(1, "宋江", "及时雨");
         HeroNode2 hero2 = new HeroNode2(2, "卢俊义", "玉麒麟");
-        HeroNode2 hero3 = new HeroNode2(3, "吴用", "智多星");
-        HeroNode2 hero4 = new HeroNode2(4, "林冲", "豹子头");
+        HeroNode2 hero3 = new HeroNode2(5, "吴用", "智多星");
+        HeroNode2 hero4 = new HeroNode2(6, "林冲", "豹子头");
         //创建一个双向链表
         DoubleLinkedListDemo doubleLinkedList = new DoubleLinkedListDemo();
         doubleLinkedList.add(hero1);
@@ -27,6 +27,11 @@ public class DoubleLinkedList {
         doubleLinkedList.delete(3);
         doubleLinkedList.list();
 
+        // 有序加入链表
+        System.out.println("按序加入到双向链表");
+        HeroNode2 hero6 = new HeroNode2(7, "公孙胜", "入云龙");
+        doubleLinkedList.addByOrder(hero6);
+        doubleLinkedList.list();
     }
 
 }
@@ -78,6 +83,40 @@ class DoubleLinkedListDemo {
         // 并将最后这个节点的 next 指向新的节点
         temp.next = heroNode;
         heroNode.pre = temp;
+
+    }
+
+    public void addByOrder(HeroNode2 node) {
+        HeroNode2 cur = head;
+        boolean flag = false;
+
+        while (true){
+            if (cur.next == null){
+                flag = true;
+                break;
+            }
+
+            if (cur.next.no > node.no){
+                break;
+            }
+
+            if (cur.next.no == node.no){
+                update(node);
+                return;
+            }
+
+            cur = cur.next;
+        }
+
+        if (flag){
+            node.pre = cur;
+            cur.next = node;
+        } else {
+            node.next = cur.next;
+            cur.next.pre = node;
+            cur.next = node;
+            node.pre = cur;
+        }
 
     }
 
