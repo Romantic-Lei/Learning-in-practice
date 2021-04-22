@@ -2,6 +2,32 @@ package com.romanticlei.linkedlist;
 
 public class DoubleLinkedList {
 
+    public static void main(String[] args) {
+        System.out.println("双向链表的测试");
+        HeroNode2 hero1 = new HeroNode2(1, "宋江", "及时雨");
+        HeroNode2 hero2 = new HeroNode2(2, "卢俊义", "玉麒麟");
+        HeroNode2 hero3 = new HeroNode2(3, "吴用", "智多星");
+        HeroNode2 hero4 = new HeroNode2(4, "林冲", "豹子头");
+        //创建一个双向链表
+        DoubleLinkedListDemo doubleLinkedList = new DoubleLinkedListDemo();
+        doubleLinkedList.add(hero1);
+        doubleLinkedList.add(hero2);
+        doubleLinkedList.add(hero3);
+        doubleLinkedList.add(hero4);
+        doubleLinkedList.list();
+
+        // 修改
+        System.out.println("修改后的链表~~~");
+        HeroNode2 hero5 = new HeroNode2(3, "公孙胜", "入云龙");
+        doubleLinkedList.update(hero5);
+        doubleLinkedList.list();
+
+        // 删除
+        System.out.println("删除指定编号的链表为~~~");
+        doubleLinkedList.delete(3);
+        doubleLinkedList.list();
+
+    }
 
 }
 
