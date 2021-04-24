@@ -3,7 +3,7 @@ package com.romanticlei.stack;
 public class Calculator {
 
     public static void main(String[] args) {
-        String exp = "9+8*2+6";
+        String exp = "-9+18*2+6-32/2";
         ArrayStack2 numStack = new ArrayStack2(10);
         ArrayStack2 operStack = new ArrayStack2(10);
         // 定义需要的相关变量
@@ -13,6 +13,7 @@ public class Calculator {
         int oper = 0;
         int res = 0;
         char ch = ' '; // 将每次扫描得到的char 保存到ch
+        String keepNum = "";
         while (true) {
             ch = exp.substring(index, index + 1).charAt(0);
             // 判断ch是什么，需要做相应的处理
@@ -39,20 +40,35 @@ public class Calculator {
                     operStack.push(ch);
                 }
             } else {
-                // 如果是数，则直接入数栈
-                numStack.push(ch - 48);
+                // 如果是数，则直接入数栈(这种的话计算器就仅仅只能处理个位数的计算)
+                // numStack.push(ch - 48);
+
+                // 处理多位数时不能发现是一个数字就马上入队，以可能是多位数
+                // 在处理数时，需要将表达式的index后移，如果还是一个数就拼接，如果不是才入栈
+                // 因此我们需要定义一个字符串，用于拼接多位数
+                keepNum += ch;
+                if (index == exp.length() - 1) {
+                    numStack.push(Integer.parseInt(keepNum));
+                } else {
+                    ch = exp.substring(index + 1, index + 2).charAt(0);
+                    if (operStack.isOper(ch)) {
+                        // 如果下一位是符号位，那么就直接将拼接的数字入栈，并清空拼接串
+                        numStack.push(Integer.parseInt(keepNum));
+                        keepNum = "";
+                    }
+                }
             }
 
             // 将index 后移，并判断是否扫描到了exp最后
             index++;
-            if (index >= exp.length()){
+            if (index >= exp.length()) {
                 break;
             }
         }
 
         // 当计算完毕，就顺序的从数栈和符号栈中pop出相应的数和符号，并运行
-        while (true){
-            if (operStack.isEmpty()){
+        while (true) {
+            if (operStack.isEmpty()) {
                 break;
             }
             num1 = numStack.pop();
