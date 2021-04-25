@@ -14,8 +14,14 @@ public class PolandNotation {
          * 直接将字符串转成后缀表达式不方便，素偶一我们需要将字符串先转成list
          * 例如：1+((2+3)x4)-5 => 转成 [1, +, (, (, 2, +, 3, ), x, 4, ), -, 5]
          */
-        List<String> infixExpressionList = toInfixExpressionList("1+((2+3)x4)-5");
+        List<String> infixExpressionList = toInfixExpressionList("1+((2+3)*4)-5");
         System.out.println("中缀表达式转集合之后：" + infixExpressionList);
+
+        /**
+         * 将得到的中缀表达式list => 转成后缀表达式的list
+         */
+        List<String> parseSuffixExpreesionList = parseSuffixExpreesionList(infixExpressionList);
+        System.out.println("后缀表达式对应的集合：" + parseSuffixExpreesionList);
 
         // 先定义一个逆波兰表达式
         // (3+4)x5-6 => 3 4 + 5 x 6 -
@@ -54,6 +60,38 @@ public class PolandNotation {
         return list;
     }
 
+    public static List<String> parseSuffixExpreesionList(List<String> list) {
+        Stack<String> s1 = new Stack<>();
+        List<String> s2 = new ArrayList<>();
+        for (String item : list) {
+            if (item.matches("\\d+")){
+                s2.add(item);
+            } else if ("(".equals(item)){
+                s1.push(item);
+            } else if (")".equals(item)){
+                while (!"(".equals(s1.peek())){
+                    s2.add(s1.pop());
+                }
+                // 如果弹出的是 "(" 那就直接清除 "("
+                s1.pop();
+            } else {
+                // 当 item 的优先级小于等于s1 栈顶运算符，那么就需要将s1栈顶的数据弹出，直到item 运算符优先级高或者s1栈顶为空，item 入栈
+                while (s1.size() > 0 && Operation.getValue(s1.peek()) >= Operation.getValue(item)){
+                    s2.add(s1.pop());
+                }
+
+                // 将 item 放入大栈顶
+                s1.push(item);
+            }
+        }
+
+        // 将s1 中剩余的运算符一次弹出并加入到 s2
+        while (s1.size() != 0){
+            s2.add(s1.pop());
+        }
+
+        return s2;
+    }
 
     // 将一个逆波兰表达式，依次将数据和运算符 放入到 ArrayList中
     public static List<String> getListString(String suffixExpression) {
@@ -90,6 +128,31 @@ public class PolandNotation {
             }
         }
         return Integer.parseInt(stack.pop());
+    }
+}
+
+// 编写一个类 Operation，可以返回一个运算符对应的优先级
+class Operation{
+    private static int ADD = 1;
+    private static int SUB = 1;
+    private static int MUL = 2;
+    private static int DIV = 2;
+
+    // 判断对应运算符的优先级
+    public static int getValue(String operation) {
+        switch (operation){
+            case "+":
+                return ADD;
+            case "-":
+                return SUB;
+            case "*":
+                return MUL;
+            case "/":
+                return DIV;
+            default:
+                System.out.println("运算符不存在");
+                return 0;
+        }
     }
 }
 
