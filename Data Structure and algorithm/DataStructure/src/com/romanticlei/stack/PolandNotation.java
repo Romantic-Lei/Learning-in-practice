@@ -45,14 +45,17 @@ public class PolandNotation {
         List<String> list = new ArrayList<>();
         do {
             if ((ch = expression.charAt(i)) < 48 || (ch = expression.charAt(i)) > 57) {
+                // 符号直接入栈
                 list.add(String.valueOf(ch));
                 i++;
             } else {
                 str = "";
                 while (i < expression.length() && (ch = expression.charAt(i)) >= 48 && (ch = expression.charAt(i)) <= 57){
+                    // 如果是数字则判断下一位是否依旧是数字，然后进行数字拼接操作
                     str += ch;
                     i++;
                 }
+                // 将拼接后的数字入栈
                 list.add(str);
             }
         } while (i < expression.length());
@@ -61,14 +64,18 @@ public class PolandNotation {
     }
 
     public static List<String> parseSuffixExpreesionList(List<String> list) {
+        // 符号栈
         Stack<String> s1 = new Stack<>();
+        // 后缀表达式集合
         List<String> s2 = new ArrayList<>();
         for (String item : list) {
+            // 匹配多位数字入栈
             if (item.matches("\\d+")){
                 s2.add(item);
             } else if ("(".equals(item)){
                 s1.push(item);
             } else if (")".equals(item)){
+                // 如果当前为右括号，就匹配到距栈顶最近的一个左括号为止
                 while (!"(".equals(s1.peek())){
                     s2.add(s1.pop());
                 }
