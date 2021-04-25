@@ -3,7 +3,7 @@ package com.romanticlei.stack;
 public class Calculator {
 
     public static void main(String[] args) {
-        String exp = "-9+18*2+6-32/2";
+        String exp = "9+18*2+6-32/2";
         ArrayStack2 numStack = new ArrayStack2(10);
         ArrayStack2 operStack = new ArrayStack2(10);
         // 定义需要的相关变量
