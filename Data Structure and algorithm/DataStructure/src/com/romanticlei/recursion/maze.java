@@ -22,20 +22,15 @@ public class maze {
 
         // map[3][3] = 1;
         // map[3][4] = 1;
-        //map[3][5] = 1;
+        // map[3][5] = 1;
 
-        boolean b = setWay(map, 1, 1);
-        if (b){
-            for (int[] temp: map) {
-                for (int value: temp) {
-                    System.out.print(value + "\t");
-                }
-                System.out.println();
+        setWay(map, 1, 1);
+        for (int[] temp : map) {
+            for (int value : temp) {
+                System.out.print(value + "\t");
             }
-        } else {
-            System.out.println("没有找到合适的路径");
+            System.out.println();
         }
-
     }
 
     /**
@@ -77,5 +72,4 @@ public class maze {
             return false;
         }
     }
-
 }
