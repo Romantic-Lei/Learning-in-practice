@@ -9,11 +9,14 @@ public class Queue8 {
 
     // 声明一个变量，表示有多少种解法
     int count = 0;
+    // 声明一个变量，表示回溯了多少次
+    int judgeCount = 0;
 
     public static void main(String[] args) {
         Queue8 queue = new Queue8();
         queue.check(0);
         System.out.println("八皇后问题一共有 " + queue.count + " 种解法");
+        System.out.println("八皇后问题一共回溯了 " + queue.judgeCount + " 次");
     }
 
     // 编写一个方法，放置第n个皇后
@@ -25,6 +28,7 @@ public class Queue8 {
 
         // 依次放入皇后，并判断是否冲突
         for (int i = 0; i < max; i++) {
+            judgeCount++;
             // 先把当前这个皇后 n，放到该行的第一列
             array[n] = i;
             // 判断当前放置第 n 个皇后到i列时，是否冲突
