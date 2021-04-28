@@ -9,6 +9,18 @@ public class SelectSort {
         System.out.println("排序前" + Arrays.toString(arr));
         selectSort(arr);
         System.out.println("排序后" + Arrays.toString(arr));
+
+        // 测试插入排序效率
+        int[] array = new int[80000];
+        for (int i = 0; i < 80000; i++) {
+            array[i] = (int)(Math.random() * 80000);
+        }
+
+        long currentTimeMillis_start = System.currentTimeMillis();
+        selectSort(array);
+        long currentTimeMillis_end = System.currentTimeMillis();
+        // 冒泡排序数据量大比较耗时 4161(时间与机器性能有关)
+        System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
     }
 
     public static void selectSort(int[] arr){
