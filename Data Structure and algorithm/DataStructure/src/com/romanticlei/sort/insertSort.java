@@ -17,7 +17,7 @@ public class insertSort {
         long currentTimeMillis_start = System.currentTimeMillis();
         insertSort(array);
         long currentTimeMillis_end = System.currentTimeMillis();
-        // 冒泡排序数据量大比较耗时 4161(时间与机器性能有关)
+        // 冒泡排序数据量大比较耗时 1375(时间与机器性能有关)
         System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
     }
     
