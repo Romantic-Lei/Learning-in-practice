@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class ShellSort {
 
     public static void main(String[] args) {
-        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
-        shellSort(arr);
-        System.out.println("排序后的数组为 " + Arrays.toString(arr));
+        // int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
+        // shellSort(arr);
+        // System.out.println("排序后的数组为 " + Arrays.toString(arr));
 
         // 测试插入排序效率
         int[] array = new int[80000];
@@ -16,12 +16,14 @@ public class ShellSort {
         }
 
         long currentTimeMillis_start = System.currentTimeMillis();
-        shellSort(array);
+        shellSort2(array);
         long currentTimeMillis_end = System.currentTimeMillis();
         // 冒泡排序数据量大比较耗时 1375(时间与机器性能有关)
         System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
+        // System.out.println("排序后的数组为 " + Arrays.toString(array));
     }
 
+    // 交换式希尔排序
     public static void shellSort(int[] arr) {
         int temp = 0;
         for (int gap = arr.length / 2; gap > 0; gap /= 2) {
@@ -33,6 +35,22 @@ public class ShellSort {
                         arr[j + gap] = temp;
                     }
                 }
+            }
+        }
+    }
+
+    // 移动法希尔排序
+    public static void shellSort2(int[] arr) {
+        int temp = 0;
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < arr.length; i++) {
+                int j = i;
+                temp = arr[j];
+                while (j - gap >= 0 && temp < arr[j - gap]){
+                    arr[j] = arr[j - gap];
+                    j -= gap;
+                }
+                arr[j] = temp;
             }
         }
     }
