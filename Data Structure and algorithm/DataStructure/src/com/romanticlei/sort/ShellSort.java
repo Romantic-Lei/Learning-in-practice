@@ -26,6 +26,7 @@ public class ShellSort {
     // 交换式希尔排序
     public static void shellSort(int[] arr) {
         int temp = 0;
+        // gap 为将数组分为多少组，同时也是步长
         for (int gap = arr.length / 2; gap > 0; gap /= 2) {
             for (int i = gap; i < arr.length; i++) {
                 for (int j = i - gap; j >= 0; j -= gap) {
@@ -42,14 +43,17 @@ public class ShellSort {
     // 移动法希尔排序
     public static void shellSort2(int[] arr) {
         int temp = 0;
+        // gap 为将数组分为多少组，同时也是步长
         for (int gap = arr.length / 2; gap > 0; gap /= 2) {
             for (int i = gap; i < arr.length; i++) {
                 int j = i;
                 temp = arr[j];
+                // 当前值比前一个步长的值小，那么就移动覆盖
                 while (j - gap >= 0 && temp < arr[j - gap]){
                     arr[j] = arr[j - gap];
                     j -= gap;
                 }
+                // 将最小值放到本次排序前面
                 arr[j] = temp;
             }
         }
