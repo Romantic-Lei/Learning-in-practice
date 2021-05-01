@@ -18,7 +18,7 @@ public class ShellSort {
         long currentTimeMillis_start = System.currentTimeMillis();
         shellSort2(array);
         long currentTimeMillis_end = System.currentTimeMillis();
-        // 冒泡排序数据量大比较耗时 1375(时间与机器性能有关)
+        // 希尔排序数据量大比较耗时 1375(时间与机器性能有关)
         System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
         // System.out.println("排序后的数组为 " + Arrays.toString(array));
     }
