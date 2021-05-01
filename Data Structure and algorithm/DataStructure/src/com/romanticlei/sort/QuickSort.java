@@ -1,9 +1,14 @@
 package com.romanticlei.sort;
 
+import java.util.Arrays;
+
 public class QuickSort {
 
     public static void main(String[] args) {
-        int[] arr = {-9, 78, 0, 23, -567, 70};
+        // int[] arr = {-9, 78, 0, 23, -567, 70};
+        int[] arr = {-3, -2, 0, 6, 0, 5, 0, -1, -6};
+        quickSort(arr, 0, arr.length - 1);
+        System.out.printf("排序后的值为 " + Arrays.toString(arr));
     }
 
     public static void quickSort(int[] arr, int left, int right) {
@@ -32,9 +37,33 @@ public class QuickSort {
             arr[l] = arr[r];
             arr[r] = temp;
 
+            // 如果 arr[l] == pivot，r-- 防止进入死循环
             if (arr[l] == pivot) {
-
+                // l++; // 这是错误的写法，如果当前值和中轴值一样的话，移动下标会错误的导致自己放到中轴值右边
+                r--;
             }
+
+            // 如果 arr[l] == pivot，l++ 防止进入死循环
+            if (arr[r] == pivot) {
+                // r--;
+                l++;
+            }
+        }
+
+        // 如果 l == r ，必须l++, r--,否则会出现栈溢出
+        if (l == r){
+            l++;
+            r--;
+        }
+
+        // 向左递归
+        if (left < r){
+            quickSort(arr, left, r);
+        }
+
+        // 向右递归
+        if (right > l) {
+            quickSort(arr, l, right);
         }
     }
 }
