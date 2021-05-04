@@ -19,7 +19,7 @@ public class MergeSort {
         long currentTimeMillis_start = System.currentTimeMillis();
         mergeSort(array, 0, array.length - 1, temp1);
         long currentTimeMillis_end = System.currentTimeMillis();
-        // 快速排序数据量大比较耗时 2169(时间与机器性能有关)
+        // 归并排序数据量大比较耗时 2169(时间与机器性能有关)
         System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
     }
 
