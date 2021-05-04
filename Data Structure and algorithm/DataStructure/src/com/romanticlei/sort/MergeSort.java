@@ -9,8 +9,18 @@ public class MergeSort {
         // 归并排序，需要一个额外的空间
         int[] temp = new int[arr.length];
         mergeSort(arr, 0, arr.length - 1, temp);
+        System.out.println("归并排序后的数据为 = " + Arrays.toString(arr));
 
-        System.out.printf("归并排序后的数据为 = " + Arrays.toString(arr));
+        int[] array = new int[8000000];
+        int[] temp1 = new int[array.length];
+        for (int i = 0; i < 8000000; i++) {
+            array[i] = (int) (Math.random() * 8000000);
+        }
+        long currentTimeMillis_start = System.currentTimeMillis();
+        mergeSort(array, 0, array.length - 1, temp1);
+        long currentTimeMillis_end = System.currentTimeMillis();
+        // 快速排序数据量大比较耗时 2169(时间与机器性能有关)
+        System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
     }
 
     // 分+合的方法
