@@ -8,6 +8,18 @@ public class RadixSort {
 
     // 基数排序方法
     public static void radixSort(int[] arr) {
+
+        // 找到数组中最大数的位数
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (max < arr[i]){
+                max = arr[i];
+            }
+        }
+
+        // 定义一个变量获取最大值的长度
+        int maxLength = (max + "").length();
+
         // 定义一个二维数组，表示十个桶，每个桶就是一个一维数组
         // 说明：二维数组包含十个桶
         // 为了防止放入数据时，数据溢出，则每个一维数组（桶）的大小定位arr.length
@@ -18,6 +30,11 @@ public class RadixSort {
         // 比如 bucketElementCounts[0] 记录的就是 bucket[0] 桶的放入数据个数
         int[] bucketElementCounts = new int[10];
 
+        for (int i = 0; i < maxLength; i++) {
+            for (int j = 0; j < arr.length; j++) {
+                // 获取每个元素的某位的值
+            }
+        }
 
 
     }
