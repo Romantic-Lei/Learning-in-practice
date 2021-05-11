@@ -1,6 +1,46 @@
 package com.romanticlei.hashTable;
 
+import java.util.Scanner;
+
 public class HashTableDemo {
+
+    public static void main(String[] args) {
+        // 创建哈希表
+        HashTable hashTable = new HashTable(7);
+        String key = "";
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("add:  添加雇员");
+            System.out.println("find: 查找雇员");
+            System.out.println("list: 显示雇员");
+            System.out.println("exit: 退出系统");
+
+            key = scanner.next();
+            switch (key) {
+                case "add":
+                    System.out.println("请输入id");
+                    int id = scanner.nextInt();
+                    System.out.println("请输入姓名");
+                    String name = scanner.next();
+                    Emp emp = new Emp(id, name);
+                    hashTable.add(emp);
+                    break;
+                case "find":
+                    System.out.println("请输入要查找的id");
+                    id = scanner.nextInt();
+                    hashTable.findEmpById(id);
+                    break;
+                case "list":
+                    hashTable.list();
+                    break;
+                case "exit":
+                    System.exit(0);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 // 创建一个 HashTable 管理多个链表
@@ -12,6 +52,11 @@ class HashTable{
     public HashTable(int size) {
         this.size = size;
         empLinkedListArray = new EmpLinkedList[size];
+
+        for (int i = 0; i < size; i++) {
+            // 里面的链表也要初始化
+            empLinkedListArray[i] = new EmpLinkedList();
+        }
     }
 
     // 添加雇员
@@ -23,7 +68,17 @@ class HashTable{
 
     public void list(){
         for (int i = 0; i < size; i++) {
-            empLinkedListArray[i].list();
+            empLinkedListArray[i].list(i);
+        }
+    }
+
+    public void findEmpById(int id) {
+        int empLinkedListNo = hashFun(id);
+        Emp emp = empLinkedListArray[empLinkedListNo].findEmpById(id);
+        if (null == emp) {
+            System.out.println("在哈希链表中没有找到该雇员");
+        } else {
+            System.out.println("第" + (empLinkedListNo + 1) + "条链表为 => id = " + emp.id + "\t name = " + emp.name);
         }
     }
 
@@ -66,20 +121,39 @@ class EmpLinkedList{
     }
 
     // 遍历链表
-    public void list(){
+    public void list(int no){
         if (head == null) {
-            System.out.println("链表为空");
+            System.out.println("第" + (no + 1) + "条链表为空");
             return;
         }
 
         Emp curEmp = head;
         while (true) {
-            System.out.println("id = " + curEmp.id + "\t name = " + curEmp.name);
+            System.out.print("第" + (no + 1) + "条链表为 => id = " + curEmp.id + "\t name = " + curEmp.name);
             if (curEmp.next == null) {
                 break;
             }
 
             curEmp = curEmp.next;
         }
+        System.out.println();
+    }
+
+    // 根据id 查找雇员
+    public Emp findEmpById(int id) {
+        if (head == null) {
+            return null;
+        }
+
+        Emp curEmp = head;
+        while (curEmp != null) {
+            if (curEmp.id == id) {
+                return curEmp;
+            }
+
+            curEmp = curEmp.next;
+        }
+
+        return null;
     }
 }
