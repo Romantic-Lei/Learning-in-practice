@@ -2,6 +2,26 @@ package com.romanticlei.tree;
 
 public class BinaryTreeDemo {
     public static void main(String[] args) {
+        // 先创建一个二叉树
+        BinaryTree binaryTree = new BinaryTree();
+        HeroNode root = new HeroNode(1, "宋江");
+        HeroNode node2 = new HeroNode(2, "吴用");
+        HeroNode node3 = new HeroNode(3, "卢俊义");
+        HeroNode node4 = new HeroNode(4, "林冲");
+
+        root.setLeft(node2);
+        root.setRight(node3);
+        node3.setRight(node4);
+        binaryTree.setRoot(root);
+
+        System.out.println("测试前序遍历");
+        binaryTree.preOrder();
+
+        System.out.println("测试中序遍历");
+        binaryTree.infixOrder();
+
+        System.out.println("测试后序遍历");
+        binaryTree.postOrder();
 
     }
 }
@@ -59,16 +79,32 @@ class HeroNode {
         return no;
     }
 
+    public void setNo(int no) {
+        this.no = no;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public HeroNode getLeft() {
         return left;
     }
 
+    public void setLeft(HeroNode left) {
+        this.left = left;
+    }
+
     public HeroNode getRight() {
         return right;
+    }
+
+    public void setRight(HeroNode right) {
+        this.right = right;
     }
 
     @Override
@@ -110,12 +146,12 @@ class HeroNode {
     public void postOrder() {
         // 递归向左子树
         if (this.left != null) {
-            this.postOrder();
+            this.left.postOrder();
         }
 
         // 递归向右子树
         if (this.right != null) {
-            this.postOrder();
+            this.right.postOrder();
         }
 
         // 打印向父节点
