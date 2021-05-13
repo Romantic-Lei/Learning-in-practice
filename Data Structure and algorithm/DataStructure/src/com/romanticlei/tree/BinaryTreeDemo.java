@@ -31,8 +31,9 @@ public class BinaryTreeDemo {
 
         // 前序遍历查找值
         System.out.println("前序遍历方式~~");
-        HeroNode resNode = binaryTree.preOrderSearch(4);
+        HeroNode resNode = binaryTree.preOrderSearch(5);
         if (resNode != null) {
+            // 查找编号为5 的数据，前序查找花费 4次
             System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
         }
 
@@ -40,17 +41,19 @@ public class BinaryTreeDemo {
 
         // 中序遍历查找值
         System.out.println("中序遍历方式~~");
-        resNode = binaryTree.infixOrderSearch(4);
+        resNode = binaryTree.infixOrderSearch(5);
         if (resNode != null) {
+            // 查找编号为5 的数据，中序查找花费 3次
             System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
         }
 
         System.out.println();
 
-        // 中序遍历查找值
+        // 后序遍历查找值
         System.out.println("后序遍历方式~~");
-        resNode = binaryTree.postOrderSearch(4);
+        resNode = binaryTree.postOrderSearch(5);
         if (resNode != null) {
+            // 查找编号为5 的数据，后序查找花费 2次
             System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
         }
     }
@@ -214,6 +217,7 @@ class HeroNode {
 
     // 前序遍历查找，如果没有就返回 null
     public HeroNode preOrderSeach(int no) {
+        System.out.println("*********前序遍历查找*********");
         // 比较当前结点是不是需要查找的结点
         if (this.no == no) {
             return this;
@@ -251,6 +255,7 @@ class HeroNode {
             return resNode;
         }
 
+        System.out.println("*********中序遍历查找*********");
         if (this.no == no) {
             return this;
         }
@@ -284,6 +289,7 @@ class HeroNode {
             return resNode;
         }
 
+        System.out.println("*********后序遍历查找*********");
         if (this.no == no) {
             return this;
         }
