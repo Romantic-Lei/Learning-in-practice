@@ -64,6 +64,30 @@ class BinaryTree {
 
         this.root.postOrder();
     }
+
+    // 前序遍历寻找目标值
+    public HeroNode preOrderSearch(int no) {
+        if (root != null) {
+            return root.preOrderSeach(no);
+        }
+        return null;
+    }
+
+    // 中序遍历寻找目标值
+    public HeroNode infixOrderSearch(int no) {
+        if (root != null) {
+            return root.infixOrderSearch(no);
+        }
+        return null;
+    }
+
+    // 后序遍历寻找目标值
+    public HeroNode postOrderSearch(int no) {
+        if (root != null) {
+            return root.postOrderSearch(no);
+        }
+        return null;
+    }
 }
 
 class HeroNode {
@@ -159,4 +183,85 @@ class HeroNode {
         // 打印向父节点
         System.out.println(this);
     }
+
+    // 前序遍历查找，如果没有就返回 null
+    public HeroNode preOrderSeach(int no) {
+        // 比较当前结点是不是需要查找的结点
+        if (this.no == no) {
+            return this;
+        }
+
+        // 判断当前结点的左子节点是否为空，如果不为空，则递归前序查找
+        // 如果左递归前序查找，找到结点就返回
+        HeroNode resNode = null;
+        if (this.left != null) {
+            resNode = this.left.preOrderSeach(no);
+        }
+
+        // 找到了直接返回结点
+        if (resNode != null) {
+            return resNode;
+        }
+
+        // 没有找到，继续判断当前结点的右结点是否为空，如果不空，继续右递归
+        if (this.right != null) {
+            resNode = this.right.preOrderSeach(no);
+        }
+
+        // 向右查找不管有没有找到都直接返回（有就是返回数据，没有就是返回 null）
+        return resNode;
+    }
+
+    // 中序遍历查找
+    public HeroNode infixOrderSearch(int no) {
+        HeroNode resNode = null;
+        if (this.left != null) {
+            resNode = this.left.infixOrderSearch(no);
+        }
+
+        if (resNode != null) {
+            return resNode;
+        }
+
+        if (this.no == no) {
+            return this;
+        }
+
+        // 否则继续进行右递归
+        if (this.right != null) {
+            resNode = this.right.infixOrderSearch(no);
+        }
+
+        return resNode;
+    }
+
+    // 后序遍历
+    public HeroNode postOrderSearch(int no) {
+        HeroNode resNode = null;
+        // 扫描左子节点
+        if (this.left != null) {
+            resNode = this.left.postOrderSearch(no);
+        }
+
+        if (resNode != null) {
+            return resNode;
+        }
+
+        // 否则继续进行右递归
+        if (this.right != null) {
+            resNode = this.right.postOrderSearch(no);
+        }
+
+        if (resNode != null) {
+            return resNode;
+        }
+
+        if (this.no == no) {
+            return this;
+        }
+
+        // 如果都没有找到就返回 null
+        return resNode;
+    }
+
 }
