@@ -9,11 +9,15 @@ public class BinaryTreeDemo {
         HeroNode node3 = new HeroNode(3, "卢俊义");
         HeroNode node4 = new HeroNode(4, "林冲");
         HeroNode node5 = new HeroNode(5, "关胜");
+        HeroNode node6 = new HeroNode(6, "玉麒麟");
+        HeroNode node7 = new HeroNode(7, "鲁智深");
 
         root.setLeft(node2);
         root.setRight(node3);
         node3.setRight(node4);
         node3.setLeft(node5);
+        node4.setLeft(node6);
+        node4.setRight(node7);
         binaryTree.setRoot(root);
 
         System.out.println("测试前序遍历");
@@ -25,6 +29,30 @@ public class BinaryTreeDemo {
         System.out.println("测试后序遍历");
         binaryTree.postOrder(); // 2,5,4,3,1
 
+        // 前序遍历查找值
+        System.out.println("前序遍历方式~~");
+        HeroNode resNode = binaryTree.preOrderSearch(4);
+        if (resNode != null) {
+            System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
+        }
+
+        System.out.println();
+
+        // 中序遍历查找值
+        System.out.println("中序遍历方式~~");
+        resNode = binaryTree.infixOrderSearch(4);
+        if (resNode != null) {
+            System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
+        }
+
+        System.out.println();
+
+        // 中序遍历查找值
+        System.out.println("后序遍历方式~~");
+        resNode = binaryTree.postOrderSearch(4);
+        if (resNode != null) {
+            System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
+        }
     }
 }
 
