@@ -8,25 +8,27 @@ public class BinaryTreeDemo {
         HeroNode node2 = new HeroNode(2, "吴用");
         HeroNode node3 = new HeroNode(3, "卢俊义");
         HeroNode node4 = new HeroNode(4, "林冲");
+        HeroNode node5 = new HeroNode(5, "关胜");
 
         root.setLeft(node2);
         root.setRight(node3);
         node3.setRight(node4);
+        node3.setLeft(node5);
         binaryTree.setRoot(root);
 
         System.out.println("测试前序遍历");
-        binaryTree.preOrder();
+        binaryTree.preOrder(); // 1,2,3,5,4
 
         System.out.println("测试中序遍历");
-        binaryTree.infixOrder();
+        binaryTree.infixOrder(); // 2,1,5,3,4
 
         System.out.println("测试后序遍历");
-        binaryTree.postOrder();
+        binaryTree.postOrder(); // 2,5,4,3,1
 
     }
 }
 
-class BinaryTree{
+class BinaryTree {
     private HeroNode root;
 
     public void setRoot(HeroNode root) {
@@ -34,7 +36,7 @@ class BinaryTree{
     }
 
     // 前序遍历
-    public void preOrder(){
+    public void preOrder() {
         if (this.root == null) {
             System.out.println("二叉树为空，无法遍历");
             return;
