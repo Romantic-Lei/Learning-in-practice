@@ -56,6 +56,14 @@ public class BinaryTreeDemo {
             // 查找编号为5 的数据，后序查找花费 2次
             System.out.printf("找到了，信息为 no = %d \t name = %s", resNode.getNo(), resNode.getName());
         }
+        System.out.println();
+
+        System.out.println("***************测试删除节点 5***************");
+        binaryTree.delNode(5);
+        binaryTree.preOrder();
+        System.out.println("***************测试删除节点 3***************");
+        binaryTree.delNode(3);
+        binaryTree.preOrder();
     }
 }
 
@@ -118,6 +126,19 @@ class BinaryTree {
             return root.postOrderSearch(no);
         }
         return null;
+    }
+
+    public void delNode(int no) {
+        if (root != null) {
+            // 在这里判断root节点是不是要删除的节点
+            if (root.getNo() == no) {
+                root = null;
+            } else {
+                root.delNode(no);
+            }
+        } else {
+            System.out.println("树不存在！");
+        }
     }
 }
 
@@ -296,6 +317,34 @@ class HeroNode {
 
         // 如果都没有找到就返回 null
         return resNode;
+    }
+
+    // 递归删除节点
+    // 1.如果删除的节点是叶子节点，则删除该节点
+    // 2.如果删除的节点是非叶子结点，则删除该子树
+    public void delNode(int no) {
+        // 如果当前节点的左子节点不为空，并且左子节点就是要删除的节点，那么就将this.left = null，并且返回
+        if (this.left != null && this.left.no == no) {
+            this.left = null;
+            return;
+        }
+
+        // 如果当前节点右子节点不为空，并且右子节点就是要删除节点，那么就将this.right = null，并且返回
+        if (this.right != null && this.right.no == no) {
+            this.right = null;
+            return;
+        }
+
+        // 当前节点的左右节点都不是要删除的节点，需要向左子树进行递归
+        if (this.left != null) {
+            this.left.delNode(no);
+        }
+
+        // 当前节点的左右节点都不是要删除的节点，需要向右子树进行递归
+        if (this.right != null) {
+            this.right.delNode(no);
+        }
+
     }
 
 }
