@@ -346,25 +346,4 @@ class HeroNode {
         }
     }
 
-    public void delNode(int no) {
-        // 如果当前节点的左子节点不为空，并且左子节点就是要删除的节点，
-        // 判断当前节点的下一个节点是否还有左右子节点
-        if (this.left != null && this.left.no == no) {
-            if (this.left.left != null) {
-                this.left = this.left.left;
-                return;
-            }
-
-            if (this.left.right != null) {
-                this.left = this.left.right;
-            }
-        }
-
-        // 如果当前节点右子节点不为空，并且右子节点就是要删除节点，那么就将this.right = null，并且返回
-        if (this.right != null && this.right.no == no) {
-            this.right = null;
-            return;
-        }
-    }
-
 }
