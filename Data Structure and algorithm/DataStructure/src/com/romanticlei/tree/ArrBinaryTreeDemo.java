@@ -8,6 +8,12 @@ public class ArrBinaryTreeDemo {
         ArrBinaryTree arrBinaryTree = new ArrBinaryTree(arr);
         // 1 2 4 5 3 6 7
         arrBinaryTree.preOrder(0);
+        System.out.println();
+
+        // 4 2 5 1 6 3 7
+        arrBinaryTree.infixOrder(0);
+        System.out.println();
+
     }
 }
 
@@ -30,7 +36,7 @@ class ArrBinaryTree {
         }
 
         // 输出当前这个元素
-        System.out.println(arr[index]);
+        System.out.print(arr[index] + "\t");
         // 向左递归
         if ((2 * index + 1) < arr.length){
             this.preOrder(2 * index + 1);
@@ -39,6 +45,27 @@ class ArrBinaryTree {
         if ((2 * index + 2) < arr.length){
             this.preOrder(2 * index + 2);
         }
+    }
 
+    /**
+     * 编写一个方法，完成顺序存储二叉树的中序遍历
+     * @param index
+     */
+    public void infixOrder(int index) {
+        if (arr == null || arr.length == 0) {
+            System.out.println("数组为空，不能按照二叉树的前序遍历");
+        }
+
+        // 向左递归
+        if ((2 * index + 1) < arr.length){
+            this.infixOrder(2 * index + 1);
+        }
+
+        // 输出当前这个元素
+        System.out.print(arr[index] + "\t");
+
+        if ((2 * index + 2) < arr.length){
+            this.infixOrder(2 * index + 2);
+        }
     }
 }
