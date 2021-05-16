@@ -47,6 +47,9 @@ class BinaryTree {
             pre.setRightType(1);
         }
 
+        // 每处理一个节点，计当前结点是下一个节点的前继结点
+        pre = node;
+
         // 3.在线索化右子树
         threadedNodes(node.getRight());
 
