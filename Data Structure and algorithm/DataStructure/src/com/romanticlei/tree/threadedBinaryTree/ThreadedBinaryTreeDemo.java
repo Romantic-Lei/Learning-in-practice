@@ -3,12 +3,31 @@ package com.romanticlei.tree.threadedBinaryTree;
 public class ThreadedBinaryTreeDemo {
 
     public static void main(String[] args) {
+        HeroNode root = new HeroNode(1, "tom");
+        HeroNode node2 = new HeroNode(3, "jack");
+        HeroNode node3 = new HeroNode(6, "smith");
+        HeroNode node4 = new HeroNode(8, "mary");
+        HeroNode node5 = new HeroNode(10, "king");
+        HeroNode node6 = new HeroNode(14, "jack");
+
+        root.setLeft(node2);
+        root.setRight(node3);
+        node2.setLeft(node4);
+        node2.setRight(node5);
+        node3.setLeft(node6);
+
+        // 测试线索化
+        ThreadedBinaryTree threadedBinaryTree = new ThreadedBinaryTree();
+        threadedBinaryTree.threadedNodes(root);
+
+        System.out.println("node5 节点的前驱结点是 = " + node5.getLeft());
+        System.out.println("node5 节点的后继结点是 = " + node5.getRight());
 
     }
 }
 
-// 定义BinaryTree 实现了线索化功能的二叉树
-class BinaryTree {
+// 定义 ThreadedBinaryTree 实现了线索化功能的二叉树
+class ThreadedBinaryTree {
     private HeroNode root;
 
     // 指向当前结点的父节点
