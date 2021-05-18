@@ -20,8 +20,18 @@ public class ThreadedBinaryTreeDemo {
         ThreadedBinaryTree threadedBinaryTree = new ThreadedBinaryTree();
         threadedBinaryTree.threadedNodes(root);
 
+        // node5 节点的前驱结点是 = HeroNode{no=3, name='jack'}
         System.out.println("node5 节点的前驱结点是 = " + node5.getLeft());
+        // node5 节点的后继结点是 = HeroNode{no=1, name='tom'}
         System.out.println("node5 节点的后继结点是 = " + node5.getRight());
+
+        // 当线索化二叉树后，不能在使用原来的遍历方法
+        threadedBinaryTree.setRoot(root);
+        // threadedBinaryTree.infixOrder();
+
+        System.out.println("使用线索化的方式遍历 ");
+        // 8 3 10 1 14 6
+        threadedBinaryTree.threadedList();
 
     }
 }
@@ -74,7 +84,6 @@ class ThreadedBinaryTree {
 
     }
 
-
     // 前序遍历
     public void preOrder() {
         if (this.root == null) {
@@ -103,6 +112,30 @@ class ThreadedBinaryTree {
         }
 
         this.root.postOrder();
+    }
+
+    // 遍历线索化二叉树的方法
+    public void threadedList(){
+        // 定义一个变量，存储当前遍历的节点，从root 开始
+        HeroNode node = root;
+        while (node != null) {
+            // 循环找到左叶子结点
+            while (node.getLeftType() == 0) {
+                node = node.getLeft();
+            }
+
+            // 打印当前节点
+            System.out.println(node);
+
+            // 判断当前节点是否有右子节点
+            while (node.getRightType() == 1) {
+                node = node.getRight();
+                System.out.println(node);
+            }
+
+            node = node.getRight();
+        }
+
     }
 
     // 前序遍历寻找目标值
