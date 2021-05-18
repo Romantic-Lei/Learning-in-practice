@@ -32,6 +32,9 @@ public class ThreadedBinaryTreeDemo {
         System.out.println("使用线索化的方式遍历 ");
         // 8 3 10 1 14 6
         threadedBinaryTree.threadedList();
+        System.out.println("使用线索化的方式遍历 前序遍历");
+        // 1 3 8 10 6 14
+        threadedBinaryTree.threadedPreOrderList();
 
     }
 }
@@ -49,6 +52,7 @@ class ThreadedBinaryTree {
 
     /**
      * 编写对二叉树进行中序线索化的方法
+     *
      * @param node
      */
     public void threadedNodes(HeroNode node) {
@@ -115,7 +119,7 @@ class ThreadedBinaryTree {
     }
 
     // 遍历线索化二叉树的方法
-    public void threadedList(){
+    public void threadedList() {
         // 定义一个变量，存储当前遍历的节点，从root 开始
         HeroNode node = root;
         while (node != null) {
@@ -135,6 +139,27 @@ class ThreadedBinaryTree {
 
             node = node.getRight();
         }
+
+    }
+
+    public void threadedPreOrderList() {
+        // 定义一个变量，存储当前遍历的节点，从root 开始
+        HeroNode node = root;
+        while (node != null) {
+            while (node.getLeftType() == 0) {
+                System.out.println(node);
+                node = node.getLeft();
+            }
+
+            System.out.println(node);
+
+            while (node.getRightType() == 1) {
+                node = node.getRight();
+            }
+
+            node = node.getRight();
+        }
+
 
     }
 
