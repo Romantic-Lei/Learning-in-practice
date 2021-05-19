@@ -29,12 +29,15 @@ public class ThreadedBinaryTreeDemo {
         threadedBinaryTree.setRoot(root);
         // threadedBinaryTree.infixOrder();
 
-        System.out.println("使用线索化的方式遍历 ");
+        System.out.println("使用线索化的方式遍历 中序遍历");
         // 8 3 10 1 14 6
         threadedBinaryTree.threadedList();
         System.out.println("使用线索化的方式遍历 前序遍历");
         // 1 3 8 10 6 14
         threadedBinaryTree.threadedPreOrderList();
+        System.out.println("使用线索化的方式遍历 后序遍历");
+        // 8 10 3 6 14 1
+        // threadedBinaryTree.threadedPostOrderList();
 
     }
 }
@@ -159,8 +162,6 @@ class ThreadedBinaryTree {
 
             node = node.getRight();
         }
-
-
     }
 
     // 前序遍历寻找目标值
