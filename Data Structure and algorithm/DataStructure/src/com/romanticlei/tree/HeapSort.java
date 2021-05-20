@@ -44,6 +44,8 @@ public class HeapSort {
             temp = arr[i];
             arr[i] = arr[0];
             arr[0] = temp;
+            // 已经是大顶堆了，只是根节点和最后一个叶子结点交换
+            // 所以我们只需要从第一个节点开始向下整理排序
             adjustHeap(arr, 0, i);
         }
 
