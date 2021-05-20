@@ -7,6 +7,19 @@ public class HeapSort {
         // 要求将数组进行升序排列
         int arr[] = {4, 6, 8, 5, 9, -1, 0, -9, 7};
         heapSort(arr);
+
+        // 测试插入排序效率
+        int[] array = new int[80000000];
+        for (int i = 0; i < 80000000; i++) {
+            array[i] = (int) (Math.random() * 80000000);
+        }
+
+        long currentTimeMillis_start = System.currentTimeMillis();
+        heapSort(array);
+        long currentTimeMillis_end = System.currentTimeMillis();
+        // 堆排序数据量大排序很快 2665(八百万数据，时间与机器性能有关)
+        System.out.println("一共耗时：" + (currentTimeMillis_end - currentTimeMillis_start));
+
     }
 
     public static void heapSort(int arr[]) {
@@ -34,7 +47,7 @@ public class HeapSort {
             adjustHeap(arr, 0, i);
         }
 
-        System.out.println(Arrays.toString(arr));
+        // System.out.println(Arrays.toString(arr));
     }
 
     /**
