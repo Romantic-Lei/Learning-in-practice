@@ -1,13 +1,24 @@
 package com.romanticlei.tree;
 
+import java.util.Arrays;
+
 public class HeapSort {
     public static void main(String[] args) {
         // 要求将数组进行升序排列
         int arr[] = {4, 6, 8, 5, 9};
+        heapSort(arr);
     }
 
     public static void heapSort(int arr[]) {
         System.out.println("堆排序！");
+
+        // adjustHeap(arr, 1, arr.length);
+        // // 第一次排序[4, 9, 8, 5, 6]
+        // System.out.println("第一次排序" + Arrays.toString(arr));
+        // adjustHeap(arr, 0, arr.length);
+        // // 第一次排序[9, 6, 8, 5, 4]
+        // System.out.println("第二次排序" + Arrays.toString(arr));
+
     }
 
     /**
