@@ -9,9 +9,9 @@ public class HeapSort {
         heapSort(arr);
 
         // 测试插入排序效率
-        int[] array = new int[80000000];
-        for (int i = 0; i < 80000000; i++) {
-            array[i] = (int) (Math.random() * 80000000);
+        int[] array = new int[8000000];
+        for (int i = 0; i < 8000000; i++) {
+            array[i] = (int) (Math.random() * 8000000);
         }
 
         long currentTimeMillis_start = System.currentTimeMillis();
