@@ -5,11 +5,12 @@ import java.util.Arrays;
 public class HeapSort {
     public static void main(String[] args) {
         // 要求将数组进行升序排列
-        int arr[] = {4, 6, 8, 5, 9};
+        int arr[] = {4, 6, 8, 5, 9, -1, 0, -9, 7};
         heapSort(arr);
     }
 
     public static void heapSort(int arr[]) {
+        int temp = 0;
         System.out.println("堆排序！");
 
         // adjustHeap(arr, 1, arr.length);
@@ -19,6 +20,21 @@ public class HeapSort {
         // // 第一次排序[9, 6, 8, 5, 4]
         // System.out.println("第二次排序" + Arrays.toString(arr));
 
+        // 将无序序列构建成一个堆，根据升序降序需求选择大顶堆或小顶堆
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {
+            adjustHeap(arr, i, arr.length);
+        }
+
+        // 将堆顶元素与末尾元素交换，将最大元素"沉"到数组末端;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            // 交换
+            temp = arr[i];
+            arr[i] = arr[0];
+            arr[0] = temp;
+            adjustHeap(arr, 0, i);
+        }
+
+        System.out.println(Arrays.toString(arr));
     }
 
     /**
