@@ -12,6 +12,19 @@ public class HuffmanCode {
 
         List<Node> nodes = getNodes(contentBytes);
         System.out.println("nodes = " + nodes);
+
+        Node root = createHuffmanTree(nodes);
+        System.out.println("赫夫曼树的根节点是： " + root);
+        preOrder(root);
+    }
+
+    // 前序遍历
+    public static void preOrder(Node root) {
+        if (root == null) {
+            System.out.println("赫夫曼树为空！");
+        } else {
+            root.preOrder();
+        }
     }
 
     private static List<Node> getNodes(byte[] bytes) {
@@ -34,6 +47,31 @@ public class HuffmanCode {
         }
 
         return nodes;
+    }
+
+    // 可以通过 List 创建对应的 赫夫曼树
+    private static Node createHuffmanTree(List<Node> nodes) {
+        while (nodes.size() > 1) {
+            Collections.sort(nodes);
+            // 取出第一颗最小的二叉树节点
+            Node leftNode = nodes.get(0);
+            // 取出第二颗最小的二叉树节点
+            Node rightNode = nodes.get(1);
+            // 父节点的数据域都是 null
+            Node parent = new Node(null, leftNode.weight + rightNode.weight);
+
+            parent.left = leftNode;
+            parent.right = rightNode;
+
+            // 将已处理的两颗二叉树从 nodes 删除
+            nodes.remove(leftNode);
+            nodes.remove(rightNode);
+            // 将新的节点放入到集合中
+            nodes.add(parent);
+        }
+
+        // 返回最后一个结点，这个结点就是赫夫曼树的根节点
+        return nodes.get(0);
     }
 }
 
