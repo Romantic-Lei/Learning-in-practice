@@ -14,8 +14,14 @@ public class HuffmanCode {
         System.out.println("nodes = " + nodes);
 
         Node root = createHuffmanTree(nodes);
+        // 赫夫曼树的根节点是： Node{data=null, weight=40}
         System.out.println("赫夫曼树的根节点是： " + root);
         preOrder(root);
+
+        System.out.println("测试是否生成了对应的赫夫曼编码");
+        getCodes(root, "", stringBuffer);
+        // 生成的赫夫曼编码表 {32=01, 97=100, 100=11000, 117=11001, 101=1110, 118=11011, 105=101, 121=11010, 106=0010, 107=1111, 108=000, 111=0011}
+        System.out.println("生成的赫夫曼编码表 " + huffmanCodes);
     }
 
     // 前序遍历
@@ -24,6 +30,35 @@ public class HuffmanCode {
             System.out.println("赫夫曼树为空！");
         } else {
             root.preOrder();
+        }
+    }
+
+    // 将赫夫曼编码存放在 Map<Byte, String> 形式
+    static Map<Byte, String> huffmanCodes = new HashMap<Byte, String>();
+    // 在生成赫夫曼编码表示，需要拼接路径，定义一个StringBuilder 存储某个叶子结点的路径
+    static StringBuffer stringBuffer = new StringBuffer();
+    /**
+     * 功能：将传入的Node 节点的所有叶子结点的赫夫曼编码得到，并放入的到集合中
+     *
+     * @param node         传入节点
+     * @param code         路径：左子节点是0， 右子节点是1
+     * @param stringBuffer 用于拼接路径
+     */
+    public static void getCodes(Node node, String code, StringBuffer stringBuffer) {
+        StringBuffer stringBuffer1 = new StringBuffer(stringBuffer);
+        stringBuffer1.append(code);
+        if (node != null) {
+            // 如node 为空表示这是非叶子节点
+            if (node.data == null) {
+                // 递归处理
+                // 向左递归
+                getCodes(node.left, "0", stringBuffer1);
+                // 向右递归
+                getCodes(node.right, "1", stringBuffer1);
+            } else {
+                // 说明是叶子结点
+                huffmanCodes.put(node.data, stringBuffer1.toString());
+            }
         }
     }
 
@@ -89,7 +124,7 @@ class Node implements Comparable<Node> {
     }
 
     // 前序遍历
-    public void preOrder(){
+    public void preOrder() {
         System.out.println(this);
         if (this.left != null) {
             this.left.preOrder();
