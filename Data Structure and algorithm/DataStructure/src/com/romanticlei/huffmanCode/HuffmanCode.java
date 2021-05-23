@@ -25,6 +25,7 @@ public class HuffmanCode {
 
         byte[] zip = zip(contentBytes, huffmanCodes);
         System.out.println("压缩过后的赫夫曼表 " + Arrays.toString(zip));
+        System.out.println("压缩过后的赫夫曼表长度为 " + zip.length);
 
     }
 
