@@ -151,6 +151,9 @@ public class HuffmanCode {
         }
         return huffmanCodeByte;
     }
+
+
+
 }
 
 // 创建一个Node，带数据和权值
