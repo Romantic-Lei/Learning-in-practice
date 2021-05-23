@@ -22,6 +22,10 @@ public class HuffmanCode {
         getCodes(root, "", stringBuffer);
         // 生成的赫夫曼编码表 {32=01, 97=100, 100=11000, 117=11001, 101=1110, 118=11011, 105=101, 121=11010, 106=0010, 107=1111, 108=000, 111=0011}
         System.out.println("生成的赫夫曼编码表 " + huffmanCodes);
+
+        byte[] zip = zip(contentBytes, huffmanCodes);
+        System.out.println("压缩过后的赫夫曼表 " + Arrays.toString(zip));
+
     }
 
     // 前序遍历
@@ -37,6 +41,7 @@ public class HuffmanCode {
     static Map<Byte, String> huffmanCodes = new HashMap<Byte, String>();
     // 在生成赫夫曼编码表示，需要拼接路径，定义一个StringBuilder 存储某个叶子结点的路径
     static StringBuffer stringBuffer = new StringBuffer();
+
     /**
      * 功能：将传入的Node 节点的所有叶子结点的赫夫曼编码得到，并放入的到集合中
      *
@@ -62,6 +67,7 @@ public class HuffmanCode {
         }
     }
 
+    // 统计字符出现次数
     private static List<Node> getNodes(byte[] bytes) {
         List<Node> nodes = new ArrayList<>();
 
@@ -107,6 +113,42 @@ public class HuffmanCode {
 
         // 返回最后一个结点，这个结点就是赫夫曼树的根节点
         return nodes.get(0);
+    }
+
+    /**
+     * 编写一个方法，将字符串对应的 byte[] 数组，通过生成的赫夫曼编码表，返回一个赫夫曼编码压缩后的 byte[]
+     *
+     * @param bytes        原始的字符串对应的 byte[]
+     * @param huffmanCodes 生成的赫夫曼编码map
+     * @return 返回赫夫曼编码处理后的 byte[]
+     */
+    private static byte[] zip(byte[] bytes, Map<Byte, String> huffmanCodes) {
+        // 利用 huffmanCodes 将 bytes 转成 赫夫曼编码对应的字符串
+        StringBuffer stringBuffer = new StringBuffer();
+        for (byte b : bytes) {
+            stringBuffer.append(huffmanCodes.get(b));
+        }
+
+        // 将拼接的赫夫曼转成 byte[]
+        // 下面的长度计算方式可以转成一句话 int len = (stringBuffer.length() + 7) / 8
+        int len;
+        if (stringBuffer.length() % 8 == 0) {
+            len = stringBuffer.length() / 8;
+        } else {
+            len = stringBuffer.length() / 8 + 1;
+        }
+
+        int index = 0;
+        // 创建压缩存储后的 byte 数组
+        byte[] huffmanCodeByte = new byte[len];
+        for (int i = 0; i < stringBuffer.length(); i += 8) {
+            if (stringBuffer.length() < i + 8) {
+                huffmanCodeByte[index++] = (byte) Integer.parseInt(stringBuffer.substring(i));
+            } else {
+                huffmanCodeByte[index++] = (byte) Integer.parseInt(stringBuffer.substring(i, i + 8), 2);
+            }
+        }
+        return huffmanCodeByte;
     }
 }
 
