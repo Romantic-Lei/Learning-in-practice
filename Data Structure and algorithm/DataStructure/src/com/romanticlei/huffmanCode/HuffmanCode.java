@@ -152,7 +152,28 @@ public class HuffmanCode {
         return huffmanCodeByte;
     }
 
+    /**
+     * 将一个 byte 转成一个二进制的字符串，
+     * @param flag 表示是否需要补高位，true表示需要，false表示不需要
+     * @param b 传入的byte
+     * @return
+     */
+    public static String byteToBitString(boolean flag, byte b) {
+        // 使用临时变量
+        int temp = b; // 将 b 转成int
+        // 如果是正数，我们还存在补高位
+        if (flag) {
+            temp |= 256; // 按位或 256
+        }
 
+        String str = Integer.toBinaryString(temp);
+
+        if (flag) {
+            return str.substring(str.length() - 8);
+        } else {
+            return str;
+        }
+    }
 
 }
 
