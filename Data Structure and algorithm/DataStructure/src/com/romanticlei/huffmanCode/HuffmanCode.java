@@ -16,7 +16,7 @@ public class HuffmanCode {
         Node root = createHuffmanTree(nodes);
         // 赫夫曼树的根节点是： Node{data=null, weight=40}
         System.out.println("赫夫曼树的根节点是： " + root);
-        preOrder(root);
+        // preOrder(root);
 
         System.out.println("测试是否生成了对应的赫夫曼编码");
         getCodes(root, "", stringBuffer);
@@ -27,6 +27,9 @@ public class HuffmanCode {
         System.out.println("压缩过后的赫夫曼表 " + Arrays.toString(zip));
         System.out.println("压缩过后的赫夫曼表长度为 " + zip.length);
 
+        byte[] decode = decode(huffmanCodes, zip);
+
+        System.out.println("解码赫夫曼编码结果为： " + new String(decode));
     }
 
     // 前序遍历
@@ -130,6 +133,8 @@ public class HuffmanCode {
             stringBuffer.append(huffmanCodes.get(b));
         }
 
+        System.out.println("赫夫曼编码对应的字符串：" + stringBuffer.toString());
+
         // 将拼接的赫夫曼转成 byte[]
         // 下面的长度计算方式可以转成一句话 int len = (stringBuffer.length() + 7) / 8
         int len;
@@ -144,7 +149,8 @@ public class HuffmanCode {
         byte[] huffmanCodeByte = new byte[len];
         for (int i = 0; i < stringBuffer.length(); i += 8) {
             if (stringBuffer.length() < i + 8) {
-                huffmanCodeByte[index++] = (byte) Integer.parseInt(stringBuffer.substring(i));
+                // 最后一个字节可能不是 8个字节，将2进制转成一个int形
+                huffmanCodeByte[index++] = (byte) Integer.parseInt(stringBuffer.substring(i), 2);
             } else {
                 huffmanCodeByte[index++] = (byte) Integer.parseInt(stringBuffer.substring(i, i + 8), 2);
             }
@@ -153,7 +159,7 @@ public class HuffmanCode {
     }
 
     /**
-     * 将一个 byte 转成一个二进制的字符串，
+     * 将一个 byte 转成一个二进制的字符串
      * @param flag 表示是否需要补高位，true表示需要，false表示不需要
      * @param b 传入的byte
      * @return
@@ -173,6 +179,60 @@ public class HuffmanCode {
         } else {
             return str;
         }
+    }
+
+    /**
+     * 编写一个方法，完成对压缩数据的解码
+     * @param huffmanCodes  赫夫曼编码表 map
+     * @param huffmanBytes  赫夫曼编码得到的字节数组
+     * @return
+     */
+    public static byte[] decode(Map<Byte, String> huffmanCodes, byte[] huffmanBytes) {
+        // 1. 先得到 huffmanBytes 对应的二进制的字符串，形式1010001...
+        StringBuilder stringBuilder = new StringBuilder();
+        // 将 byte 数组转成二进制的字符串
+        for (int i = 0; i < huffmanBytes.length; i++) {
+            // 判断是不是最后一个字节,最后一个字符可能存在补高位的情况
+            boolean flag = (i == huffmanBytes.length - 1);
+            stringBuilder.append(byteToBitString(!flag, huffmanBytes[i]));
+        }
+        System.out.println("赫夫曼数组对应的二进制字符串" + stringBuilder.toString());
+
+        HashMap<String, Byte> map = new HashMap<>();
+        for (Map.Entry<Byte, String> entry: huffmanCodes.entrySet()) {
+            map.put(entry.getValue(), entry.getKey());
+        }
+
+        // 创建要给集合，存放byte
+        List<Byte> list = new ArrayList<>();
+        for (int i = 0; i < stringBuilder.length();) {
+            int count = 1; // 小的计数器
+            boolean flag = true;
+            Byte b = null;
+
+            while (flag) {
+                // 递增截取出 key
+                String key = stringBuilder.substring(i, i + count);
+                // 对应的key 不存在，重新向后截取
+                b = map.get(key);
+                if (b == null) {
+                    // 继续向后截取
+                    count++;
+                } else {
+                    flag = false;
+                }
+            }
+
+            list.add(b);
+            i += count;
+
+        }
+
+        byte[] bytes = new byte[list.size()];
+        for (int j = 0; j < list.size(); j++) {
+            bytes[j] = list.get(j);
+        }
+        return bytes;
     }
 
 }
