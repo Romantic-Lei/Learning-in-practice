@@ -21,7 +21,7 @@ public class HuffmanCode {
         System.out.println("测试是否生成了对应的赫夫曼编码");
         getCodes(root, "", stringBuffer);
         // 生成的赫夫曼编码表 {32=01, 97=100, 100=11000, 117=11001, 101=1110, 118=11011, 105=101, 121=11010, 106=0010, 107=1111, 108=000, 111=0011}
-        System.out.println("生成的赫夫曼编码表 " + huffmanCodes);
+        System.out.println("生成的赫夫曼编码表(根节点到子节点的路径) " + huffmanCodes);
 
         byte[] zip = zip(contentBytes, huffmanCodes);
         System.out.println("压缩过后的赫夫曼表 " + Arrays.toString(zip));
