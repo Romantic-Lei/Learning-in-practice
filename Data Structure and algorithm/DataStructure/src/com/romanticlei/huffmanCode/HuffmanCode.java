@@ -33,6 +33,20 @@ public class HuffmanCode {
         System.out.println("解码赫夫曼编码结果为： " + new String(decode));
     }
 
+    private static byte[] huffmanZip(byte[] b) {
+        stringBuffer = new StringBuffer();
+        huffmanCodes = new HashMap<>();
+
+        List<Node> nodes = getNodes(b);
+        // 根据 节点 nodes 创建赫夫曼树
+        Node huffmanTreeRoot = createHuffmanTree(nodes);
+        // 根据赫夫曼树获取对应的赫夫曼编码
+        getCodes(huffmanTreeRoot, "", stringBuffer);
+        // 根据生成的赫夫曼编码，压缩得到压缩后的赫夫曼编码字节数组
+        byte[] huffmanCodeBytes = zip(b, huffmanCodes);
+        return huffmanCodeBytes;
+    }
+
     // 前序遍历
     public static void preOrder(Node root) {
         if (root == null) {
@@ -257,7 +271,7 @@ public class HuffmanCode {
             // 读取文件
             is.read(b);
             // 直接对源文件进行压缩
-            byte[] huffmanBytes = zip(b, huffmanCodes);
+            byte[] huffmanBytes = huffmanZip(b);
             // 创建文件的输出流，存放压缩文件
             os = new FileOutputStream(dstFile);
             // 创建一个和文件输出流相关联的 ObjectOutputStream
