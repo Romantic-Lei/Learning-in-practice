@@ -31,6 +31,18 @@ public class HuffmanCode {
         byte[] decode = decode(huffmanCodes, zip);
 
         System.out.println("解码赫夫曼编码结果为： " + new String(decode));
+
+        System.out.println("------------------------文件压缩测试----------------------");
+        String srcFile = "D:\\学习视频\\尚硅谷视频\\资源\\前端相关.zip";
+        String dstFile = "C:\\Users\\asus\\Desktop\\dst.zip";
+        zipFile(srcFile, dstFile);
+        System.out.println("压缩文件完成！");
+
+        System.out.println("------------------------文件解压测试----------------------");
+        String srcFile1 = "C:\\Users\\asus\\Desktop\\dst.zip";
+        String dstFile1 = "C:\\Users\\asus\\Desktop\\dst11.zip";
+        unZipFile(srcFile1, dstFile1);
+        System.out.println("解压文件完成！");
     }
 
     private static byte[] huffmanZip(byte[] b) {
@@ -283,7 +295,7 @@ public class HuffmanCode {
             oos.writeObject(huffmanCodes);
 
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -296,7 +308,57 @@ public class HuffmanCode {
                 e.printStackTrace();
             }
         }
+    }
 
+    public static void unZipFile(String zipFile, String dstFile) {
+        // 定义文件输入流
+        InputStream is = null;
+        // 定义一个对象输入流
+        ObjectInputStream ois = null;
+        // 定义一个文件的输出流
+        OutputStream os = null;
+
+        try {
+            // 创建文件输入流
+            is = new FileInputStream(zipFile);
+            // 创建一个和 is 关联的对象输入流
+            ois = new ObjectInputStream(is);
+            // 读取 byte数组
+            byte[] huffmanBytes = (byte[]) ois.readObject();
+            // 读取赫夫曼编码表
+            Map<Byte, String> huffmanCodes = (Map<Byte, String>) ois.readObject();
+
+            // 解码
+            byte[] bytes = decode(huffmanCodes, huffmanBytes);
+            // 将byte 数组写入到目标文件
+            os = new FileOutputStream(dstFile);
+            // 写数据到 dstFile
+            os.write(bytes);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (os != null) {
+                    os.close();
+
+                }
+
+                if (ois != null) {
+                    ois.close();
+                }
+
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
