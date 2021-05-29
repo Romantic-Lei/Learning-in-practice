@@ -326,6 +326,12 @@ public class HuffmanCode {
         }
     }
 
+    /**
+     * 编写一个方法，将文件进行解压
+     *
+     * @param zipFile 传入压缩文件的全路径
+     * @param dstFile 解压后文件输出路径
+     */
     public static void unZipFile(String zipFile, String dstFile) {
         // 定义文件输入流
         InputStream is = null;
