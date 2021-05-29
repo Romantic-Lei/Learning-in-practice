@@ -33,14 +33,14 @@ public class HuffmanCode {
         System.out.println("解码赫夫曼编码结果为： " + new String(decode));
 
         System.out.println("------------------------文件压缩测试----------------------");
-        String srcFile = "D:\\学习视频\\尚硅谷视频\\资源\\前端相关.zip";
+        String srcFile = "F:\\桌面\\timg16MFP0RV.jpg";
         String dstFile = "C:\\Users\\asus\\Desktop\\dst.zip";
         zipFile(srcFile, dstFile);
         System.out.println("压缩文件完成！");
 
         System.out.println("------------------------文件解压测试----------------------");
         String srcFile1 = "C:\\Users\\asus\\Desktop\\dst.zip";
-        String dstFile1 = "C:\\Users\\asus\\Desktop\\dst11.zip";
+        String dstFile1 = "C:\\Users\\asus\\Desktop\\dst11.jpg";
         unZipFile(srcFile1, dstFile1);
         System.out.println("解压文件完成！");
     }
@@ -155,7 +155,7 @@ public class HuffmanCode {
      */
     private static byte[] zip(byte[] bytes, Map<Byte, String> huffmanCodes) {
         // 利用 huffmanCodes 将 bytes 转成 赫夫曼编码对应的字符串
-        StringBuffer stringBuffer = new StringBuffer();
+
         for (byte b : bytes) {
             stringBuffer.append(huffmanCodes.get(b));
         }
@@ -219,13 +219,29 @@ public class HuffmanCode {
     public static byte[] decode(Map<Byte, String> huffmanCodes, byte[] huffmanBytes) {
         // 1. 先得到 huffmanBytes 对应的二进制的字符串，形式1010001...
         StringBuilder stringBuilder = new StringBuilder();
-        // 将 byte 数组转成二进制的字符串
-        for (int i = 0; i < huffmanBytes.length; i++) {
+        System.out.println("最后一位长度：" + huffmanBytes[huffmanBytes.length - 1]);
+        System.out.println("倒数第二位长度：" + huffmanBytes[huffmanBytes.length - 2]);
+        System.out.println("倒数第二位长度：" + huffmanBytes[huffmanBytes.length - 3]);
+        // 将 byte 数组转成二进制的字符串，最后一位单独处理
+        for (int i = 0; i < huffmanBytes.length - 1; i++) {
             // 判断是不是最后一个字节,最后一个字符可能存在补高位的情况
-            boolean flag = (i == huffmanBytes.length - 1);
-            stringBuilder.append(byteToBitString(!flag, huffmanBytes[i]));
+            // boolean flag = (i == huffmanBytes.length - 1);
+            stringBuilder.append(byteToBitString(true, huffmanBytes[i]));
         }
-        System.out.println("赫夫曼数组对应的二进制字符串" + stringBuilder.toString());
+
+        String lastByteStr = byteToBitString(false, huffmanBytes[huffmanBytes.length - 1]);
+        // 判断解压后的赫夫曼编码长度和原来的是否长度相同
+        if (stringBuilder.length() + lastByteStr.length() == stringBuffer.length()) {
+            stringBuilder.append(lastByteStr);
+        } else {
+            // 如果长度不一致就直接补0，补到相同为止
+            while (stringBuilder.length() + lastByteStr.length() < stringBuffer.length()) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(lastByteStr);
+        }
+
+        // System.out.println("赫夫曼数组对应的二进制字符串" + stringBuilder.toString());
 
         HashMap<String, Byte> map = new HashMap<>();
         for (Map.Entry<Byte, String> entry : huffmanCodes.entrySet()) {
