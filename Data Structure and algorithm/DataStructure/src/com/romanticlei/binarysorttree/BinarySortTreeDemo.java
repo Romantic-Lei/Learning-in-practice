@@ -76,6 +76,54 @@ class Node {
         }
     }
 
+    /**
+     * 查找结点
+     * @param value 需要查找结点的值
+     * @return
+     */
+    public Node search(int value) {
+        if (value == this.value) {
+            // 结点找到，返回
+            return this;
+        } else if (value < this.value) {
+            if (this.left == null) {
+                // 如果无左子结点，返回 null
+                return null;
+            }
+            // 向左递归查找
+            return this.left.search(value);
+        } else {
+            if (this.right == null) {
+                return null;
+            }
+            return this.right.search(value);
+        }
+    }
+
+    /**
+     * 查找要删除结点的父节点
+     * @param value
+     * @return
+     */
+    public Node searchParent(int value) {
+        // 如果当前结点就是要删除的结点，就返回
+        if ((this.left != null && this.left.value == value)
+                || (this.right != null && this.right.value == value)) {
+            return this;
+        }
+
+        // 如果查找的值小于当前结点的值，并且当前结点的左子节点不为空
+        if (value < this.value && this.left != null) {
+            // 如果查找的值小于当前结点的值，并且当前结点的左子结点不为空，递归
+            return this.left.searchParent(value);
+        } else if (value >= this.value && this.right != null) {
+            return this.right.searchParent(value);
+        } else {
+            // 没有找到符合条件的数据，返回null
+            return null;
+        }
+    }
+
     // 中序遍历
     public void infixOrder() {
         if (this.left != null) {
