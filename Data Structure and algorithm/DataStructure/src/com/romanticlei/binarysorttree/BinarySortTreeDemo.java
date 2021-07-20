@@ -2,14 +2,18 @@ package com.romanticlei.binarysorttree;
 
 public class BinarySortTreeDemo {
     public static void main(String[] args) {
-        int[] arr = {7, 3, 10, 12, 5, 1, 9};
+        int[] arr = {7, 3, 10, 12, 5, 1, 9, 2};
         BinarySortTree binarySortTree = new BinarySortTree();
         for (int i = 0; i < arr.length; i++) {
             binarySortTree.addNode(new Node(arr[i]));
         }
 
         System.out.println("中序遍历二叉排序树~~~");
-        // 1, 3, 5, 7, 9, 10, 12
+        // 1, 2, 3, 5, 7, 9, 10, 12
+        binarySortTree.infixOrder();
+
+        System.out.println("删除结点后的二叉排序树~~~");
+        binarySortTree.delNode(2);
         binarySortTree.infixOrder();
     }
 }
@@ -23,6 +27,56 @@ class BinarySortTree {
             root = node;
         } else {
             root.addNode(node);
+        }
+    }
+
+    // 查找结点
+    public Node search(int value) {
+        if (root == null) {
+            return null;
+        } else {
+            return root.search(value);
+        }
+    }
+
+    // 查找父结点
+    public Node searchParent(int value) {
+        if (root == null) {
+            return null;
+        } else {
+            return root.searchParent(value);
+        }
+    }
+
+    public void delNode(int value) {
+        if (root == null) {
+            return;
+        } else {
+            // 需求先去找到要删除的结点
+            Node targetNode = search(value);
+            // 如果没有找到要删除的结点，直接返回
+            if (targetNode == null) {
+                return;
+            }
+
+            // 能走下来说明找到了需要删除的结点
+            // 如果我们发现当前这颗二叉树只有一个结点，则直接删除
+            if (root.left == null && root.right == null) {
+                root = null;
+                return;
+            }
+            
+            // 去找 targetNode 的父结点
+            Node parent = searchParent(value);
+            // 处理当前需要删除的结点是叶子结点的情况
+            if (targetNode.left == null && targetNode.right == null) {
+                // 判断 targetNode 是父节点的左子节点还是右子节点
+                if (parent.left != null && parent.left.value == value) {
+                    parent.left = null;
+                } else if (parent.right != null && parent.right.value == value) {
+                    parent.right = null;
+                }
+            }
         }
     }
 
