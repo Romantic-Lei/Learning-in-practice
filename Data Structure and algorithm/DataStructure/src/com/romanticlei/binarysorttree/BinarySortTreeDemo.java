@@ -17,9 +17,14 @@ public class BinarySortTreeDemo {
         // 1, 3, 5, 7, 9, 10, 12
         binarySortTree.infixOrder();
 
-        System.out.println("删除单叶子结点的父节点后的二叉排序树~~~");
-        binarySortTree.delNode(1);
+        System.out.println("删除单叶子结点的父结点后的二叉排序树~~~");
+        // binarySortTree.delNode(1);
         // 2, 3, 5, 7, 9, 10, 12
+        binarySortTree.infixOrder();
+
+        System.out.println("删除有左右叶子结点的父结点后的二叉排序树~~~");
+        binarySortTree.delNode(10);
+        // 1, 2, 3, 5, 7, 9, 12
         binarySortTree.infixOrder();
 
 
@@ -88,7 +93,8 @@ class BinarySortTree {
                 }
             } else if (targetNode.left != null && targetNode.right != null) {
                 // 删除两颗子树的结点
-
+                int minVal = delRightTreeMin(targetNode.right);
+                targetNode.value = minVal;
             } else {
                 // 删除只有一颗子树的结点
                 // 如果要删除的结点有左子节点
@@ -111,6 +117,26 @@ class BinarySortTree {
                 }
             }
         }
+    }
+
+    /**
+     * 删除以node为根节点的二叉排序树的右结点最小结点，并将其保存在一个temp临时变量中，
+     * 然后删除，然后将node的值替换成temp的值，
+     * 这样这颗二叉排序树的左子树所有值全比temp值小，右子树所有值比temp值大
+     *
+     * @param node 传入的结点
+     * @return 返回以node为根节点的二叉排序树的最小结点的值
+     */
+    public int delRightTreeMin(Node node) {
+        Node target = node;
+        while (target.left != null) {
+            target = target.left;
+        }
+
+        // 找到 target 就指向了右子树的最小结点
+        delNode(target.value);
+        // 返回最小结点的值
+        return target.value;
     }
 
     // 中序遍历
