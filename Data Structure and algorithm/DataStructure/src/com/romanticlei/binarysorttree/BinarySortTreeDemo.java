@@ -12,9 +12,17 @@ public class BinarySortTreeDemo {
         // 1, 2, 3, 5, 7, 9, 10, 12
         binarySortTree.infixOrder();
 
-        System.out.println("删除结点后的二叉排序树~~~");
-        binarySortTree.delNode(2);
+        System.out.println("删除叶子结点后的二叉排序树~~~");
+        // binarySortTree.delNode(2);
+        // 1, 3, 5, 7, 9, 10, 12
         binarySortTree.infixOrder();
+
+        System.out.println("删除单叶子结点的父节点后的二叉排序树~~~");
+        binarySortTree.delNode(1);
+        // 2, 3, 5, 7, 9, 10, 12
+        binarySortTree.infixOrder();
+
+
     }
 }
 
@@ -72,9 +80,34 @@ class BinarySortTree {
             if (targetNode.left == null && targetNode.right == null) {
                 // 判断 targetNode 是父节点的左子节点还是右子节点
                 if (parent.left != null && parent.left.value == value) {
+                    // 是左子节点
                     parent.left = null;
                 } else if (parent.right != null && parent.right.value == value) {
+                    // 是右子节点
                     parent.right = null;
+                }
+            } else if (targetNode.left != null && targetNode.right != null) {
+                // 删除两颗子树的结点
+
+            } else {
+                // 删除只有一颗子树的结点
+                // 如果要删除的结点有左子节点
+                if (targetNode.left != null) {
+                    // 如果 targetNode 是parent 的左子节点
+                    if (parent.left != null && parent.left.value == value) {
+                        parent.left = targetNode.left;
+                    } else {
+                        // 如果 targetNode 是parent 的右子节点
+                        parent.right = targetNode.left;
+                    }
+                } else {
+                    // 如果 targetNode 是parent 的左子节点
+                    if (parent.left != null && parent.left.value == value) {
+                        parent.left = targetNode.right;
+                    } else {
+                        // 如果 targetNode 是parent 的右子节点
+                        parent.right = targetNode.right;
+                    }
                 }
             }
         }
