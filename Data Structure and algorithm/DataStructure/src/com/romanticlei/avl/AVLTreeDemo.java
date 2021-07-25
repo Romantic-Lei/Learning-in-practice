@@ -4,7 +4,10 @@ public class AVLTreeDemo {
 
     public static void main(String[] args) {
 
-        int[] arr = new int[]{4, 2, 6, 5, 7, 8};
+        // 右子树高
+        // int[] arr = new int[]{4, 2, 6, 5, 7, 8};
+        // 左子树高
+        int[] arr = new int[]{10, 12, 8, 9, 7, 6};
 
         AVLTree avlTree = new AVLTree();
         // 添加节点
@@ -22,6 +25,7 @@ public class AVLTreeDemo {
         System.out.println("树的左子树高度 = " + avlTree.getRoot().leftHeight());
         // 树的左子树高度 = 3
         System.out.println("树的右子树高度 = " + avlTree.getRoot().rightHeight());
+        System.out.println("根结点的值为" + avlTree.getRoot());
 
 
     }
@@ -160,10 +164,16 @@ class Node {
     }
 
     public int leftHeight() {
+        if (left == null) {
+            return 0;
+        }
         return left.height();
     }
 
     public int rightHeight() {
+        if (right == null) {
+            return 0;
+        }
         return right.height();
     }
 
@@ -172,6 +182,7 @@ class Node {
         return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height()) + 1;
     }
 
+    // 左旋转方法
     public void leftRotate() {
         // 以当前根结点的值，创建新的结点
         Node newNode = new Node(value);
@@ -185,6 +196,22 @@ class Node {
         this.right = this.right.right;
         // 把当前结点(根结点)的左子树设置成新的结点
         this.left = newNode;
+    }
+
+    // 右旋转方法
+    public void rightRotate() {
+        // 以当前结点的值，创建新的结点
+        Node newNode = new Node(this.value);
+        // 把新结点的右子树设置成当前结点的右子树
+        newNode.right = this.right;
+        // 把当前结点左子树的右子树设置成为新结点的左子树
+        newNode.left = this.left.right;
+        // 把当前结点的左子结点值替换成为当前结点的值
+        this.value = this.left.value;
+        // 把当前结点的左子树设置成为当前结点的左子树的左子树
+        this.left = this.left.left;
+        // 把当前结点的右子树设置成新节点
+        this.right = newNode;
     }
 
     @Override
@@ -217,6 +244,14 @@ class Node {
             }
         }
 
+        // 当添加完一个结点后，如果(右子树高度 - 左子树高度) > 1， 左旋
+        if (rightHeight() - leftHeight() > 1) {
+            leftRotate();
+        }
+
+        if (leftHeight() - rightHeight() > 1) {
+            rightRotate();
+        }
 
     }
 
