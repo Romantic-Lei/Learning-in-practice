@@ -7,7 +7,9 @@ public class AVLTreeDemo {
         // 右子树高
         // int[] arr = new int[]{4, 2, 6, 5, 7, 8};
         // 左子树高
-        int[] arr = new int[]{10, 12, 8, 9, 7, 6};
+        // int[] arr = new int[]{10, 12, 8, 9, 7, 6};
+        // 双旋转
+        int[] arr = new int[]{10, 11, 7, 6, 8, 9};
 
         AVLTree avlTree = new AVLTree();
         // 添加节点
@@ -21,9 +23,9 @@ public class AVLTreeDemo {
         System.out.println("没有平衡之前二叉树的高度");
         // 树的高度 = 4
         System.out.println("树的高度 = " + avlTree.getRoot().height());
-        // 树的左子树高度 = 1
+        // 树的左子树高度 = 2
         System.out.println("树的左子树高度 = " + avlTree.getRoot().leftHeight());
-        // 树的左子树高度 = 3
+        // 树的左子树高度 = 2
         System.out.println("树的右子树高度 = " + avlTree.getRoot().rightHeight());
         System.out.println("根结点的值为" + avlTree.getRoot());
 
@@ -246,10 +248,26 @@ class Node {
 
         // 当添加完一个结点后，如果(右子树高度 - 左子树高度) > 1， 左旋
         if (rightHeight() - leftHeight() > 1) {
+            // 如果根结点的左子树大于根结点大于根结点的右子树
+            if (this.right != null && this.right.leftHeight() > this.right.rightHeight()) {
+                // 对当前结点进行右旋
+                this.right.rightRotate();
+            }
+            // 对整体进行左旋
             leftRotate();
+
+            // 左旋之后不需要在去后面进行右旋判断，直接返回
+            return;
         }
 
+        // 当添加完一个结点后，如果(左子树高度 - 右子树高度) > 1， 右旋
         if (leftHeight() - rightHeight() > 1) {
+            // 如果根结点的左子树右子树高度大于根结点的左子树左子树
+            if (this.left != null && this.left.rightHeight() > this.left.leftHeight()) {
+                // 对当前结点的左子树进行左旋
+                this.left.leftRotate();
+            }
+            // 将整体进行右旋
             rightRotate();
         }
 
