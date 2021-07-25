@@ -172,6 +172,21 @@ class Node {
         return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height()) + 1;
     }
 
+    public void leftRotate() {
+        // 以当前根结点的值，创建新的结点
+        Node newNode = new Node(value);
+        // 把新的结点的左子树设置为当前结点(根结点)的左子树
+        newNode.left = this.left;
+        // 把新的结点的右子树设置为当前结点(根结点)的右子树的左子树
+        newNode.right = this.right.left;
+        // 把当前结点(根结点)的值替换成当前结点(根结点)的右子结点的值
+        this.value = this.right.value;
+        // 把当前结点(根结点)的右子树设置成当前结点右子树的右子树
+        this.right = this.right.right;
+        // 把当前结点(根结点)的左子树设置成新的结点
+        this.left = newNode;
+    }
+
     @Override
     public String toString() {
         return "Node{" +
@@ -201,6 +216,8 @@ class Node {
                 this.right.addNode(node);
             }
         }
+
+
     }
 
     /**
