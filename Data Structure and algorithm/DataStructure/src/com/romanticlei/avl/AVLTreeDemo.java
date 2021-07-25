@@ -15,12 +15,24 @@ public class AVLTreeDemo {
         System.out.println("中序遍历");
         // 2, 4, 5, 6, 7, 8
         avlTree.infixOrder();
-        
+        System.out.println("没有平衡之前二叉树的高度");
+        // 树的高度 = 4
+        System.out.println("树的高度 = " + avlTree.getRoot().height());
+        // 树的左子树高度 = 1
+        System.out.println("树的左子树高度 = " + avlTree.getRoot().leftHeight());
+        // 树的左子树高度 = 3
+        System.out.println("树的右子树高度 = " + avlTree.getRoot().rightHeight());
+
+
     }
 }
 
 class AVLTree {
     private Node root;
+
+    public Node getRoot() {
+        return root;
+    }
 
     // 添加节点的方法
     public void addNode(Node node) {
@@ -147,9 +159,17 @@ class Node {
         this.value = value;
     }
 
+    public int leftHeight() {
+        return left.height();
+    }
+
+    public int rightHeight() {
+        return right.height();
+    }
+
     // 返回当前结点的高度，以该结点为根结点的树的高度
     public int height() {
-        return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height() + 1);
+        return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height()) + 1;
     }
 
     @Override
