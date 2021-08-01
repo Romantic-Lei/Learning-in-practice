@@ -98,8 +98,8 @@ public class Graph {
 
     /**
      * 根据前一个邻接结点的下标来获取下一个邻接结点
-     * @param v1
-     * @param v2
+     * @param v1 当前结点下标
+     * @param v2 相邻结点下标
      * @return
      */
     public int getNextNeighbor(int v1, int v2) {
