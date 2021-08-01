@@ -14,11 +14,13 @@ public class Graph {
     private int[][] edges;
     // 表示边的数目
     private int numOfEdges;
+    // 定义个数组 boolean[], 记录某个结点是否被访问
+    private boolean[] isVisited;
 
     public static void main(String[] args) {
         int n = 5;
         Graph graph = new Graph(n);
-        String[] Vertex = new String[]{"A", "B", "C", "D", "E"};
+        String[] Vertex = {"A", "B", "C", "D", "E"};
         for (String vertex : Vertex) {
             graph.insertVertex(vertex);
         }
@@ -33,6 +35,8 @@ public class Graph {
         // 显示邻接矩阵
         graph.showGraph();
 
+        graph.dfs();
+
     }
 
     public Graph(int n) {
@@ -40,6 +44,7 @@ public class Graph {
         edges = new int[n][n];
         vertexList = new ArrayList<>(n);
         numOfEdges = 0;
+        isVisited = new boolean[n];
     }
 
     // 插入结点
@@ -75,7 +80,62 @@ public class Graph {
         Stream.of(edges).forEach(a -> {
             System.out.println(Arrays.toString(a));
         });
+    }
 
+    /**
+     * 得到第一个邻接结点的下标 w
+     * @param index
+     * @return 如果存在返回对应的下标，否则返回-1
+     */
+    public int getFirstNeighbor(int index) {
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (edges[index][i] > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 根据前一个邻接结点的下标来获取下一个邻接结点
+     * @param v1
+     * @param v2
+     * @return
+     */
+    public int getNextNeighbor(int v1, int v2) {
+        for (int i = v2 + 1; i < vertexList.size(); i++) {
+            if (edges[v1][i] > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // 深度邮箱遍历算法
+    public void dfs(boolean[] isVisited, int i) {
+        // 首先我们访问该结点，输出
+        System.out.print(getValueByIndex(i) + "->");
+        // 将该结点设置为已访问
+        isVisited[i] = true;
+        // 查找结点i的第一个邻接结点w
+        int w = getFirstNeighbor(i);
+        while (w != -1) {
+            if (!isVisited[w]) {
+                dfs(isVisited, w);
+            }
+
+            // 如果w节点已经被访问过
+            w = getNextNeighbor(i, w);
+        }
+    }
+
+    public void dfs() {
+        // 遍历所有的节点，进行dfs[回溯]
+        for (int i = 0; i < getNumOfVertex(); i++) {
+            if (!isVisited[i]){
+                dfs(isVisited, i);
+            }
+        }
     }
 
     // 返回结点的个数
