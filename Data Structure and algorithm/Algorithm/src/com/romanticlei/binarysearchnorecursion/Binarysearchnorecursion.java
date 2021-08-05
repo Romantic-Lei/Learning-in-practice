@@ -1,6 +1,6 @@
-package com.romanticlei;
+package com.romanticlei.binarysearchnorecursion;
 
-public class binarysearchnorecursion {
+public class Binarysearchnorecursion {
 
     public static void main(String[] args) {
         //测试
