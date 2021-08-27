@@ -9,7 +9,7 @@ public class KnapsackProblem {
         int[] w = {1, 4, 3}; // 物品的重量
         int[] val = {1500, 3000, 2000}; // 物品的价值
         int m = 4; // 背包的容量
-        int n = val.length;// 物品个数
+        int n = val.length;// 物品个数 
 
         // 创建二维数组，v[i][j] 表示在前i个物品中能够装入容量为j的背包中的最大价值
         int[][] v = new int[n+1][m+1];
