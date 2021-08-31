@@ -10,6 +10,9 @@ public class KMPAlgorithm {
 
         int[] next = kmpNext("ABCDABD");
         System.out.println("next = " + Arrays.toString(next));
+
+        int index = kmpSearch(str1, dest, next);
+        System.out.println("index = " + index);
     }
 
     /**
@@ -20,6 +23,22 @@ public class KMPAlgorithm {
      * @return 返回-1是没有匹配到，否则返回匹配到的位置
      */
     public static int kmpSearch(String str1, String desc, int[] next){
+        
+        // 遍历
+        for (int i = 0, j = 0; i < str1.length(); i++) {
+
+            while (j > 0 && str1.charAt(i) != desc.charAt(j)){
+                j = next[j - 1];
+            }
+
+            if (str1.charAt(i) == desc.charAt(j)){
+                j++;
+            }
+
+            if (j == desc.length()) {
+                return i - j + 1;
+            }
+        }
 
         return -1;
     }
