@@ -86,6 +86,6 @@ public class GreedyAlgorithm {
             }
         }
 
-        System.out.println("得到的选择结果是" + selects);
+        System.out.println("得到的选择结果是：" + selects);
     }
 }
