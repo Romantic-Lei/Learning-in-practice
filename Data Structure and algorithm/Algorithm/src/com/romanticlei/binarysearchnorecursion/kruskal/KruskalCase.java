@@ -60,8 +60,20 @@ public class KruskalCase {
         }
     }
 
+    /**
+     * 对边进行排序处理，冒泡排序
+     * @param edges 边的集合
+     */
     private void sortEdges(EData[] edges) {
-
+        for (int i = 0; i < edges.length - 1; i++) {
+            for (int j = 0; j < edges.length - 1 - i; j++) {
+                if (edges[j].weight > edges[i].weight) {
+                    EData temp = edges[j];
+                    edges[j] = edges[j + 1];
+                    edges[j + 1] = temp;
+                }
+            }
+        }
     }
 }
 
