@@ -26,6 +26,12 @@ public class KruskalCase {
         // 创建 KruskalCase 对象实例
         KruskalCase kruskalCase = new KruskalCase(vertexs, matrix);
         kruskalCase.print();
+
+        EData[] edges = kruskalCase.getEdges();
+        System.out.println("排序前 = " + Arrays.toString(edges));
+        kruskalCase.sortEdges(edges);
+        System.out.println("排序后 = " + Arrays.toString(edges));
+
     }
 
     public KruskalCase(char[] vertexs, int[][] matrix) {
@@ -67,7 +73,9 @@ public class KruskalCase {
     private void sortEdges(EData[] edges) {
         for (int i = 0; i < edges.length - 1; i++) {
             for (int j = 0; j < edges.length - 1 - i; j++) {
-                if (edges[j].weight > edges[i].weight) {
+                int ii = edges[j].weight;
+                int jj = edges[j+1].weight;
+                if (edges[j].weight > edges[j + 1].weight) {
                     EData temp = edges[j];
                     edges[j] = edges[j + 1];
                     edges[j + 1] = temp;
@@ -111,6 +119,19 @@ public class KruskalCase {
         }
 
         return edges;
+    }
+
+    /**
+     * 获取下标为 i 的顶点的终点(), 用于后面判断两个顶点的终点是否相同
+     * @param ends: 数组就是记录了各个顶点对应的终点是哪个,ends 数组是在遍历过程中，逐步形成
+     * @param i: 表示传入的顶点对应的下标
+     * @return 返回的就是 下标为 i 的这个顶点对应的终点的下标, 一会回头还有来理解
+     */
+    public int getEnd(int[] ends, int i) {
+        while (ends[i] != 0) {
+            i = ends[i];
+        }
+        return i;
     }
 }
 
