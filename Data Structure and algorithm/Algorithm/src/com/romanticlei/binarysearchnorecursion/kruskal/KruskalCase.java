@@ -87,7 +87,30 @@ public class KruskalCase {
                 return i;
             }
         }
+        // 找不到返回 -1
         return -1;
+    }
+
+    /**
+     * 获取图中的边， 放到 EData[] 数组中，后面我们需要遍历该数组
+     * 是通过 matrix 邻接矩阵来获取
+     * EData[] 形式[['A', 'B', 12], ['B', 'F', 7], ...]
+     *
+     * @return
+     */
+    public EData[] getEdges() {
+        int index = 0;
+        EData[] edges = new EData[edgeNum];
+        for (int i = 0; i < vertexs.length; i++) {
+            // 取二维数组右三角
+            for (int j = i + 1; j < vertexs.length; j++) {
+                if (matrix[i][j] != INF) {
+                    edges[i] = new EData(vertexs[i], vertexs[j], matrix[i][j]);
+                }
+            }
+        }
+
+        return edges;
     }
 }
 
