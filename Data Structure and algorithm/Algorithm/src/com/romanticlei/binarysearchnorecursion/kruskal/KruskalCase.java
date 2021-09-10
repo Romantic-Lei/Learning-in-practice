@@ -75,6 +75,20 @@ public class KruskalCase {
             }
         }
     }
+
+    /**
+     *
+     * @param ch 顶点的值，比如 'A', 'B'
+     * @return   返回ch顶点对应的下标，如果找不到，返回-1
+     */
+    public int getPosition(char ch) {
+        for (int i = 0; i < this.vertexs.length; i++) {
+            if (vertexs[i] == ch) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
 
 // 创建一个类EData，它的对象实例就表示一条边
