@@ -58,6 +58,12 @@ public class KruskalCase {
         }
     }
 
+    public void kruskal() {
+        int index = 0;  // 表示最后结果数组的索引
+        int[] ends = new int[edgeNum];
+
+    }
+
     // 打印邻接矩阵
     public void print() {
         System.out.println("邻接矩阵为：" );
@@ -71,11 +77,8 @@ public class KruskalCase {
      * @param edges 边的集合
      */
     private void sortEdges(EData[] edges) {
-        System.out.println("edges.length = " + edges.length);
         for (int i = 0; i < edges.length - 1; i++) {
             for (int j = 0; j < edges.length - 1 - i; j++) {
-                int ii = edges[j].weight;
-                int jj = edges[j+1].weight;
                 if (edges[j].weight > edges[j + 1].weight) {
                     EData temp = edges[j];
                     edges[j] = edges[j + 1];
