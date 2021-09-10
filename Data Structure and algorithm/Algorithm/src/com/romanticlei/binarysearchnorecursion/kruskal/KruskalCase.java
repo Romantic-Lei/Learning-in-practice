@@ -71,6 +71,7 @@ public class KruskalCase {
      * @param edges 边的集合
      */
     private void sortEdges(EData[] edges) {
+        System.out.println("edges.length = " + edges.length);
         for (int i = 0; i < edges.length - 1; i++) {
             for (int j = 0; j < edges.length - 1 - i; j++) {
                 int ii = edges[j].weight;
@@ -113,7 +114,7 @@ public class KruskalCase {
             // 取二维数组右三角
             for (int j = i + 1; j < vertexs.length; j++) {
                 if (matrix[i][j] != INF) {
-                    edges[i] = new EData(vertexs[i], vertexs[j], matrix[i][j]);
+                    edges[index++] = new EData(vertexs[i], vertexs[j], matrix[i][j]);
                 }
             }
         }
