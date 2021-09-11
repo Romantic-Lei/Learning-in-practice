@@ -1,4 +1,4 @@
-package com.romanticlei.binarysearchnorecursion.kruskal;
+package com.romanticlei.kruskal;
 
 import java.util.Arrays;
 
@@ -32,6 +32,8 @@ public class KruskalCase {
         kruskalCase.sortEdges(edges);
         System.out.println("排序后 = " + Arrays.toString(edges));
 
+        kruskalCase.kruskal();
+
     }
 
     public KruskalCase(char[] vertexs, int[][] matrix) {
@@ -60,8 +62,42 @@ public class KruskalCase {
 
     public void kruskal() {
         int index = 0;  // 表示最后结果数组的索引
+        // 用于保存 "已有最小生成树" 中的每个顶点在最小生成树中的终点
         int[] ends = new int[edgeNum];
+        // 创建结果数组，保存最后的最小生成树
+        EData[] rets = new EData[edgeNum];
 
+        // 获取图中所有边的集合，一共有 12 条边
+        EData[] edges = getEdges();
+        System.out.println("图的边的集合 = " + Arrays.toString(edges) + "共" + edges.length);
+
+        // 按照边的权值大小进行排序
+        sortEdges(edges);
+
+        // 遍历 edges 数组，将边添加到最小生成树中时，判断准备加入的边是否形成回路，如果没有加入 rets，否则不加入
+        for (int i = 0; i < edgeNum; i++) {
+            // 获取到第 i 条边的第一个顶点（起点）
+            int p1 = getPosition(edges[i].start);
+            // 获取到第 i 条边的第一个顶点
+            int p2 = getPosition(edges[i].end);
+
+            // 获取p1这个顶点在已有最小生成树中的终点
+            int m = getEnd(ends, p1);
+            int n = getEnd(ends, p2);
+            // 未构成回路
+            if (m != n) {
+                // 设置 m 在已有最小生成树中的终点
+                ends[m] = n;
+                // 有一条边加入到 rets 数组
+                rets[index++] = edges[i];
+            }
+        }
+
+        // 统计并打印 最小生成树，输出 rets
+        System.out.println("最小生成树");
+        for (int i = 0; i < index; i++) {
+            System.out.println(rets[i]);
+        }
     }
 
     // 打印邻接矩阵
