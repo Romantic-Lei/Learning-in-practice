@@ -78,12 +78,16 @@ public class KruskalCase {
         for (int i = 0; i < edgeNum; i++) {
             // 获取到第 i 条边的第一个顶点（起点）
             int p1 = getPosition(edges[i].start);
-            // 获取到第 i 条边的第一个顶点
+            // 获取到第 i 条边的第二个顶点
             int p2 = getPosition(edges[i].end);
 
             // 获取p1这个顶点在已有最小生成树中的终点
             int m = getEnd(ends, p1);
             int n = getEnd(ends, p2);
+
+            // 例如现在是A->B->C，现在来了一条边C->A,通过getEnd方法获取C顶点的终点，由于C 顶点没有被放入过数组，获取到为0
+            // 接着继续通过getEnd方法获取A顶点的终点，获取到B下标，继续循环获取到C下标，由于C 顶点没有被放入过数组，获取到为0
+            // 所以判定构成了回路，不会加入到 最小生成树中
             // 未构成回路
             if (m != n) {
                 // 设置 m 在已有最小生成树中的终点
@@ -162,6 +166,9 @@ public class KruskalCase {
     }
 
     /**
+     * 例如现在是A->B->C，现在来了一条边C->A,通过getEnd方法获取C顶点的终点，由于C 顶点没有被放入过数组，获取到为0
+     * 接着继续通过getEnd方法获取A顶点的终点，获取到B下标，继续循环获取到C下标，由于C 顶点没有被放入过数组，获取到为0
+     *
      * 获取下标为 i 的顶点的终点(), 用于后面判断两个顶点的终点是否相同
      * @param ends: 数组就是记录了各个顶点对应的终点是哪个,ends 数组是在遍历过程中，逐步形成
      * @param i: 表示传入的顶点对应的下标
