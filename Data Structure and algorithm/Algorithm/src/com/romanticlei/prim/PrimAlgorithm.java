@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class PrimAlgorithm {
 
+    private static final int INF = 10000;
     public static void main(String[] args) {
         //测试看看图是否创建 ok
         char[] data = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G'};
@@ -17,6 +18,17 @@ public class PrimAlgorithm {
                 {10000, 10000, 8, 10000, 10000, 5, 4},
                 {10000, 10000, 10000, 4, 5, 10000, 6},
                 {2, 3, 10000, 10000, 4, 6, 10000}};
+
+
+        // int weight[][] = {
+        //         /*A*//*B*//*C*//*D*//*E*//*F*//*G*/
+        //         /*A*/ { 0,   12, INF, INF, INF, 16,  14},
+        //         /*B*/ { 12,  0,   10, INF, INF,  7, INF},
+        //         /*C*/ { INF, 10,   0,   3,   5,  6, INF},
+        //         /*D*/ { INF, INF,  3,   0,   4,INF, INF},
+        //         /*E*/ { INF, INF,  5,   4,   0,  2,   8},
+        //         /*F*/ { 16,    7,  6, INF,   2,  0,   9},
+        //         /*G*/ { 14, INF,  INF, INF,  8,  9,   0}};
 
         //创建 MGraph 对象
         MGraph graph = new MGraph(verxs);
