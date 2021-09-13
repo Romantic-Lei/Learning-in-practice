@@ -67,7 +67,7 @@ class VisitedVertex {
     /**
      * 判断当前下标对应的顶点是否被访问过
      * @param index 当前顶点的下标
-     * @return
+     * @return 如果访问过就返回 true
      */
     public boolean isVisted(int index) {
         return already_arr[index] == 1;
@@ -75,10 +75,28 @@ class VisitedVertex {
 
     /**
      * 更新出发顶点到 index下标对应顶点的距离
-     * @param index
-     * @param len
+     * @param index 当前顶点的下标
+     * @param len 出发点到当前顶点的下标
      */
     public void updateDis(int index, int len) {
         dis[index] = len;
+    }
+
+    /**
+     * 更新 pre 这个顶点的前驱顶点为 index 顶点
+     * @param pre   当前顶点
+     * @param index 当前顶点的前去顶点
+     */
+    public void updatePre(int pre, int index) {
+        pre_visited[pre] = index;
+    }
+
+    /**
+     * 返回出发点到 index顶点的距离
+     * @param index
+     * @return
+     */
+    public int getDis(int index) {
+        return dis[index];
     }
 }
