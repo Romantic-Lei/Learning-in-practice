@@ -20,6 +20,8 @@ public class DijkstraAlgorithm {
         Graph graph = new Graph(vertexs, matrix);
         //测试, 看看图的邻接矩阵是否 ok
         graph.showGraph();
+
+        graph.dsj(6);
     }
 }
 
@@ -46,7 +48,8 @@ class Graph {
      */
     public void dsj(int index) {
         vv = new VisitedVertex(vertexs.length, index);
-
+        // 更新 index 顶点到周围顶点的距离和前驱顶点
+        update(index);
     }
 
     /**
@@ -61,7 +64,9 @@ class Graph {
             len = vv.getDis(index) + matrix[index][j];
             // 如果 j 顶点没有被访问过，并且 len 小于出发顶点到j顶点的距离，需要更新
             if (!vv.isVisted(j) && len < vv.getDis(j)) {
+                // 更新j 顶点的前驱为 index顶点
                 vv.updatePre(j, index);
+                // 更新出发顶点到j 顶点的距离
                 vv.updateDis(j, len);
             }
         }
@@ -88,6 +93,8 @@ class VisitedVertex {
         this.dis = new int[length];
         // 初始化 dis 数组,默认全部都不可到达
         Arrays.fill(dis, 65535);
+        // 设置出发顶点被访问过
+        this.already_arr[index] = 1;
         // 设置出发顶点的访问距离为 0
         this.dis[index] = 0;
     }
