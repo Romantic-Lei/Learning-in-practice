@@ -26,6 +26,7 @@ public class DijkstraAlgorithm {
 class Graph {
     private char[] vertexs; // 顶点数组
     private int[][] matrix; // 邻接矩阵
+    private VisitedVertex vv; // 已经访问顶点的集合
 
     public Graph(char[] vertexs, int[][] matrix) {
         this.vertexs = vertexs;
@@ -36,6 +37,33 @@ class Graph {
     public void showGraph() {
         for (int[] link : matrix) {
             System.out.println(Arrays.toString(link));
+        }
+    }
+
+    /**
+     * 迪杰斯特拉算法实现
+     * @param index 表示出发顶点对应的下标
+     */
+    public void dsj(int index) {
+        vv = new VisitedVertex(vertexs.length, index);
+
+    }
+
+    /**
+     * 更新 index 下标顶点到周围顶点的距离和周围顶点的前驱顶点
+     * @param index
+     */
+    public void update(int index) {
+        int len = 0;
+        // 根据遍历我们的邻接矩阵的 matrix[index]行
+        for (int j = 0; j < matrix[index].length; j++) {
+            // len 含义是 出发顶点到 index 顶点的距离 + 从index 顶点到j 顶点的距离的和
+            len = vv.getDis(index) + matrix[index][j];
+            // 如果 j 顶点没有被访问过，并且 len 小于出发顶点到j顶点的距离，需要更新
+            if (!vv.isVisted(j) && len < vv.getDis(j)) {
+                vv.updatePre(j, index);
+                vv.updateDis(j, len);
+            }
         }
     }
 }
