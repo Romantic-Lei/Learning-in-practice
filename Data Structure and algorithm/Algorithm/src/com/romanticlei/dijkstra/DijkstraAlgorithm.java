@@ -22,6 +22,7 @@ public class DijkstraAlgorithm {
         graph.showGraph();
 
         graph.dsj(6);
+        graph.showDijkstra();
     }
 }
 
@@ -42,6 +43,10 @@ class Graph {
         }
     }
 
+    public void showDijkstra() {
+        vv.show();
+    }
+
     /**
      * 迪杰斯特拉算法实现
      * @param index 表示出发顶点对应的下标
@@ -50,6 +55,12 @@ class Graph {
         vv = new VisitedVertex(vertexs.length, index);
         // 更新 index 顶点到周围顶点的距离和前驱顶点
         update(index);
+        for (int i = 1; i < vertexs.length; i++) {
+            // 选择并返回新的访问顶点
+            index = vv.updateArr();
+            // 更新 index 顶点到周围顶点的距离和前驱顶点
+            update(index);
+        }
     }
 
     /**
@@ -133,5 +144,57 @@ class VisitedVertex {
      */
     public int getDis(int index) {
         return dis[index];
+    }
+
+    /**
+     * 继续选择并返回新的访问结点，比如这里的G 点访问完后，就是A 点作为新的访问顶点
+     * @return
+     */
+    public int updateArr() {
+        int min = 65535, index = 0;
+        for (int i = 0; i < already_arr.length; i++) {
+            if (already_arr[i] == 0 && dis[i] < min) {
+                min = dis[i];
+                index = i;
+            }
+        }
+
+        // 更新 index 顶点被访问过
+        already_arr[index] = 1;
+        return index;
+    }
+
+    public void show() {
+        System.out.println("==========================");
+        //输出 already_arr
+        System.out.print("already_arr :");
+        for(int i : already_arr) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        // 输出 pre_visited
+        System.out.print("pre_visited : ");
+        for (int i :  pre_visited) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        // 输出 dis
+        System.out.print("dis : ");
+        for (int i : dis) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        char[] vertex = { 'A', 'B', 'C', 'D', 'E', 'F', 'G' };
+        for (int i = 0; i < dis.length; i++) {
+            if (dis[i] != 65535) {
+                System.out.print(vertex[i] + "(" + dis[i] + ")");
+            } else {
+                System.out.println("N");
+            }
+        }
+        System.out.println();
     }
 }
