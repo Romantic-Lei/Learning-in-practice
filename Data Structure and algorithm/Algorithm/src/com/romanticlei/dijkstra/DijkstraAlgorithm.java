@@ -65,6 +65,7 @@ class Graph {
 
     /**
      * 更新 index 下标顶点到周围顶点的距离和周围顶点的前驱顶点
+     * 广度优先思想
      * @param index
      */
     public void update(int index) {
