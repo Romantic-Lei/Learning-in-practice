@@ -168,6 +168,7 @@ class VisitedVertex {
     public void show() {
         System.out.println("==========================");
         //输出 already_arr
+        // already_arr :1 1 1 1 1 1 1
         System.out.print("already_arr :");
         for(int i : already_arr) {
             System.out.print(i + " ");
@@ -175,6 +176,7 @@ class VisitedVertex {
         System.out.println();
 
         // 输出 pre_visited
+        // pre_visited : 6 6 0 5 6 6 0
         System.out.print("pre_visited : ");
         for (int i :  pre_visited) {
             System.out.print(i + " ");
@@ -182,6 +184,7 @@ class VisitedVertex {
         System.out.println();
 
         // 输出 dis
+        // dis : 2 3 9 10 4 6 0
         System.out.print("dis : ");
         for (int i : dis) {
             System.out.print(i + " ");
@@ -191,6 +194,7 @@ class VisitedVertex {
         char[] vertex = { 'A', 'B', 'C', 'D', 'E', 'F', 'G' };
         for (int i = 0; i < dis.length; i++) {
             if (dis[i] != 65535) {
+                // A(2)B(3)C(9)D(10)E(4)F(6)G(0)
                 System.out.print(vertex[i] + "(" + dis[i] + ")");
             } else {
                 System.out.println("N");
