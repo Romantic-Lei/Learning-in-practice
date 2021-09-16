@@ -18,6 +18,8 @@ public class FloydAlgorithm {
         matrix[5] = new int[] { N, N, N, 4, 5, 0, 6 };
         matrix[6] = new int[] { 2, 3, N, N, 4, 6, 0 };
         Graph graph = new Graph(vertex.length, matrix, vertex);
+
+        graph.floyd();
         graph.show();
     }
 
@@ -57,7 +59,31 @@ class Graph {
             for (int i = 0; i < dis.length; i++) {
                 System.out.print(dis[k][i] + " ");
             }
-            System.out.println();
+            System.out.printf("\n\n");
+        }
+    }
+
+    public void floyd() {
+        int len = 0; // 变量保存距离
+        // 对中间顶点进行遍历，k就是中间顶点的下标[A, B, C, D, E, F, G]
+        for (int k = 0; k < vertexs.length; k++) {
+            // 从顶点 i 开始出发，[A, B, C, D, E, F, G]
+            for (int i = 0; i < dis.length; i++) {
+                // 到达顶点 j 结束 [A, B, C, D, E, F, G]
+                for (int j = 0; j < dis.length; j++) {
+                    // 起始顶点和中间顶点一样就没有意义
+                    if (k == i) {
+                        break;
+                    }
+                    len = dis[i][k] + dis[k][j];
+                    if (len < dis[i][j]) {
+                        // 更新距离
+                        dis[i][j] = len;
+                        // 更新前驱顶点
+                        pre[i][j] = pre[k][j];
+                    }
+                }
+            }
         }
     }
 
