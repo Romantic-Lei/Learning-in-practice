@@ -57,7 +57,7 @@ class Graph {
             System.out.println();
 
             for (int i = 0; i < dis.length; i++) {
-                System.out.print(dis[k][i] + " ");
+                System.out.print("(" + vertexs[k] + "到" + vertexs[i] + "的最短路径是" + dis[k][i] + ")");
             }
             System.out.printf("\n\n");
         }
