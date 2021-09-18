@@ -3,6 +3,7 @@ package com.romanticlei.horse;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class HorseChessboard {
 
@@ -18,13 +19,14 @@ public class HorseChessboard {
         //测试骑士周游算法是否正确
         X = 8;
         Y = 8;
-        int row = 1; //马儿初始位置的行，从 1 开始编号
-        int column = 1; //马儿初始位置的列，从 1 开始编号
+        int row = 2; //马儿初始位置的行，从 1 开始编号
+        int column = 2; //马儿初始位置的列，从 1 开始编号
         // 创建棋盘
         int[][] chessboard = new int[X][Y];
         isVisited = new boolean[X * Y];//初始值都是 false
         // 测试一下耗时
         long start = System.currentTimeMillis();
+        // 棋盘的行和列时从下标 0 开始的
         traversalChessboard(chessboard, row - 1, column - 1, 1);
         Long end = System.currentTimeMillis();
         System.out.println("共耗时: " + (end - start) + " 毫秒");
@@ -38,7 +40,7 @@ public class HorseChessboard {
      * 完成骑士周游列国的算法
      * @param chessboard    棋盘
      * @param row           马儿当前位置的行 从0开始
-     * @param column         马儿当前位置的列 从0开始
+     * @param column        马儿当前位置的列 从0开始
      * @param step          是第几步，初始位置就是第1步
      */
     public static void traversalChessboard(int[][] chessboard, int row, int column, int step) {
@@ -48,6 +50,8 @@ public class HorseChessboard {
         isVisited[row * X + column] = true;
         // 获取当前位置的下一个位置的集合
         ArrayList<Point> ps = next(new Point(column, row));
+        // 对 ps 进行排序,排序的规则就是对 ps 的所有的 Point 对象的下一步的位置的数目，进行非递减排序
+        sort(ps);
         // 遍历 ps
         while (!ps.isEmpty()) {
             // 取出下一个可以走的位置
@@ -114,6 +118,25 @@ public class HorseChessboard {
         }
 
         return ps;
+    }
+
+    public static void sort(ArrayList<Point> ps) {
+        ps.sort(new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                // 获取到 o1 的下一步的所有位置个数
+                int count1 = next(o1).size();
+                // 获取到 o2 的下一步的所有位置个数
+                int count2 = next(o2).size();
+                if (count1 < count2) {
+                    return -1;
+                } else if(count1 == count2) {
+                    return 0;
+                }else {
+                    return 1;
+                }
+            }
+        });
     }
 }
 
