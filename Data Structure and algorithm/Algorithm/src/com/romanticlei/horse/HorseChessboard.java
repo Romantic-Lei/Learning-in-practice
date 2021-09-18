@@ -2,18 +2,36 @@ package com.romanticlei.horse;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HorseChessboard {
 
     private static int X;   // 棋盘的列数(从 0 开始)
     private static int Y;   // 棋盘的行数(从 0 开始)
     // 创建一个数组，标记棋盘的各个位置是否被访问量过
-    private static boolean visited[];
+    private static boolean isVisited[];
     // 标记是否棋盘的所有位置都被访问，如果为 true，表示成功
     private static boolean finished;
 
     public static void main(String[] args) {
+        System.out.println("骑士周游算法，开始运行~~");
+        //测试骑士周游算法是否正确
+        X = 8;
+        Y = 8;
+        int row = 1; //马儿初始位置的行，从 1 开始编号
+        int column = 1; //马儿初始位置的列，从 1 开始编号
+        // 创建棋盘
+        int[][] chessboard = new int[X][Y];
+        isVisited = new boolean[X * Y];//初始值都是 false
+        // 测试一下耗时
+        long start = System.currentTimeMillis();
+        traversalChessboard(chessboard, row - 1, column - 1, 1);
+        Long end = System.currentTimeMillis();
+        System.out.println("共耗时: " + (end - start) + " 毫秒");
 
+        for (int[] rows : chessboard) {
+            System.out.println(Arrays.toString(rows));
+        }
     }
 
     /**
@@ -27,9 +45,26 @@ public class HorseChessboard {
         // 标记当前位置是第几步
         chessboard[row][column] = step;
         // 标记该点已访问
-        visited[row * X + column] = true;
+        isVisited[row * X + column] = true;
+        // 获取当前位置的下一个位置的集合
         ArrayList<Point> ps = next(new Point(column, row));
-        
+        // 遍历 ps
+        while (!ps.isEmpty()) {
+            // 取出下一个可以走的位置
+            Point p = ps.remove(0);
+            if (!isVisited[p.y * X + p.x]) {
+                traversalChessboard(chessboard, p.y, p.x, step + 1);
+            }
+        }
+
+        // 判断马儿是否完成了任务，使用 step 和应该走的步数比较
+        //
+        if (step < X * Y && !finished){
+            chessboard[row][column] = 0;
+            isVisited[row * X + column] = false;
+        } else {
+            finished = true;
+        }
     }
 
     /**
