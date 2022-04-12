@@ -1,6 +1,5 @@
 package com.luojia.factory.order;
 
-import com.luojia.factory.pizza.BJCheesePizza;
 import com.luojia.factory.pizza.LDCheesePizza;
 import com.luojia.factory.pizza.LDPepperPizza;
 import com.luojia.factory.pizza.Pizza;
