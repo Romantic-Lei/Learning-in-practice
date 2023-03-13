@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e1168e65-7072-4de2-9a27-44a7b0cf1f68" name="Default Changelist" comment="二叉树与 B 树" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/../.." source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1rLWpivzhWkgpX7FKLiVLlQ1b51" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
+  </component>
+  <component name="RunManager" selected="Application.Graph">
+    <configuration name="AVLTreeDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.romanticlei.avl.AVLTreeDemo" />
+      <module name="DataStructure" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.romanticlei.avl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Graph" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.romanticlei.graph.Graph" />
+      <module name="DataStructure" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.romanticlei.graph.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HuffmanCode" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.romanticlei.huffmanCode.HuffmanCode" />
+      <module name="DataStructure" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.romanticlei.huffmanCode.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InsertValueSearch" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.romanticlei.search.InsertValueSearch" />
+      <module name="DataStructure" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.romanticlei.search.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ThreadedBinaryTreeDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.romanticlei.tree.threadedBinaryTree.ThreadedBinaryTreeDemo" />
+      <module name="DataStructure" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.romanticlei.tree.threadedBinaryTree.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Graph" />
+        <item itemvalue="Application.AVLTreeDemo" />
+        <item itemvalue="Application.HuffmanCode" />
+        <item itemvalue="Application.ThreadedBinaryTreeDemo" />
+        <item itemvalue="Application.InsertValueSearch" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e1168e65-7072-4de2-9a27-44a7b0cf1f68" name="Default Changelist" comment="" />
+      <created>1618756034967</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1618756034967</updated>
+      <workItem from="1618756043612" duration="2132000" />
+      <workItem from="1619101749068" duration="1279000" />
+      <workItem from="1619230685734" duration="4933000" />
+      <workItem from="1619277275750" duration="250000" />
+      <workItem from="1619361598186" duration="622000" />
+      <workItem from="1619781298427" duration="2949000" />
+      <workItem from="1619837846730" duration="10806000" />
+      <workItem from="1620017076342" duration="14766000" />
+      <workItem from="1620127845570" duration="398000" />
+      <workItem from="1620128306161" duration="1195000" />
+      <workItem from="1620129968124" duration="2091000" />
+      <workItem from="1620213042146" duration="8050000" />
+      <workItem from="1620527731461" duration="3675000" />
+      <workItem from="1620538171030" duration="15553000" />
+      <workItem from="1621132855163" duration="17731000" />
+      <workItem from="1621684658951" duration="4218000" />
+      <workItem from="1621737317032" duration="17805000" />
+      <workItem from="1622185390666" duration="13510000" />
+      <workItem from="1622255712471" duration="16720000" />
+      <workItem from="1623470172400" duration="2350000" />
+      <workItem from="1623574647896" duration="1991000" />
+      <workItem from="1624192403064" duration="6476000" />
+      <workItem from="1624336616707" duration="2659000" />
+      <workItem from="1624777053376" duration="2018000" />
+      <workItem from="1627110226079" duration="111000" />
+      <workItem from="1627110440059" duration="6243000" />
+      <workItem from="1627190721289" duration="15701000" />
+      <workItem from="1627222090399" duration="60000" />
+      <workItem from="1627793766492" duration="12144000" />
+      <workItem from="1628406746457" duration="891000" />
+      <workItem from="1628407726453" duration="3000" />
+    </task>
+    <task id="LOCAL-00005" summary="希尔排序">
+      <created>1619861176095</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1619861176095</updated>
+    </task>
+    <task id="LOCAL-00006" summary="快速排序笔记">
+      <created>1619861276595</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1619861276595</updated>
+    </task>
+    <task id="LOCAL-00007" summary="归并排序">
+      <created>1620034668081</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1620034668081</updated>
+    </task>
+    <task id="LOCAL-00008" summary="基数排序">
+      <created>1620140975655</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1620140975655</updated>
+    </task>
+    <task id="LOCAL-00009" summary="基数排序代码">
+      <created>1620220100979</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1620220100979</updated>
+    </task>
+    <task id="LOCAL-00010" summary="基数排序笔记">
+      <created>1620221172707</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1620221172707</updated>
+    </task>
+    <task id="LOCAL-00011" summary="线性查找算法">
+      <created>1620537588873</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1620537588873</updated>
+    </task>
+    <task id="LOCAL-00012" summary="二分查找">
+      <created>1620545802870</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1620545802870</updated>
+    </task>
+    <task id="LOCAL-00013" summary="二分查找多个相同值">
+      <created>1620549187533</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1620549187533</updated>
+    </task>
+    <task id="LOCAL-00014" summary="二分查找笔记">
+      <created>1620549472118</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1620549472118</updated>
+    </task>
+    <task id="LOCAL-00015" summary="插值查找算法">
+      <created>1620564074971</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1620564074971</updated>
+    </task>
+    <task id="LOCAL-00016" summary="插值查找算法笔记">
+      <created>1620564614062</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1620564614062</updated>
+    </task>
+    <task id="LOCAL-00017" summary="二叉索引数">
+      <created>1621156390408</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1621156390408</updated>
+    </task>
+    <task id="LOCAL-00018" summary="二叉索引数">
+      <created>1621157549943</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1621157549943</updated>
+    </task>
+    <task id="LOCAL-00019" summary="线索二叉树输出测试">
+      <created>1621171445903</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1621171445903</updated>
+    </task>
+    <task id="LOCAL-00020" summary="线索二叉树">
+      <created>1621171540054</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1621171540054</updated>
+    </task>
+    <task id="LOCAL-00021" summary="赫夫曼编码">
+      <created>1621692525200</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1621692525200</updated>
+    </task>
+    <task id="LOCAL-00022" summary="创建赫夫曼编码">
+      <created>1621741366790</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1621741366790</updated>
+    </task>
+    <task id="LOCAL-00023" summary="赫夫曼数压缩">
+      <created>1621758487891</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1621758487891</updated>
+    </task>
+    <task id="LOCAL-00024" summary="赫夫曼数压缩">
+      <created>1621758601797</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1621758601797</updated>
+    </task>
+    <task id="LOCAL-00025" summary="赫夫曼数压缩">
+      <created>1621759915019</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1621759915019</updated>
+    </task>
+    <task id="LOCAL-00026" summary="赫夫曼数压缩">
+      <created>1621762480644</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1621762480644</updated>
+    </task>
+    <task id="LOCAL-00027" summary="赫夫曼数压缩">
+      <created>1621777959723</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1621777959723</updated>
+    </task>
+    <task id="LOCAL-00028" summary="赫夫曼树之文件压缩">
+      <created>1622205551436</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1622205551436</updated>
+    </task>
+    <task id="LOCAL-00029" summary="压缩方法">
+      <created>1622206750771</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1622206750771</updated>
+    </task>
+    <task id="LOCAL-00030" summary="哈夫曼树的解压">
+      <created>1622214650344</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1622214650344</updated>
+    </task>
+    <task id="LOCAL-00031" summary="赫夫曼编码解压 bug 修复">
+      <created>1622272445734</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1622272445734</updated>
+    </task>
+    <task id="LOCAL-00032" summary="赫夫曼编码 bug 修复笔记更正">
+      <created>1622272916248</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1622272916248</updated>
+    </task>
+    <task id="LOCAL-00033" summary="赫夫曼编码压缩文件笔记">
+      <created>1622273763646</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1622273763646</updated>
+    </task>
+    <task id="LOCAL-00034" summary="赫夫曼编码解压文件笔记">
+      <created>1622274025534</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1622274025534</updated>
+    </task>
+    <task id="LOCAL-00035" summary="注释追加">
+      <created>1622274095532</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1622274095532</updated>
+    </task>
+    <task id="LOCAL-00036" summary="赫夫曼压缩">
+      <created>1622279340724</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1622279340724</updated>
+    </task>
+    <task id="LOCAL-00037" summary="二叉排序树">
+      <created>1622298041194</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1622298041194</updated>
+    </task>
+    <task id="LOCAL-00038" summary="二叉排序树">
+      <created>1622298076515</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1622298076515</updated>
+    </task>
+    <task id="LOCAL-00039" summary="平衡二叉树添加结点">
+      <created>1627192248693</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1627192248694</updated>
+    </task>
+    <task id="LOCAL-00040" summary="树的高度计算">
+      <created>1627193640888</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1627193640888</updated>
+    </task>
+    <task id="LOCAL-00041" summary="平衡二叉树的左旋转">
+      <created>1627196339145</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1627196339145</updated>
+    </task>
+    <task id="LOCAL-00042" summary="平衡二叉树的右旋转">
+      <created>1627200958197</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1627200958197</updated>
+    </task>
+    <task id="LOCAL-00043" summary="平衡二叉树的双旋转">
+      <created>1627203895659</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1627203895659</updated>
+    </task>
+    <task id="LOCAL-00044" summary="平衡二叉树笔记">
+      <created>1627204863440</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1627204863440</updated>
+    </task>
+    <task id="LOCAL-00045" summary="平衡二叉树图片">
+      <created>1627204913023</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1627204913023</updated>
+    </task>
+    <task id="LOCAL-00046" summary="二叉树与 B 树">
+      <created>1627213405720</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1627213405720</updated>
+    </task>
+    <task id="LOCAL-00047" summary="图的邻接矩阵">
+      <created>1627802685923</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1627802685924</updated>
+    </task>
+    <task id="LOCAL-00048" summary="图的深度优先遍历">
+      <created>1627808599014</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1627808599014</updated>
+    </task>
+    <task id="LOCAL-00049" summary="图的深度优先遍历">
+      <created>1627809271904</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1627809271904</updated>
+    </task>
+    <task id="LOCAL-00050" summary="图的简介">
+      <created>1627809529692</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1627809529694</updated>
+    </task>
+    <task id="LOCAL-00051" summary="图的代码实现">
+      <created>1627809603948</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1627809603948</updated>
+    </task>
+    <task id="LOCAL-00052" summary="图的深度优先代码实现">
+      <created>1627809655121</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1627809655121</updated>
+    </task>
+    <task id="LOCAL-00053" summary="图的广度优先">
+      <created>1627811580941</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1627811580942</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="赫夫曼树之文件压缩" />
+    <MESSAGE value="压缩方法" />
+    <MESSAGE value="哈夫曼树的解压" />
+    <MESSAGE value="赫夫曼编码解压 bug 修复" />
+    <MESSAGE value="赫夫曼编码 bug 修复笔记更正" />
+    <MESSAGE value="赫夫曼编码压缩文件笔记" />
+    <MESSAGE value="赫夫曼编码解压文件笔记" />
+    <MESSAGE value="注释追加" />
+    <MESSAGE value="赫夫曼压缩" />
+    <MESSAGE value="二叉排序树" />
+    <MESSAGE value="平衡二叉树添加结点" />
+    <MESSAGE value="树的高度计算" />
+    <MESSAGE value="平衡二叉树的左旋转" />
+    <MESSAGE value="平衡二叉树的右旋转" />
+    <MESSAGE value="平衡二叉树的双旋转" />
+    <MESSAGE value="平衡二叉树笔记" />
+    <MESSAGE value="平衡二叉树图片" />
+    <MESSAGE value="二叉树与 B 树" />
+    <MESSAGE value="图的邻接矩阵" />
+    <MESSAGE value="图的深度优先遍历" />
+    <MESSAGE value="图的简介" />
+    <MESSAGE value="图的实现代码" />
+    <MESSAGE value="图的代码实现" />
+    <MESSAGE value="图的深度优先代码实现" />
+    <MESSAGE value="图的广度优先" />
+    <option name="LAST_COMMIT_MESSAGE" value="图的广度优先" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="830" y="49" key="#com.intellij.ide.util.MemberChooser" timestamp="1627193181837">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="830" y="49" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1627193181837" />
+    <state x="732" y="181" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog" timestamp="1620547910863">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="732" y="181" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog/0.0.1366.728@0.0.1366.728" timestamp="1620547910863" />
+    <state width="468" height="438" key="DebuggerActiveHint" timestamp="1622264584998">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="468" height="438" key="DebuggerActiveHint/0.0.1366.728@0.0.1366.728" timestamp="1622264584998" />
+    <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1628407646521">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1628407646521" />
+    <state width="1323" height="154" key="GridCell.Tab.0.bottom" timestamp="1627815656990">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1627815656990" />
+    <state width="1323" height="154" key="GridCell.Tab.0.center" timestamp="1627815656990">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1627815656990" />
+    <state width="1323" height="154" key="GridCell.Tab.0.left" timestamp="1627815656990">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1627815656990" />
+    <state width="1323" height="154" key="GridCell.Tab.0.right" timestamp="1627815656990">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="154" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1627815656990" />
+    <state width="634" height="183" key="GridCell.Tab.1.bottom" timestamp="1627221798719">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="634" height="183" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1627221798719" />
+    <state width="634" height="183" key="GridCell.Tab.1.center" timestamp="1627221798719">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="634" height="183" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1627221798719" />
+    <state width="634" height="183" key="GridCell.Tab.1.left" timestamp="1627221798718">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="634" height="183" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1627221798718" />
+    <state width="634" height="183" key="GridCell.Tab.1.right" timestamp="1627221798719">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="634" height="183" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1627221798719" />
+    <state x="323" y="67" width="847" height="594" key="NewModule_or_Project.wizard" timestamp="1628407676848">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="323" y="67" width="847" height="594" key="NewModule_or_Project.wizard/0.0.1366.728@0.0.1366.728" timestamp="1628407676848" />
+    <state x="565" y="65" key="RollbackChangesDialog" timestamp="1627114084719">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="565" y="65" key="RollbackChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1627114084719" />
+    <state x="194" y="0" key="SettingsEditor" timestamp="1620544987520">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="194" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1620544987520" />
+    <state x="247" y="72" key="Vcs.Push.Dialog.v2" timestamp="1627815524568">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="247" y="72" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1627815524568" />
+    <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1622257818246">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="691" height="372" key="XDebugger.FullValuePopup/0.0.1366.728@0.0.1366.728" timestamp="1622257818246" />
+    <state x="477" y="276" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1620017128440">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="477" y="276" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1620017128440" />
+    <state x="79" y="0" width="598" height="728" key="find.popup" timestamp="1627117574228">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="79" y="0" width="598" height="728" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1627117574228" />
+    <state x="57" y="0" key="new project wizard" timestamp="1620538143374">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="57" y="0" key="new project wizard/0.0.1366.728@0.0.1366.728" timestamp="1620538143374" />
+    <state x="690" y="49" key="search.everywhere.popup" timestamp="1627221771055">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="690" y="49" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1627221771055" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/romanticlei/stack/Calculator.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/romanticlei/search/BinarySearch.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
