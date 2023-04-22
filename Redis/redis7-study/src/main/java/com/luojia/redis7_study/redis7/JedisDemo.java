@@ -10,7 +10,7 @@ public class JedisDemo {
     public static void main(String[] args) {
 
         // 1. connection获得，通过指定IP和端口厚爱
-        Jedis jedis = new Jedis("127.0.0.1", 6381);
+        Jedis jedis = new Jedis("127.0.0.1", 6379);
         // 2. 指定访问服务器的密码
         jedis.auth("123456");
         // 3. 获得了jedis客户端，可以像jdbc一样，访问我们的redis
