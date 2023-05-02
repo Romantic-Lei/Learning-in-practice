@@ -13,6 +13,7 @@ import redis.clients.jedis.Jedis;
 
 import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.UUID;
 
 public class RedisCanalClientExample {
 
@@ -112,14 +113,18 @@ public class RedisCanalClientExample {
         int emptyCount = 0;
         try {
             connector.connect();
-            connector.subscribe(".*\\..*");
+            // 监听当前库的所有表
+            // connector.subscribe(".*\\..*");
+            connector.subscribe("jmall.t_user");
             connector.rollback();
-            int totalEmptyCount = 120000;
+            int totalEmptyCount = 10 * _60SECONDS;
             while (emptyCount < totalEmptyCount) {
+                System.out.println("我是canal，每秒监听一次：" + UUID.randomUUID().toString());
                 Message message = connector.getWithoutAck(batchSize); // 获取指定数量的数据
                 long batchId = message.getId();
                 int size = message.getEntries().size();
                 if (batchId == -1 || size == 0) {
+                    // MySQL数据没有变动
                     emptyCount++;
                     System.out.println("empty count : " + emptyCount);
                     try {
