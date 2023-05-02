@@ -99,7 +99,6 @@ public class RedisCanalClientExample {
                     System.out.println("-------&gt; before");
                     redisUpdate(rowData.getBeforeColumnsList());
                     System.out.println("-------&gt; after");
-                    redisUpdate(rowData.getAfterColumnsList());
                 }
             }
         }
