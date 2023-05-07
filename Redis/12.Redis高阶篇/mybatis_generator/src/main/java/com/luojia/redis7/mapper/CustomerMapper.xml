@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luojia.redis7.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.luojia.redis7.entities.Customer">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cname" jdbcType="VARCHAR" property="cname" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="ex" jdbcType="TINYINT" property="ex" />
+    <result column="birth" jdbcType="TIMESTAMP" property="birth" />
+  </resultMap>
+</mapper>
