@@ -44,4 +44,10 @@ public class CustomerController {
         return customerService.findCustomerById(id);
     }
 
+    @ApiOperation("BloomFilter, 单个customer查询操作")
+    @PostMapping(value = "/customerBloomFilter/{id}")
+    public Customer findCustomerByIdWithBloomFilter(@PathVariable int id) {
+        return customerService.findCustomerByIdWithBloomFilter(id);
+    }
+
 }
