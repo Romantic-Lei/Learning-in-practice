@@ -36,4 +36,23 @@ public class JHSTaskController {
         log.info("参加活动的商家: {}", list);
         return list;
     }
+
+    @ApiOperation("聚划算案例，AB双缓存，防止热key突然失效")
+    @GetMapping("/product/findab")
+    public List<Product> findAB(int page, int size) {
+        List<Product> list = null;
+        long start = (page - 1) * size;
+        long end = start + size - 1;
+        list = redisTemplate.opsForList().range(JHS_KEY_A, start, end);
+        if (CollectionUtils.isEmpty(list)) {
+            //  Redis找不到，去数据库中查询
+            log.info("A缓存已经失效或活动已经结束");
+            list = redisTemplate.opsForList().range(JHS_KEY_B, start, end);
+            if (CollectionUtils.isEmpty(list)) {
+                // todo Redis找不到，去数据库中查询
+            }
+        }
+        log.info("参加活动的商家: {}", list);
+        return list;
+    }
 }
