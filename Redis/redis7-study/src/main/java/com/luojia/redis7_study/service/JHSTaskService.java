@@ -70,7 +70,7 @@ public class JHSTaskService {
                 // 2 模拟从数据库查询数据
                 List<Product> list = this.getProductsFromMysql();
                 // 3 先更新B缓存且让B缓存过期时间超过A缓存，如果突然失效还有B兜底，防止击穿
-                // redisTemplate.delete(JHS_KEY_B);
+                redisTemplate.delete(JHS_KEY_B);
                 redisTemplate.opsForList().leftPushAll(JHS_KEY_B, list);
                 // 设置过期时间为1天+10秒
                 redisTemplate.expire(JHS_KEY_B, 86410L, TimeUnit.SECONDS);
