@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -217,10 +219,15 @@ public class InventoryService {
                 log.info(resMessgae);
             }
         } finally {
-            // v5.0 改进点，判断加锁与解锁是不同客户端，自己只能删除自己的锁，不误删别人的锁
-            if (uuidValue.equalsIgnoreCase(stringRedisTemplate.opsForValue().get(key))) {
-                stringRedisTemplate.delete(key);
-            }
+            // 改进点，修改为Lua脚本的Redis分布式锁调用，必须保证原子性，参考官网脚本案例
+            String luaScript =
+                    "if redis.call('get',KEYS[1]) == ARGV[1] then " +
+                         "return redis.call('del',KEYS[1]) " +
+                    "else " +
+                         "return 0 " +
+                    "end";
+            stringRedisTemplate.execute(new DefaultRedisScript(luaScript, Boolean.class), Arrays.asList(key), uuidValue);
+
         }
         return resMessgae;
     }
