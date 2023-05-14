@@ -31,11 +31,11 @@ public class InventoryService {
             // 3 扣减库存，每次减少一个库存
             if (inventoryNum > 0) {
                 stringRedisTemplate.opsForValue().set("inventory01", String.valueOf(--inventoryNum));
-                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum;
-                log.info(resMessgae + "\t" + "，服务端口号：" + port);
+                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
             } else {
-                resMessgae = "商品已售罄。";
-                log.info(resMessgae + "\t" + "，服务端口号：" + port);
+                resMessgae = "商品已售罄。" + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
             }
 
         } finally {

@@ -13,9 +13,9 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @GetMapping("/sale")
+    @GetMapping("/inventory/sale")
     @ApiOperation("扣减库存，一次卖一个")
-    public void sale() {
-        inventoryService.sale();
+    public String sale() {
+        return inventoryService.sale();
     }
 }
