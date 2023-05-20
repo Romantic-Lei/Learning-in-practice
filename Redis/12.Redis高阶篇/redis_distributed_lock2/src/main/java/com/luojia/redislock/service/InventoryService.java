@@ -260,7 +260,7 @@ public class InventoryService {
     }*/
 
     // v7.1 使用工厂类创建锁
-    @Autowired
+    /*@Autowired
     private DistributedLockFactory distributedLockFactory;
     public String sale() {
         String resMessgae = "";
@@ -285,7 +285,37 @@ public class InventoryService {
             redisLock.unlock();
         }
         return resMessgae;
+    }*/
+
+    // v8.0 实现自动续期的功能，后台自定义扫描程序，如果规定时间内美誉完成业务逻辑，会调用自动续期脚本
+    @Autowired
+    private DistributedLockFactory distributedLockFactory;
+    public String sale() {
+        String resMessgae = "";
+        Lock redisLock = distributedLockFactory.getDistributedLock("REDIS", "luojiaRedisLock");
+        redisLock.lock();
+        try {
+            // 1 抢锁成功，查询库存信息
+            String result = stringRedisTemplate.opsForValue().get("inventory01");
+            // 2 判断库存书否足够
+            Integer inventoryNum = result == null ? 0 : Integer.parseInt(result);
+            // 3 扣减库存，每次减少一个库存
+            if (inventoryNum > 0) {
+                stringRedisTemplate.opsForValue().set("inventory01", String.valueOf(--inventoryNum));
+                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+                // 暂停一段时间模拟调用超时
+                try {TimeUnit.SECONDS.sleep(20);} catch (InterruptedException e) {e.printStackTrace();}
+            } else {
+                resMessgae = "商品已售罄。" + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            }
+        } finally {
+            redisLock.unlock();
+        }
+        return resMessgae;
     }
+
 
     private void testReEntry() {
 
@@ -296,7 +326,6 @@ public class InventoryService {
         } finally {
             redisLock.unlock();
         }
-
     }
 
 
