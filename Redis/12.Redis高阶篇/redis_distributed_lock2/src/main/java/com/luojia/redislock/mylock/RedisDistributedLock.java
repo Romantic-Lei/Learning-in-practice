@@ -20,10 +20,19 @@ public class RedisDistributedLock implements Lock {
     private String uuidValule; // ARGV[1]
     private long expireTime; // ARGV[2]
 
-    public RedisDistributedLock(StringRedisTemplate stringRedisTemplate, String lockName) {
+    // V7.1
+    /*public RedisDistributedLock(StringRedisTemplate stringRedisTemplate, String lockName) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.lockName = lockName;
         this.uuidValule = IdUtil.simpleUUID() + ":" + Thread.currentThread().getId();
+        this.expireTime = 50L;
+    }*/
+
+    // V7.2
+    public RedisDistributedLock(StringRedisTemplate stringRedisTemplate, String lockName, String uuid) {
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.lockName = lockName;
+        this.uuidValule = uuid + ":" + Thread.currentThread().getId();
         this.expireTime = 50L;
     }
 
@@ -53,6 +62,7 @@ public class RedisDistributedLock implements Lock {
                     "else " +
                          "return 0 " +
                     "end";
+            System.out.println("lock() lockName:" + lockName + "\t" + "uuidValue:" + uuidValule);
 
             // 加锁失败需要自旋一直获取锁
             while (!stringRedisTemplate.execute(
@@ -70,20 +80,16 @@ public class RedisDistributedLock implements Lock {
 
     @Override
     public void unlock() {
-
-    }
-
-    // 下面两个暂时用不到，不用重写
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
         String script = "" +
                 "if redis.call('hexists', KEYS[1], ARGV[1]) == 0 then " +
-                    "return nil " +
+                "return nil " +
                 "elseif redis.call('hincrby', KEYS[1], ARGV[1], -1) == 0 then " +
-                    "return redis.call('del', KEYS[1]) " +
+                "return redis.call('del', KEYS[1]) " +
                 "else " +
-                    "return 0 " +
+                "return 0 " +
                 "end";
+        System.out.println("unlock() lockName:" + lockName + "\t" + "uuidValue:" + uuidValule);
+
         // LUA脚本由C语言编写，nil -> false; 0 -> false; 1 -> true;
         // 所以此处DefaultRedisScript构造函数返回值不能是Boolean，Boolean没有nil
         Long flag = stringRedisTemplate.execute(
@@ -93,6 +99,12 @@ public class RedisDistributedLock implements Lock {
         if (null == flag) {
             throw new RuntimeException("this lock does not exists.");
         }
+    }
+
+    // 下面两个暂时用不到，不用重写
+    @Override
+    public void lockInterruptibly() throws InterruptedException {
+
     }
 
     @Override
