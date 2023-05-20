@@ -1,6 +1,8 @@
 package com.luojia.redislock.service;
 
 import cn.hutool.core.util.IdUtil;
+import com.luojia.redislock.mylock.DistributedLockFactory;
+import com.luojia.redislock.mylock.RedisDistributedLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -193,7 +195,7 @@ public class InventoryService {
     }*/
 
     // v6.0
-    public String sale() {
+    /*public String sale() {
         String resMessgae = "";
         String key = "luojiaRedisLocak";
         String uuidValue = IdUtil.simpleUUID() + ":" + Thread.currentThread().getId();
@@ -230,6 +232,72 @@ public class InventoryService {
 
         }
         return resMessgae;
+    }*/
+
+    // v7.0 使用自研的lock/unlock+LUA脚本自研的Redis分布式锁
+    /*Lock redisDistributedLock = new RedisDistributedLock(stringRedisTemplate, "luojiaRedisLock");
+    public String sale() {
+        String resMessgae = "";
+        redisDistributedLock.lock();
+        try {
+            // 1 抢锁成功，查询库存信息
+            String result = stringRedisTemplate.opsForValue().get("inventory01");
+            // 2 判断库存书否足够
+            Integer inventoryNum = result == null ? 0 : Integer.parseInt(result);
+            // 3 扣减库存，每次减少一个库存
+            if (inventoryNum > 0) {
+                stringRedisTemplate.opsForValue().set("inventory01", String.valueOf(--inventoryNum));
+                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            } else {
+                resMessgae = "商品已售罄。" + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            }
+        } finally {
+            redisDistributedLock.unlock();
+        }
+        return resMessgae;
+    }*/
+
+    // v7.1 使用工厂类创建锁
+    @Autowired
+    private DistributedLockFactory distributedLockFactory;
+    public String sale() {
+        String resMessgae = "";
+        Lock redisLock = distributedLockFactory.getDistributedLock("REDIS", "luojiaRedisLock");
+        redisLock.lock();
+        try {
+            // 1 抢锁成功，查询库存信息
+            String result = stringRedisTemplate.opsForValue().get("inventory01");
+            // 2 判断库存书否足够
+            Integer inventoryNum = result == null ? 0 : Integer.parseInt(result);
+            // 3 扣减库存，每次减少一个库存
+            if (inventoryNum > 0) {
+                stringRedisTemplate.opsForValue().set("inventory01", String.valueOf(--inventoryNum));
+                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+                testReEntry();
+            } else {
+                resMessgae = "商品已售罄。" + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            }
+        } finally {
+            redisLock.unlock();
+        }
+        return resMessgae;
     }
+
+    private void testReEntry() {
+
+        Lock redisLock = distributedLockFactory.getDistributedLock("REDIS", "luojiaRedisLock");
+        redisLock.lock();
+        try {
+            log.info("=================测试可重入锁=================");
+        } finally {
+            redisLock.unlock();
+        }
+
+    }
+
 
 }
