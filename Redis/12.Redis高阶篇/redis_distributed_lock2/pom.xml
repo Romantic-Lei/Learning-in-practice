@@ -53,6 +53,12 @@
             <artifactId>hutool-all</artifactId>
             <version>5.2.3</version>
         </dependency>
+        <!-- redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.13.4</version>
+        </dependency>
 
         <!-- 通用基础配置 -->
         <dependency>
