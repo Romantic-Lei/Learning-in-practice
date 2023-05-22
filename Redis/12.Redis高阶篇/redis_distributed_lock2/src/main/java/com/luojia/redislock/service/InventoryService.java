@@ -4,6 +4,8 @@ import cn.hutool.core.util.IdUtil;
 import com.luojia.redislock.mylock.DistributedLockFactory;
 import com.luojia.redislock.mylock.RedisDistributedLock;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -131,7 +133,7 @@ public class InventoryService {
         String key = "luojiaRedisLocak";
         String uuidValue = IdUtil.simpleUUID() + ":" + Thread.currentThread().getId();
 
-        // 不用递归了，高并发容易出错，我们用自旋代替递归方法重试调用；也不用if，用while代替
+        // 不用递归了，高并发容易出错，我们用自旋代替递归方法重试调用；也不用if，用while代替 V4.1
         while (!stringRedisTemplate.opsForValue().setIfAbsent(key, uuidValue, 30L, TimeUnit.SECONDS)) {
             // 线程休眠20毫秒，进行递归重试
             try {TimeUnit.MILLISECONDS.sleep(20);} catch (InterruptedException e) {e.printStackTrace();}
@@ -312,6 +314,61 @@ public class InventoryService {
             }
         } finally {
             redisLock.unlock();
+        }
+        return resMessgae;
+    }
+
+    // V9.0, 引入Redisson对应的官网推荐RedLock算法实现类
+    @Autowired
+    private Redisson redisson;
+    /*public String saleByRedisson() {
+        String resMessgae = "";
+        RLock redissonLock = redisson.getLock("luojiaRedisLock");
+        redissonLock.lock();
+        try {
+            // 1 抢锁成功，查询库存信息
+            String result = stringRedisTemplate.opsForValue().get("inventory01");
+            // 2 判断库存书否足够
+            Integer inventoryNum = result == null ? 0 : Integer.parseInt(result);
+            // 3 扣减库存，每次减少一个库存
+            if (inventoryNum > 0) {
+                stringRedisTemplate.opsForValue().set("inventory01", String.valueOf(--inventoryNum));
+                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            } else {
+                resMessgae = "商品已售罄。" + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            }
+        } finally {
+            redissonLock.unlock();
+        }
+        return resMessgae;
+    }*/
+
+    // V9.1, 修改高并发下，Redisson删除锁异常的问题
+    public String saleByRedisson() {
+        String resMessgae = "";
+        RLock redissonLock = redisson.getLock("luojiaRedisLock");
+        redissonLock.lock();
+        try {
+            // 1 抢锁成功，查询库存信息
+            String result = stringRedisTemplate.opsForValue().get("inventory01");
+            // 2 判断库存书否足够
+            Integer inventoryNum = result == null ? 0 : Integer.parseInt(result);
+            // 3 扣减库存，每次减少一个库存
+            if (inventoryNum > 0) {
+                stringRedisTemplate.opsForValue().set("inventory01", String.valueOf(--inventoryNum));
+                resMessgae = "成功卖出一个商品，库存剩余：" + inventoryNum + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            } else {
+                resMessgae = "商品已售罄。" + "\t" + "，服务端口号：" + port;
+                log.info(resMessgae);
+            }
+        } finally {
+            // 改进点，只能删除属于自己的key，不能删除别人的
+            if(redissonLock.isLocked() && redissonLock.isHeldByCurrentThread()) {
+                redissonLock.unlock();
+            }
         }
         return resMessgae;
     }

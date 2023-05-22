@@ -66,7 +66,7 @@ public class RedisDistributedLock implements Lock {
                     "end";
             System.out.println("lock() lockName:" + lockName + "\t" + "uuidValue:" + uuidValule);
 
-            // 加锁失败需要自旋一直获取锁
+            // 加锁失败需要自旋一直获取锁 CAS思想
             while (!stringRedisTemplate.execute(
                     new DefaultRedisScript<>(script, Boolean.class),
                     Arrays.asList(lockName),
