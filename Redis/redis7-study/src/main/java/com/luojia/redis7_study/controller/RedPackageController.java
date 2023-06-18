@@ -36,7 +36,7 @@ public class RedPackageController {
     public String robRedPackage(String redpackageKey, String userId) {
         // 验证某个用户是否抢过红包，不可以多抢
         Object redPackage = redisTemplate.opsForHash().get(RED_PACKAGE_CONSUME_KEY + redpackageKey, userId);
-        if (redPackage != null) {
+        if (redPackage == null) {
             // 红包没有抢完才能让用户接着抢
             Object partRedPackage = redisTemplate.opsForList().leftPop(RED_PACKAGE_KEY + redpackageKey);
             if(partRedPackage != null) {
