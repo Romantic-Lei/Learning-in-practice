@@ -26,6 +26,7 @@ public class FutureThreadPoolDemo {
                 System.out.println("异步线程暂未执行完毕");
             }
         }
+        threadPool.shutdown();
     }
 
     public static void FutureBlock() throws InterruptedException, ExecutionException, TimeoutException {
@@ -37,7 +38,7 @@ public class FutureThreadPoolDemo {
         threadPool.submit(futureTask);
         System.out.println("-----执行其他任务");
         futureTask.get(3, TimeUnit.SECONDS);
-
+        threadPool.shutdown();
     }
 
     public static void ThreadNum3() throws ExecutionException, InterruptedException {
