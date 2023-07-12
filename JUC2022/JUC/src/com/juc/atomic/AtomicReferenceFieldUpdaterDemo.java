@@ -28,7 +28,7 @@ class MyVar {
 public class AtomicReferenceFieldUpdaterDemo {
     public static void main(String[] args) {
         MyVar myVar = new MyVar();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             new Thread(() -> {
                 try {
                     myVar.init(myVar);
