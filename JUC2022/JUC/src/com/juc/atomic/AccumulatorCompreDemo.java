@@ -1,5 +1,6 @@
 package com.juc.atomic;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.LongAccumulator;
 import java.util.concurrent.atomic.LongAdder;
@@ -34,7 +35,33 @@ public class AccumulatorCompreDemo {
     public static final int _1W = 10000;
     public static final int threadNum = 50;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        ClickNumber clickNumber = new ClickNumber();
+        long startTime;
+        long endTime;
+
+        CountDownLatch countDownLatch1 = new CountDownLatch(threadNum);
+        CountDownLatch countDownLatch2 = new CountDownLatch(threadNum);
+        CountDownLatch countDownLatch3 = new CountDownLatch(threadNum);
+        CountDownLatch countDownLatch4 = new CountDownLatch(threadNum);
+
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < threadNum; i++) {
+            new Thread(() -> {
+                try {
+                    for (int j = 0; j < 100 * _1W; j++) {
+                        clickNumber.clickBysynchronized();
+                    }
+                } finally {
+                    countDownLatch1.countDown();
+                }
+            }, String.valueOf(i)).start();
+        }
+        countDownLatch1.await();
+        endTime = System.currentTimeMillis();
+        System.out.println("-----------costTime: " + (endTime - startTime) + "毫秒 \t clickBysynchronized: " + clickNumber.number);
+
+
 
     }
 }
