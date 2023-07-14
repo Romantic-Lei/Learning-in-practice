@@ -93,6 +93,22 @@ public class AccumulatorCompreDemo {
         endTime = System.currentTimeMillis();
         System.out.println("-----------costTime: " + (endTime - startTime) + "毫秒 \t clickLongAdder: " + clickNumber.longAdder.sum());
 
+        startTime = System.currentTimeMillis();
+        for (int i = 0; i < threadNum; i++) {
+            new Thread(() -> {
+                try {
+                    for (int j = 0; j < 100 * _1W; j++) {
+                        clickNumber.clickLongAccumulator();
+                    }
+                } finally {
+                    countDownLatch4.countDown();
+                }
+            }, String.valueOf(i)).start();
+        }
+        countDownLatch4.await();
+        endTime = System.currentTimeMillis();
+        System.out.println("-----------costTime: " + (endTime - startTime) + "毫秒 \t clickLongAccumulator: " + clickNumber.longAccumulator.get());
+
 
 
     }
