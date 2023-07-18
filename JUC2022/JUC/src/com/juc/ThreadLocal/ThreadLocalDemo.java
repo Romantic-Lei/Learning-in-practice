@@ -19,11 +19,15 @@ public class ThreadLocalDemo {
         for (int i = 0; i <= 5; i++) {
             new Thread(() -> {
                 int size = new Random().nextInt(5) + 1;
-                for (int j = 0; j <= size; j++) {
-                    house.saleVolumeByThreadLocal();
+                try {
+                    for (int j = 0; j <= size; j++) {
+                        house.saleVolumeByThreadLocal();
+                    }
+                    System.out.println(Thread.currentThread().getName()+"\t"+"号销售卖出："+house.saleVolume.get());
+                    house.saleCount = house.saleCount + house.saleVolume.get();
+                } finally {
+                    house.saleVolume.remove();
                 }
-                System.out.println(Thread.currentThread().getName()+"\t"+"号销售卖出："+house.saleVolume.get());
-                house.saleCount = house.saleCount + house.saleVolume.get();
             }, String.valueOf(i)).start();
         }
 
