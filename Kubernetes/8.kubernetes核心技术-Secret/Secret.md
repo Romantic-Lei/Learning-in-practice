@@ -28,7 +28,31 @@ namespace
 token
 ```
 
+### Opaque Secret
 
+- 创建说明：Opaque 类型的数据是一个 map 类型，要求 value 是 base64 编码格式
+
+  ```
+  $ echo -n "admin" | base64
+  YWRtaW4=
+  $ echo -n "1f2d1e2e67df" | base64
+  MWYyZDFlMmU2N2Rm:
+  ```
+
+- secrets.yml
+
+  ```yaml
+  apiVersion: v1
+  kind: Secret
+  metadata:
+  	name: mysecret
+  type: Opaque
+  data:
+  	password: MWYyZDFlMmU2N2Rm
+  	username: YWRtaW4=
+  ```
+
+- 
 
 
 
