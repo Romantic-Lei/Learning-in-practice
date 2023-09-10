@@ -52,7 +52,61 @@ token
   	username: YWRtaW4=
   ```
 
-- 
+- 使用方式
+
+  将 Secret 挂载到 Volume 中
+
+  ```yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+  	labels:
+  		name: seret-test
+  	name: seret-test
+  spec:
+  	volumes:
+  	- name: secrets
+  	  secret:
+  		secretName: mysecret
+  	containers:
+  	-image: hub.atguigu.com/library/myapp:v1
+  	  name: db
+  	  volumeMounts:
+  	  - name: secrets
+  	    mountPath:"
+  readOnly: true
+  ```
+
+  将 Secret 导出到环境变量中
+
+  ```yaml
+  apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+  	name: pod-deployment
+  spec:
+  	replicas: 2
+  	template:
+  		metadata:
+  			labels:
+  				app: pod-deployment
+  		spec:
+  			containers:
+  			- name: pod-1
+  			  image: hub.atguigu.com/library/myapp:v1
+  			  ports:
+  			  -containerPort: 80
+  			  env:
+  			  -name: TEST_USER
+  				valueFrom:
+  				  secretKeyRef:
+  					name: mysecret
+  key: username
+  ```
+
+- kubernetes.io/dockerconfigjson
+
+  使用 Kubectl 创建 docker registry 认证的 secret
 
 
 
