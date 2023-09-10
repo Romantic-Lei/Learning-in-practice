@@ -108,21 +108,25 @@ token
 
   使用 Kubectl 创建 docker registry 认证的 secret
 
+  ```
+  $ kubectl create secret docker-registry myregistrykey --docker-server=DOCKER_REGISTRY_SERVER -- docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL secret "myregistrykey"
+  created.
+  ```
 
+  在创建 Pod 的时候，通过 imagePullSecrets 来引用刚创建的'myregistrykey
 
+  ```yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+  	name: foo
+  spec:
+  	containers:
+  	- name: foo
+  	  image: roc/awangyang:v1
+  	imagePullSecrets:
+  	-name: myregistrykey
+  ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
