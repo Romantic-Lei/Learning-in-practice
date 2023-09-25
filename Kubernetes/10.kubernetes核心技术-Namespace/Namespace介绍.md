@@ -24,17 +24,11 @@ spec:
 name: busybox
 ```
 
+### Namespace 查看
 
-
-
-
-
-
-
-
-
-
-
+```
+kubectl get pods --namespace=development
+```
 
 
 
