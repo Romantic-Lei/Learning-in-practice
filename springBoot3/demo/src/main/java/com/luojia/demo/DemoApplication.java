@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 // @Import(RobotAutoConfiguration.class)
 // @EnableRobot
-@ComponentScan("com.luojia.boot3robotstarter.robot")
+
+// @ComponentScan("com.luojia.boot3robotstarter.robot")
 public class DemoApplication {
 
     public static void main(String[] args) {
