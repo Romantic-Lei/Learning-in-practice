@@ -4,11 +4,13 @@ import com.luojia.boot3robotstarter.robot.annotation.EnableRobot;
 import com.luojia.boot3robotstarter.robot.autoConfiguration.RobotAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 // @Import(RobotAutoConfiguration.class)
-@EnableRobot
+// @EnableRobot
+@ComponentScan("com.luojia.boot3robotstarter.robot")
 public class DemoApplication {
 
     public static void main(String[] args) {
