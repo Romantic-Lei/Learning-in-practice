@@ -1,5 +1,6 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class leetcode10 {
@@ -37,6 +38,132 @@ public class leetcode10 {
 
         System.out.println(isMatch("", ""));
 
+    }
+
+    /**
+     * 正则表达式匹配
+     * 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
+     *
+     * '.' 匹配任意单个字符
+     * '*' 匹配零个或多个前面的那一个元素
+     * 所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。
+     * @param s
+     * @param p
+     * @return
+     */
+    public static boolean isMatch(String s, String p) {
+        // char[] cs = s.toCharArray();
+        // char[] cp = p.toCharArray();
+        char[] cs = "aa".toCharArray();
+        char[] cp = "a*".toCharArray();
+
+        // dp[i][j] 表示s的前i部分和p的前j部分是否匹配
+        boolean[][] dp = new boolean[cs.length+1][cp.length+1];
+        dp[0][0] = true;
+
+        for (int i = 1; i <= cs.length; i++) {
+            for (int j = 1; j <= cp.length; j++) {
+                // 判断第i-1部分和j-1部分是否能匹配上,或者j-1是.符号
+                if (cs[i-1] == cp[j-1] || cp[j-1] == '.') {
+                    dp[i][j] = dp[i-1][j-1];
+                } else if (cp[j-1] == '*') {
+                    if (cs[i-1] == cp[j-2] || cp[j-2] == '.') {
+                        dp[i][j] = dp[i][j-2]     // 重复0次
+                                || dp[i-1][j];    // 匹配1次或多次
+                    } else {
+                        dp[i][j] = dp[i][j-2];      // 模式串*的前一个字符不能够跟文本串的末位匹配,只能0次
+                    }
+                }
+            }
+        }
+        return dp[cs.length][cp.length];
+    }
+
+    // 字符串转换整数 (atoi)
+    public static int myAtoi(String s) {
+        String newStr = s.trim();
+        char[] chars = newStr.toCharArray();
+        // 标志位，标记正数还是负数
+        int flag = 1;
+        // 判断是否出现过符号，判断字符串中 +-21这样的情况，同时排除出现43-8这样的字符串
+        boolean signFlag = false;
+        int res = 0;
+        for (char c : chars) {
+            if (c == '+' && !signFlag) {
+                signFlag = true;
+                continue;
+            } else if (c == '-' && !signFlag) {
+                flag = -1;
+                signFlag = true;
+                continue;
+            } else if(c < '0' || c > '9') {
+                // 发现非数字，直接返回
+                return res*flag;
+            }
+
+            signFlag = true;
+            int tem = c - '0';
+            // 判断加上该数字后是否会溢出
+            if (1==flag) {
+                if (res > Integer.MAX_VALUE/10 || (res == Integer.MAX_VALUE/10 && tem > Integer.MAX_VALUE%10)) {
+                    return  Integer.MAX_VALUE;
+                }
+            } else {
+                if (-res < Integer.MIN_VALUE/10 || (-res == Integer.MIN_VALUE/10 && -tem < Integer.MIN_VALUE%10)) {
+                    return  Integer.MIN_VALUE;
+                }
+            }
+
+            res =res*10+tem;
+        }
+
+        return res*flag;
+    }
+
+    // 力扣第六题：整数反转
+    public static int reverse(int x) {
+        int res = 0;
+        while(x != 0) {
+            // 获取到最后一位，负数取余后，余数仍旧是负数
+            int tem = x % 10;
+            // Integer.MAX_VALUE -> 2147483647
+            // Integer.MIN_VALUE -> -2147483648
+            // 正常进来的int最大值最高位肯定是1或者2，所以这里不需要判断 Integer.MAX_VALUE/10 + tem是否超过int范围
+            if (res > Integer.MAX_VALUE/10 || res < Integer.MIN_VALUE/10) return 0;
+            res = res*10+tem;
+            x = x/10;
+        }
+
+        return res;
+    }
+
+    // 力扣第六题：N 字形变换
+    public String convert(String s, int numRows) {
+        if (numRows < 2) {
+            return s;
+        }
+        ArrayList<StringBuilder> rows = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            rows.add(new StringBuilder());
+        }
+
+        int i = 0;
+        // 标志位，当在第一行或者numRows行时，标志位取反
+        int flag = -1;
+        for (char c : s.toCharArray()) {
+            StringBuilder stringBuilder = rows.get(i);
+            stringBuilder.append(c);
+            if (i == 0 || i == numRows - 1) flag = -flag;
+            i += flag;
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (StringBuilder row : rows) {
+            stringBuilder.append(row);
+        }
+
+        System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
     }
 
     // 最大回文子串
