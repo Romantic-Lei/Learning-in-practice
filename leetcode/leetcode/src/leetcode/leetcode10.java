@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.HashMap;
+
 public class leetcode10 {
 
     public static void main(String[] args) {
@@ -35,6 +37,43 @@ public class leetcode10 {
 
         System.out.println(isMatch("", ""));
 
+    }
+
+    public static int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < nums.length; i++) {
+            int tmp = target - nums[i];
+            if (map.containsKey(tmp)) {
+                return new int[]{i, map.get(tmp)};
+            }
+            map.put(nums[i], i);
+        }
+
+        return new int[]{-1, -1};
+    }
+
+    // 返回坐标
+    public static int binary(int arr[], int tarNum) {
+        int low = 0;
+        int high = arr.length;
+        int middle = 0;
+
+        if (low == high || tarNum < arr[0] || tarNum > arr[high - 1]) {
+            return -1;
+        }
+
+        while (low <= high - 1) {
+            middle = (low + high - 1) / 2;
+            if (tarNum > arr[middle]) {
+                low = middle + 1;
+            } else if (tarNum < arr[middle]) {
+                high = middle - 1;
+            } else {
+                return middle;
+            }
+        }
+
+        return -1;
     }
 
     static class ListNode {
