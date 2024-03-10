@@ -39,6 +39,40 @@ public class leetcode10 {
 
     }
 
+    // 最大回文子串
+    public static String longestPalindrome(String s) {
+        if (null == s || s.length() < 1) {
+            return "";
+        }
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int max = 0;
+        int len = s.length();
+        for (int i = 0; i < len; i++) {
+            // 自己就是中心
+            int len1 = expandAroundCenter(s, i, i);
+            // 自己和相邻字母对称
+            int len2 = expandAroundCenter(s, i, i + 1);
+            max = Math.max(len1, len2);
+            if (max > rightIndex - leftIndex) {
+                leftIndex = i - (max - 1) / 2;
+                rightIndex = i + max / 2;
+            }
+        }
+        // babad
+        return s.substring(leftIndex, rightIndex + 1);
+    }
+
+    public static int expandAroundCenter(String s, int letf, int right) {
+        int l = letf;
+        int r = right;
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+        // l和r都会多向左和右移动一位
+        return r - l - 1;
+    }
 
     // 寻找两个正序数组的中位数
     public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
