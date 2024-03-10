@@ -39,6 +39,36 @@ public class leetcode10 {
 
     }
 
+
+    // 寻找两个正序数组的中位数
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        // 两个数组的总长度
+        int len = m + n;
+        // 数组下标为0 开始
+        int aStart = 0;
+        int bStart = 0;
+        // 中位数
+        int left = 0;
+        int right = 0;
+        for (int i = 0; i <= len / 2; i++) {
+            left = right;
+            if (aStart < m && (bStart >= n || nums1[aStart] < nums2[bStart])) {
+                right = nums1[aStart++];
+            } else {
+                right = nums2[bStart++];
+            }
+        }
+
+        if (len % 2 == 0) {
+            // 变成浮点数，需要÷2.0而不能是2
+            return (left + right) / 2.0;
+        }
+        return right;
+
+    }
+
     // 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度
     public static int lengthOfLongestSubstring(String s) {
         if (s.length() == 0) return 0;
