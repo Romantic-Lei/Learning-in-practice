@@ -8,6 +8,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelPipeline;
 import io.netty.util.CharsetUtil;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 我们自定义一个Handler 需要继承netty 规定好的某个HandlerAdapter(规范)
  * 这时我们自定义一个Handler，才能称为一个handler
@@ -22,6 +24,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        // 1.正常读写
         System.out.println("服务器读取线程 " + Thread.currentThread().getName());
         System.out.println("server ctx = " + ctx);
         System.out.println("看看channel 和 pipeline 的关系");
@@ -33,6 +36,49 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buf = (ByteBuf) msg;
         System.out.println("客户端发送消息是：" + buf.toString(CharsetUtil.UTF_8));
         System.out.println("客户端地址：" + ctx.channel().remoteAddress());
+
+        // 2. 如果这里是一个非常耗时的业务 -> 异步执行 -> 提交该channel对应的 NIOEventLoop 的 taskQueue中
+        /**
+         * TimeUnit.SECONDS.sleep(10);
+         * ctx.writeAndFlush(Unpooled.copiedBuffer("hello 这是一个耗时的操作", CharsetUtil.UTF_8));
+         */
+        // 解决方案1，用户程序自定义的普通任务
+        ctx.channel().eventLoop().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // 模拟超时操作
+                    TimeUnit.SECONDS.sleep(3);
+                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello 这是一个耗时的操作", CharsetUtil.UTF_8));
+                } catch (InterruptedException e) {
+                    System.out.println("发生异常" + e.getMessage());
+                }
+            }
+        });
+
+        ctx.channel().eventLoop().execute(() -> {
+            try {
+                // 模拟超时操作
+                TimeUnit.SECONDS.sleep(5);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello 这是另一个耗时的操作", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                System.out.println("发生异常" + e.getMessage());
+            }
+        });
+
+        // 用户自定义定时任务 -> 该任务是提交到 scheduleTaskQueue 中
+        ctx.channel().eventLoop().schedule(() -> {
+            try {
+                // 模拟超时操作
+                TimeUnit.SECONDS.sleep(5);
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello 这是 scheduleTaskQueue 的操作", CharsetUtil.UTF_8));
+            } catch (InterruptedException e) {
+                System.out.println("发生异常" + e.getMessage());
+            }
+        }, 5, TimeUnit.SECONDS);
+
+        System.out.println("go on ...");
+
     }
 
     /**
