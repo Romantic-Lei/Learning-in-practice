@@ -15,6 +15,7 @@ public class TestServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .handler(null) // 该handler 对应 bossGroup，childHandler对应workergroup
                     .childHandler(new TestServerInitializer());
 
             // 通过浏览器当客户端访问时，端口号需要大于7000才行，不然会被认为不安全禁止访问

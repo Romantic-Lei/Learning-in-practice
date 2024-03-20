@@ -22,6 +22,10 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
     protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         // 判断 msg 是不是 httpRequest请求
         if (msg instanceof HttpRequest) {
+
+            System.out.println("pipeline hashcode = " + ctx.pipeline().hashCode()
+            + "  TestHttpServerHandler hashcode = " + this.hashCode());
+
             System.out.println("msg 类型= " + msg.getClass());
             System.out.println("客户端地址：" + ctx.channel().remoteAddress());
 
@@ -34,7 +38,6 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
                 System.out.println("请求了 favicon.ico，不做响应");
                 return;
             }
-
 
             // 回复信息给浏览器[http 协议]
             ByteBuf content = Unpooled.copiedBuffer("hello，我是服务器，现在给你返回数据", CharsetUtil.UTF_8);
