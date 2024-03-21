@@ -8,6 +8,7 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> {
 
@@ -23,7 +24,7 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
         Channel channel = ctx.channel();
         // 将该客户加入聊天的信息推送给其他在线的客户端
         // channelGroup.writeAndFlush 该方法会将 channelGroup 中所有的channel 遍历，并发送消息
-        channelGroup.writeAndFlush("[客户端]" + channel.remoteAddress() + "加入聊天\n");
+        channelGroup.writeAndFlush(sdf.format(new Date()) + " [客户端]" + channel.remoteAddress() + "加入聊天\n");
         channelGroup.add(channel);
     }
 
@@ -31,7 +32,7 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        channelGroup.writeAndFlush("[客户端]" + channel.remoteAddress() + "离开聊天\n");
+        channelGroup.writeAndFlush(sdf.format(new Date()) + " [客户端]" + channel.remoteAddress() + "离开聊天\n");
         // 此处不用手动的remove 离线的channel，它会自动帮我们remove
         // channelGroup.remove(channel);
         System.out.println("channelGroup size: " + channelGroup.size());
@@ -58,9 +59,10 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
         channelGroup.forEach(ch -> {
             if (channel != ch) {
                 // 不是当前客户端，需要转发消息
-                ch.writeAndFlush("[客户端：] " + channel.remoteAddress() + " 发送了消息： " + msg + "\n");
+                ch.writeAndFlush(sdf.format(new Date()) + " [客户端：] " + channel.remoteAddress() + " 发送了消息： " + msg + "\n");
             } else {
                 // 当前channel是自己，不用处理
+                ch.writeAndFlush(sdf.format(new Date()) + " [回显：] " + msg + "\n");
                 System.out.println("当前channel是自己，不用处理");
             }
         });
