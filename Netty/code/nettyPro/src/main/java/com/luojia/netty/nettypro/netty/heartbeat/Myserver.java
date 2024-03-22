@@ -1,0 +1,54 @@
+package com.luojia.netty.nettypro.netty.heartbeat;
+
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
+
+public class Myserver {
+
+    public static void main(String[] args) throws InterruptedException {
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
+
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
+        try {
+            serverBootstrap.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO)) // 在bossGroup 增加一个日志处理器
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+                            // IdleStateHandler 是netty 提供的处理空闲状态的处理器
+                            /** 参数分别代表
+                             * long readerIdleTime：有多长时间没有读，就会发送一个心跳检测包检测是否连接
+                             * long writerIdleTime：有多长时间没有写，就会发送一个心跳检测包检测是否连接
+                             * long allIdleTime：有多长时间没有读写，就会发送一个心跳检测包检测是否连接
+                             * TimeUnit unit：检测心跳的时间单位
+                             * 当 IdleStateHandler 触发后，就会传递给管道的下一个handler去处理，通过调用(触发)下一个handler 的 userEventTiggered，
+                             * 在该方法中去处理 IdleStateHandler 的 读空闲、写空闲、读写空闲
+                             */
+                            pipeline.addLast(new IdleStateHandler(3, 5, 7, TimeUnit.SECONDS));
+                            // 加入一个对空闲检测进一步处理的handler（自定义）
+                            pipeline.addLast(new MyServerHandler());
+                        }
+                    });
+            // 启动服务器
+            ChannelFuture future = serverBootstrap.bind(7001).sync();
+            future.channel().closeFuture().sync();
+        } finally {
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        }
+    }
+}
