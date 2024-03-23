@@ -1,12 +1,14 @@
-package com.luojia.netty.nettypro.netty.simple;
+package com.luojia.netty.nettypro.netty.codec;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 public class NettyClient {
     public static void main(String[] args) throws InterruptedException {
@@ -23,8 +25,11 @@ public class NettyClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
+                            ChannelPipeline pipeline = socketChannel.pipeline();
+                            // 在客户端加入解码器
+                            pipeline.addLast("encoder", new ProtobufEncoder());
                             // 加入自己的处理器
-                            socketChannel.pipeline().addLast(new NettyClientHandler());
+                            pipeline.addLast(new NettyClientHandler());
                         }
                     });
 
