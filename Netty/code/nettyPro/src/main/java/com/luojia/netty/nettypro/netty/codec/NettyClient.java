@@ -26,9 +26,9 @@ public class NettyClient {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-                            // 在客户端加入解码器
+                            // 在客户端加入编码器，发送数据要进行编码 ChannelOutboundHandler
                             pipeline.addLast("encoder", new ProtobufEncoder());
-                            // 加入自己的处理器
+                            // 加入自己的处理器，接受入站数据 ChannelInboundHandler
                             pipeline.addLast(new NettyClientHandler());
                         }
                     });

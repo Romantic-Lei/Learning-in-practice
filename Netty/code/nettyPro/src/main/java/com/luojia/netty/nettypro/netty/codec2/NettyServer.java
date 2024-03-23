@@ -35,8 +35,9 @@ public class NettyServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            // 在服务端加入编码器,指定对哪种对象进行编码
+                            // 在服务端加入解码器,指定对哪种对象进行解码，ChannelInboundHandler
                             pipeline.addLast("decoder", new ProtobufDecoder(MyDataInfo.Mymessage.getDefaultInstance()));
+                            // 加入自己的处理器，接受入站数据 ChannelInboundHandler
                             pipeline.addLast(new NettyServerHandler());
                         }
                     }); // 给我们的workGroup 的EventLoop 对应的管道设置处理器
