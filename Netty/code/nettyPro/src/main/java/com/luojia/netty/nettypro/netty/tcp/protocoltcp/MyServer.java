@@ -1,4 +1,4 @@
-package com.luojia.netty.nettypro.netty.tcp;
+package com.luojia.netty.nettypro.netty.tcp.protocoltcp;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
