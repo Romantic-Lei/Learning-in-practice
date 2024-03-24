@@ -11,7 +11,8 @@ public class MyClientInitializer extends ChannelInitializer<SocketChannel> {
         // 加入一个出站的 handler 对数据进行一个编码
         pipeline.addLast(new MyLongToByteEncoder());
         // 加入一个入站的 handler 对数据进行一个解码
-        pipeline.addLast(new MyByteToLongDecoder());
+        // pipeline.addLast(new MyByteToLongDecoder());
+        pipeline.addLast(new MyByteToLongReplayDecoder());
         // 加入一个自定义的 handler， 处理业务
         pipeline.addLast(new MyClientHandler());
     }
