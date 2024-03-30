@@ -7,8 +7,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
 public class NettyServer {
+
+    static final EventExecutorGroup group = new DefaultEventExecutorGroup(2);
     public static void main(String[] args) throws InterruptedException {
 
         // 创建bossGroup和workGroup
@@ -31,7 +35,9 @@ public class NettyServer {
                         // 给pipeline 设置处理器
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new NettyServerHandler());
+                            // ch.pipeline().addLast(new NettyServerHandler());
+                            // 如果在 addLast 添加 handler，前面有指定的线程池，那么该handler 会优先加入到该线程池中
+                            ch.pipeline().addLast(group, new NettyServerHandler());
                         }
                     }); // 给我们的workGroup 的EventLoop 对应的管道设置处理器
 
