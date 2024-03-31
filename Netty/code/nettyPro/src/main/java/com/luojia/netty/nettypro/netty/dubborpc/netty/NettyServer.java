@@ -30,15 +30,17 @@ public class NettyServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new StringEncoder());
                             pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new StringEncoder());
                             // 自定义处理器
                             pipeline.addLast(new NettyServerHandler());
                         }
                     });
 
-            ChannelFuture future = serverBootstrap.bind(hostname, port).sync();
+            // 直到连接返回，才会继续后面的执行，否则阻塞当前线程
+            ChannelFuture future = serverBootstrap.bind(port).sync();
             System.out.println("服务提供方开始提供服务~");
+            // 直到channel关闭，才会继续后面的执行，否则阻塞当前线程
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
