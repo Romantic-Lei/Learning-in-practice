@@ -20,7 +20,6 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         this.context = ctx;
-        context.writeAndFlush("连接已建立");
     }
 
     // 收到服务器数据后会被调用
