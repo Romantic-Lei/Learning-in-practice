@@ -16,10 +16,10 @@ public class NIOServer {
         // 绑定一个端口6666，在服务端监听
         serverSocketChannel.socket().bind(new InetSocketAddress(6666));
         // 设置为非阻塞
-        serverSocketChannel.configureBlocking(false);
+
         // 把 serverSocketChannel 注册到Selector 关心事件为 OP_ACCEPT
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-
+        serverSocketChannel.configureBlocking(false);
         // 循环等待客户链接
         while (true) {
             // 非阻塞，立即返回
@@ -44,6 +44,7 @@ public class NIOServer {
                     SocketChannel sockerChannel = serverSocketChannel.accept();
                     sockerChannel.configureBlocking(false);
                     // 将SocketChannel 注册到Selector，关注事件为 OP_READ
+                    // register 的第三个参数是附件的意思，将每个连接的 SocketChannel 与每次读取的大小进行绑定
                     sockerChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
                 }
                 // 发生事件 OP_READ

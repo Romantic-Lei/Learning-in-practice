@@ -16,7 +16,7 @@ public class NIOFileChannel01 {
         // 创建一个缓冲区 ByteBuffer
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
         // 将数据写入到缓冲区
-        byteBuffer.put(str.getBytes());
+        byteBuffer.put( str.getBytes());
         // 对ByteBuffer 进行flip
         byteBuffer.flip();
 
