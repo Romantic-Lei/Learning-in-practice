@@ -1,7 +1,5 @@
 package com.luojia.netty.nettypro.netty.groupchat.demo2.message;
 
-import com.rpc.message.RpcRequestMessage;
-import com.rpc.message.RpcResponseMessage;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -59,7 +57,5 @@ public abstract class Message implements Serializable {
         messageClasses.put(GroupMembersRequestMessage, GroupMembersRequestMessage.class);
         messageClasses.put(GroupMembersResponseMessage, GroupMembersResponseMessage.class);
 
-        messageClasses.put(RPC_MESSAGE_TYPE_REQUEST, RpcRequestMessage.class);
-        messageClasses.put(RPC_MESSAGE_TYPE_RESPONSE, RpcResponseMessage.class);
     }
 }
