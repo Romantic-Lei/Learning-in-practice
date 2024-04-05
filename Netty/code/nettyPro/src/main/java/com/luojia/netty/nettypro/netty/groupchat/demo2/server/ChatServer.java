@@ -1,17 +1,13 @@
 package com.luojia.netty.nettypro.netty.groupchat.demo2.server;
 
-import com.luojia.netty.nettypro.netty.groupchat.demo2.message.LoginRequestMessage;
-import com.luojia.netty.nettypro.netty.groupchat.demo2.message.LoginResponseMessage;
+import com.luojia.netty.nettypro.netty.groupchat.demo2.handler.ChatRequestMessageHandler;
+import com.luojia.netty.nettypro.netty.groupchat.demo2.handler.LoginRequestMessageHandler;
 import com.luojia.netty.nettypro.netty.groupchat.demo2.protocol.MessageCodecSharable;
 import com.luojia.netty.nettypro.netty.groupchat.demo2.protocol.ProcotolFrameDecoder;
-import com.luojia.netty.nettypro.netty.groupchat.demo2.server.service.UserServiceFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
@@ -26,6 +22,8 @@ public class ChatServer {
         NioEventLoopGroup worker = new NioEventLoopGroup();
         LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
         MessageCodecSharable MESSAGE_CODEC = new MessageCodecSharable();
+        LoginRequestMessageHandler LOGIN_HANDLER = new LoginRequestMessageHandler();
+        ChatRequestMessageHandler CHAT_HANDLER = new ChatRequestMessageHandler();
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -37,22 +35,9 @@ public class ChatServer {
                             ch.pipeline().addLast(new ProcotolFrameDecoder());
                             ch.pipeline().addLast(LOGGING_HANDLER);
                             ch.pipeline().addLast(MESSAGE_CODEC);
-                            ch.pipeline().addLast(new SimpleChannelInboundHandler<LoginRequestMessage>() {
-                                @Override
-                                protected void channelRead0(ChannelHandlerContext ctx, LoginRequestMessage msg) throws Exception {
-                                    String username = msg.getUsername();
-                                    String password = msg.getPassword();
-                                    boolean login = UserServiceFactory.getUserService().login(username, password);
-                                    log.debug("login:{}", login);
-                                    LoginResponseMessage message;
-                                    if (login) {
-                                        message = new LoginResponseMessage(true, "登录成功");
-                                    } else{
-                                        message = new LoginResponseMessage(false, "用户名或密码错误");
-                                    }
-                                    ctx.writeAndFlush(message);
-                                }
-                            });
+                            ch.pipeline().addLast(LOGIN_HANDLER);
+                            ch.pipeline().addLast(CHAT_HANDLER);
+
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(7001).sync();
@@ -63,8 +48,5 @@ public class ChatServer {
             boss.shutdownGracefully();
             worker.shutdownGracefully();
         }
-
-
     }
-
 }
