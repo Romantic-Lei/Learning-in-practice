@@ -14,7 +14,7 @@ public interface GroupSession {
      * 创建一个聊天组，如果不存在才能创建成功
      * @param name 聊天组名称
      * @param member 成员
-     * @return 成功时返回 null , 失败返回 原来的value，即 那么不可重复
+     * @return 成功时返回 null , 失败返回 原来的value，即 name不可重复
      */
     Group createGroup(String name, Set<String> member);
 

@@ -24,11 +24,4 @@ public class ChatResponseMessage extends AbstractResponseMessage {
         return ChatResponseMessage;
     }
 
-    @Override
-    public String toString() {
-        return "ChatResponseMessage{" +
-                "from='" + from + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }

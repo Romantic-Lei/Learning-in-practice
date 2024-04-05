@@ -1,7 +1,6 @@
 package com.luojia.netty.nettypro.netty.groupchat.demo2.server;
 
-import com.luojia.netty.nettypro.netty.groupchat.demo2.handler.ChatRequestMessageHandler;
-import com.luojia.netty.nettypro.netty.groupchat.demo2.handler.LoginRequestMessageHandler;
+import com.luojia.netty.nettypro.netty.groupchat.demo2.handler.*;
 import com.luojia.netty.nettypro.netty.groupchat.demo2.protocol.MessageCodecSharable;
 import com.luojia.netty.nettypro.netty.groupchat.demo2.protocol.ProcotolFrameDecoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -24,6 +23,11 @@ public class ChatServer {
         MessageCodecSharable MESSAGE_CODEC = new MessageCodecSharable();
         LoginRequestMessageHandler LOGIN_HANDLER = new LoginRequestMessageHandler();
         ChatRequestMessageHandler CHAT_HANDLER = new ChatRequestMessageHandler();
+        GroupCreateRequestMessageHandler GROUP_CRETE_HANDLER = new GroupCreateRequestMessageHandler();
+        GroupJoinRequestMessageHandler GROUP_JOIN_HANDLER = new GroupJoinRequestMessageHandler();
+        GroupMembersRequestMessageHandler GROUP_MEMBERS_HANDLER = new GroupMembersRequestMessageHandler();
+        GroupQuitRequestMessageHandler GROUP_QUIT_HANDLER = new GroupQuitRequestMessageHandler();
+        GroupChatRequestMessageHandler GROUP_CHAT_HANDLER = new GroupChatRequestMessageHandler();
 
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -37,7 +41,11 @@ public class ChatServer {
                             ch.pipeline().addLast(MESSAGE_CODEC);
                             ch.pipeline().addLast(LOGIN_HANDLER);
                             ch.pipeline().addLast(CHAT_HANDLER);
-
+                            ch.pipeline().addLast(GROUP_CRETE_HANDLER);
+                            ch.pipeline().addLast(GROUP_JOIN_HANDLER);
+                            ch.pipeline().addLast(GROUP_MEMBERS_HANDLER);
+                            ch.pipeline().addLast(GROUP_QUIT_HANDLER);
+                            ch.pipeline().addLast(GROUP_CHAT_HANDLER);
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(7001).sync();
