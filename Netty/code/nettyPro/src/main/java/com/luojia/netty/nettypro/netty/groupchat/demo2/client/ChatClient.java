@@ -10,6 +10,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
@@ -41,6 +45,21 @@ public class ChatClient {
                             ch.pipeline().addLast(new ProcotolFrameDecoder());
                             // ch.pipeline().addLast(LOGGING_HANDLER);
                             ch.pipeline().addLast(MESSAGE_CODEC);
+                            // 3s 内如果没有向服务器写数据，会触发一个 IdleState.WRITER_IDLE  事件
+                            // 0 表示不关注
+                            ch.pipeline().addLast(new IdleStateHandler(0, 3, 0));
+                            // ChannelDuplexHandler
+                            ch.pipeline().addLast(new ChannelDuplexHandler(){
+                                // 用来触发特殊事件，例如 上面的 IdleState.READER_IDLE 事件
+                                @Override
+                                public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+                                    IdleStateEvent event = (IdleStateEvent) evt;
+                                    if (event.state() == IdleState.WRITER_IDLE) {
+                                        // log.debug("已经 3s 没有写数据了，发送一个心跳包");
+                                    }
+                                    super.userEventTriggered(ctx, evt);
+                                }
+                            });
                             ch.pipeline().addLast("client handler", new ChannelInboundHandlerAdapter(){
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -125,6 +144,16 @@ public class ChatClient {
                                         // 唤醒 system in 线程
                                         WAIT_FOR_LOGIN.countDown();
                                     }
+                                }
+
+                                @Override
+                                public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+                                    log.debug("连接已断开");
+                                }
+
+                                @Override
+                                public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                    super.exceptionCaught(ctx, cause);
                                 }
                             });
                         }
