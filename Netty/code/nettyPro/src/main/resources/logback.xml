@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 从高到到低 OFF 、 FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+     如果设置为 WARN ，则低于 WARN的信息都不会输出
+-->
+<!-- 日志输出规则  根据当前ROOT 级别，日志输出时，级别高于root默认的级别时  会输出 -->
+<configuration
+        xmlns="http://ch.qos.logback/xml/ns/logback"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback logback.xsd">
+    <!-- 输出控制，格式控制-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+        %date            日期
+        [%-5p]           %p当前级别|-5靠左对其 最多输出5个字符
+        [%thread]        当前线程
+        %logger{60}      日志的消息
+        [%file : %line]  哪个文件哪一行
+        %msg%n           消息内容 和 换行
+        -->
+        <encoder>
+            <pattern>%date{HH:mm:ss} [%-5level] [%thread] %logger{17} - %m%n </pattern>
+        </encoder>
+    </appender>
+    <appender name="STDOUT1" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+        %date            日期
+        [%-5p]           %p当前级别|-5靠左对其 最多输出5个字符
+        [%thread]        当前线程
+        %logger{60}      日志的消息
+        [%file : %line]  哪个文件哪一行
+        %msg%n           消息内容 和 换行
+        -->
+        <encoder>
+            <pattern>%date{HH:mm:ss} %logger{17} - %m%n </pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 用来控制查看那个类的日志内容（对mybatis name 代表命名空间） -->
+    <!--单独指定某个包 进行日志输出 （这里 coma 就是不想 启动 netty debug打印）-->
+    <logger name="com" level="DEBUG" additivity="false"> <!--additivity =【true：反馈到<root 里面打印或者写出日志，false：不反馈】-->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="io.netty.handler.logging.LoggingHandler" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="ERROR">  <!--只有什么 状态的 时候 才输出 -->
+        <appender-ref ref="STDOUT1"/>
+    </root>
+</configuration>
