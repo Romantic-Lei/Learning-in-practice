@@ -91,6 +91,8 @@ public class ChatClient {
                                                     break;
                                                 case "gcreate":
                                                     Set<String> set = new HashSet<>(Arrays.asList(s[2].split(",")));
+                                                    // 创建群聊不写自己时，也能将自己加入进去
+                                                    set.add(username);
                                                     ctx.writeAndFlush(new GroupCreateRequestMessage(s[1], set));
                                                     break;
                                                 case "gmembers":
