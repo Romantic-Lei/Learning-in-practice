@@ -1,7 +1,9 @@
 package com.luojia.netty.nettypro.netty.groupchat.rpc.message;
 
 import com.luojia.netty.nettypro.netty.groupchat.demo2.message.Message;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data

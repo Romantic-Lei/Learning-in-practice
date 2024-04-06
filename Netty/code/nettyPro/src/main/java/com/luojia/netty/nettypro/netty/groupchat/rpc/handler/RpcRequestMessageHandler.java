@@ -7,15 +7,18 @@ import com.luojia.netty.nettypro.netty.groupchat.rpc.server.service.ServiceFacto
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+@Slf4j
 @ChannelHandler.Sharable
 public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcRequestMessage> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcRequestMessage message) {
         RpcResponseMessage response = new RpcResponseMessage();
+        response.setSequenceId(message.getSequenceId());
         try {
             HelloService service = (HelloService)
                     ServiceFactory.getService(Class.forName(message.getInterfaceName()));
@@ -28,7 +31,12 @@ public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcReq
             response.setExceptionValue(e);
         }
 
-        ctx.writeAndFlush(response);
+        ctx.writeAndFlush(response).addListener(future -> {
+            if(!future.isSuccess()){
+                Throwable cause = future.cause();
+                log.error("error : ", cause);
+            }
+        });
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {

@@ -34,6 +34,7 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
 
         out.writeBytes(new byte[]{1,2,3,4}); // 4字节的 魔数
         out.writeByte(1);                    // 1字节的 版本
+        // 枚举对象内部维护了一个顺序 ordinal，按照声明顺序从0开始往后排序
         out.writeByte(Config.getMySerializerAlgorithm().ordinal()); // 1字节的 序列化方式 0-jdk,1-json
         out.writeByte(msg.getMessageType()); // 1字节的 指令类型
         out.writeInt(msg.getSequenceId());   // 4字节的 请求序号 【大端】
