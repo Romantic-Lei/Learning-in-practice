@@ -1,4 +1,4 @@
-package com.luojia.netty.nettypro.netty.groupchat.rpc.service.service;
+package com.luojia.netty.nettypro.netty.groupchat.rpc.server.service;
 
 import java.io.IOException;
 import java.io.InputStream;

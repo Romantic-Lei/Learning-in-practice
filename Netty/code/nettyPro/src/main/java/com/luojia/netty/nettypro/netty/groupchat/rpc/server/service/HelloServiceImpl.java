@@ -1,4 +1,4 @@
-package com.luojia.netty.nettypro.netty.groupchat.rpc.service.service;
+package com.luojia.netty.nettypro.netty.groupchat.rpc.server.service;
 
 public class HelloServiceImpl implements HelloService {
     @Override
