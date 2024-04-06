@@ -1,25 +1,51 @@
 package com.luojia.netty.nettypro.netty.groupchat.rpc.handler;
 
 import com.luojia.netty.nettypro.netty.groupchat.rpc.message.RpcRequestMessage;
+import com.luojia.netty.nettypro.netty.groupchat.rpc.message.RpcResponseMessage;
+import com.luojia.netty.nettypro.netty.groupchat.rpc.server.service.HelloService;
+import com.luojia.netty.nettypro.netty.groupchat.rpc.server.service.ServiceFactory;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 @ChannelHandler.Sharable
 public class RpcRequestMessageHandler extends SimpleChannelInboundHandler<RpcRequestMessage> {
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, RpcRequestMessage msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, RpcRequestMessage message) {
+        RpcResponseMessage response = new RpcResponseMessage();
+        try {
+            HelloService service = (HelloService)
+                    ServiceFactory.getService(Class.forName(message.getInterfaceName()));
+            Method method = service.getClass().getMethod(message.getMethodName(), message.getParameterTypes());
+            Object invoke = method.invoke(service, message.getParameterValue());
 
+            response.setReturnValue(invoke);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setExceptionValue(e);
+        }
+
+        ctx.writeAndFlush(response);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         RpcRequestMessage message = new RpcRequestMessage(
                 1,
-                "com.luojia.netty.nettypro.netty.groupchat.rpc.service.service.HelloService",
+                "com.luojia.netty.nettypro.netty.groupchat.rpc.server.service.HelloService",
                 "sayHello",
                 String.class,
                 new Class[]{String.class},
                 new Object[]{"张三"}
         );
+
+        HelloService service = (HelloService)
+                ServiceFactory.getService(Class.forName(message.getInterfaceName()));
+
+        Method method = service.getClass().getMethod(message.getMethodName(), message.getParameterTypes());
+        Object invoke = method.invoke(service, message.getParameterValue());
+        System.out.println(invoke);
     }
 }

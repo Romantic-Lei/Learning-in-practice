@@ -42,11 +42,11 @@ public class RpcClient {
             final ChannelFuture future = channel.writeAndFlush(
                     new RpcRequestMessage(
                             1,
-                            "com.rpc.server.service.HelloService",
+                            "com.luojia.netty.nettypro.netty.groupchat.rpc.server.service.HelloService",
                             "sayHello",
                             String.class,
                             new Class[]{String.class},
-                            new Object[]{"helloworld!"}
+                            new Object[]{"张三!"}
                     )
                     // 发送不成功  【打印错误信息】
             ).addListener(promise->{

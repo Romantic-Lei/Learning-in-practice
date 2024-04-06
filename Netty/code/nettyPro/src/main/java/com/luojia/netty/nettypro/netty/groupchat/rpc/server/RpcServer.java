@@ -1,4 +1,4 @@
-package com.luojia.netty.nettypro.netty.groupchat.rpc.service;
+package com.luojia.netty.nettypro.netty.groupchat.rpc.server;
 
 import com.luojia.netty.nettypro.netty.groupchat.demo2.protocol.MessageCodecSharable;
 import com.luojia.netty.nettypro.netty.groupchat.demo2.protocol.ProcotolFrameDecoder;
@@ -21,7 +21,7 @@ public class RpcServer {
         LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
         MessageCodecSharable MESSAGE_CODEC = new MessageCodecSharable(); // 【使用 demo2 包方法】
 
-        // rpc 请求消息处理器，待实现
+        // rpc 请求消息处理器
         RpcRequestMessageHandler RPC_REQUEST_HANDLER = new RpcRequestMessageHandler();
         try {
             ServerBootstrap bs = new ServerBootstrap();
