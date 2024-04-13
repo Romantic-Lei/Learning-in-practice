@@ -3,4 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- user 对象创建 -->
+    <bean id="user" class="at.luojia.spring6.iocxml.User"></bean>
+<!--    <bean id="user1" class="at.luojia.spring6.iocxml.User"></bean>-->
+
 </beans>
