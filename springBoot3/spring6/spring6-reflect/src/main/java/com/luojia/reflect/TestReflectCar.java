@@ -20,6 +20,7 @@ public class TestReflectCar {
         Class<?> clazz3 = Class.forName("com.luojia.reflect.Car");
         // 实例化
         Car car = (Car)clazz3.getDeclaredConstructor().newInstance();
+        // Car(name=null, age=0, color=null)
         System.out.println(car);
     }
 
@@ -33,6 +34,8 @@ public class TestReflectCar {
         // 获取所有的构造方法 包括 public、private、protected
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
         for (Constructor c : constructors) {
+            // 方法名称：com.luojia.reflect.Car 参数个数：0
+            // 方法名称：com.luojia.reflect.Car 参数个数：3
             System.out.println("方法名称：" + c.getName() + " 参数个数：" + c.getParameterCount());
         }
 
@@ -46,6 +49,7 @@ public class TestReflectCar {
         Constructor c2 = clazz.getDeclaredConstructor(String.class, int.class, String.class);
         c2.setAccessible(true);
         Car car2 = (Car)c2.newInstance("宝马", 15, "红色");
+        // Car(name=宝马, age=15, color=红色)
         System.out.println(car2);
     }
 
@@ -58,6 +62,9 @@ public class TestReflectCar {
         Field[] fields = clazz.getFields();
         Field[] declaredFields = clazz.getDeclaredFields();
         for (Field field : declaredFields) {
+            // 属性名称：name
+            // 属性名称：age
+            // 属性名称：color
             System.out.println("属性名称：" + field.getName());
             if (field.getName().equals("name")) {
                 // 设置允许访问
@@ -65,9 +72,9 @@ public class TestReflectCar {
                 field.set(car, "五菱宏光");
             }
         }
+        // Car(name=五菱宏光, age=0, color=null)
         System.out.println(car);
     }
-
 
     // 4.获取方法
     @Test
@@ -81,6 +88,7 @@ public class TestReflectCar {
             // 执行方法
             if (m.getName().equals("toString")) {
                 String invoke = (String)m.invoke(car);
+                // toString 方法执行了：Car(name=奥迪, age=5, color=黑色)
                 System.out.println("toString 方法执行了：" + invoke);
             }
         }
@@ -91,10 +99,9 @@ public class TestReflectCar {
             // 执行方法 run()
             if (m1.getName().equals("run")) {
                 m1.setAccessible(true);
+                // 私有方法-run
                 m1.invoke(car);
             }
         }
-
     }
-
 }
