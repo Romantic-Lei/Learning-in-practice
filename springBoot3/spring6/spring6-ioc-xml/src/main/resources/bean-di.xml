@@ -15,4 +15,22 @@
         <constructor-arg name="author" value="lei"></constructor-arg>
     </bean>
 
+    <!--
+    第一种方式：引入外部bean
+    1 创建两个类对象，dept 和 emp
+    2 在 emp的bean 标签里面，使用 property 引入 dept的bean
+    -->
+    <bean id="deptt" class="at.luojia.spring6.iocxml.di.Dept">
+        <property name="dname" value="安保部"></property>
+    </bean>
+
+    <bean id="emp" class="at.luojia.spring6.iocxml.di.Emp">
+        <!-- 普通属性注入 -->
+        <property name="ename" value="lucy"></property>
+        <property name="age" value="20"></property>
+
+        <!-- 对象属性注入 ref 表示引用，值需要与对应bean的 id 对应上 -->
+        <property name="dept" ref="deptt"></property>
+    </bean>
+
 </beans>

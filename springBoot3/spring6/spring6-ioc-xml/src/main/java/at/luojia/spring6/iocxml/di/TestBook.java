@@ -12,5 +12,9 @@ public class TestBook {
 
         Book bookCon = context.getBean("bookCon", Book.class);
         System.out.println(bookCon);
+
+        // 员工对象
+        Emp emp = context.getBean("emp", Emp.class);
+        emp.work();
     }
 }
