@@ -20,7 +20,7 @@
     1 创建两个类对象，dept 和 emp
     2 在 emp的bean 标签里面，使用 property 引入 dept的bean
     -->
-    <bean id="deptt" class="at.luojia.spring6.iocxml.di.Dept">
+    <bean id="dept1" class="at.luojia.spring6.iocxml.di.Dept">
         <property name="dname" value="安保部"></property>
     </bean>
 
@@ -30,7 +30,105 @@
         <property name="age" value="20"></property>
 
         <!-- 对象属性注入 ref 表示引用，值需要与对应bean的 id 对应上 -->
-        <property name="dept" ref="deptt"></property>
+        <property name="dept" ref="dept1"></property>
     </bean>
 
+    <!--
+    第二种方式：内部bean 注入
+    1 创建两个类对象，dept 和 emp
+    2 在 emp的bean 标签里面，使用 property 引入 dept的bean
+    -->
+
+    <bean id="emp2" class="at.luojia.spring6.iocxml.di.Emp">
+        <!-- 普通属性注入 -->
+        <property name="ename" value="marry"></property>
+        <property name="age" value="25"></property>
+
+        <!-- 内部bean -->
+        <property name="dept">
+            <bean id="dept2" class="at.luojia.spring6.iocxml.di.Dept">
+                <property name="dname" value="财务部"></property>
+            </bean>
+        </property>
+
+    </bean>
+
+    <!-- 第三种方式 级联赋值 -->
+    <bean id="dept3" class="at.luojia.spring6.iocxml.di.Dept">
+        <property name="dname" value="技术研发部"></property>
+    </bean>
+
+    <bean id="emp3" class="at.luojia.spring6.iocxml.di.Emp">
+        <!-- 普通属性注入 -->
+        <property name="ename" value="Tom"></property>
+        <property name="age" value="30"></property>
+        <property name="dept" ref="dept3"></property>
+        <property name="dept.dname" value="测试部"></property>
+    </bean>
+
+    <!-- 数组类型属性 -->
+    <bean id="dept4" class="at.luojia.spring6.iocxml.di.Dept">
+        <property name="dname" value="技术研发部"></property>
+    </bean>
+
+    <bean id="emp4" class="at.luojia.spring6.iocxml.di.Emp">
+        <!-- 普通属性注入 -->
+        <property name="ename" value="Tom"></property>
+        <property name="age" value="30"></property>
+        <!-- 数组类型属性 -->
+        <property name="hobbies" >
+            <array>
+                <value>吃饭</value>
+                <value>上班</value>
+                <value>睡觉</value>
+            </array>
+        </property>
+        <property name="dept" ref="dept4"></property>
+    </bean>
+
+    <!-- List 集合类型属性 -->
+    <bean id="dept5" class="at.luojia.spring6.iocxml.di.Dept">
+        <property name="dname" value="技术研发部"></property>
+        <property name="empList">
+            <list>
+                <ref bean="emp5one"></ref>
+                <ref bean="emp5two"></ref>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="emp5one" class="at.luojia.spring6.iocxml.di.Emp">
+        <!-- 普通属性注入 -->
+        <property name="ename" value="marry"></property>
+        <property name="age" value="20"></property>
+        <property name="dept" ref="dept5"></property>
+    </bean>
+
+    <bean id="emp5two" class="at.luojia.spring6.iocxml.di.Emp">
+        <!-- 普通属性注入 -->
+        <property name="ename" value="herry"></property>
+        <property name="age" value="25"></property>
+        <property name="dept" ref="dept5"></property>
+    </bean>
+
+    <!-- Map 集合类型属性 -->
+    <bean id="dept6" class="at.luojia.spring6.iocxml.di.Dept">
+        <property name="dname" value="技术研发部"></property>
+        <property name="empMap">
+            <map>
+                <entry>
+                    <key>
+                        <value>测试1</value>
+                    </key>
+                    <ref bean="emp5one"></ref>
+                </entry>
+                <entry>
+                    <key>
+                        <value>测试2</value>
+                    </key>
+                    <ref bean="emp5two"></ref>
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>
