@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!--    &lt;!&ndash;根据类型注入&ndash;&gt;-->
+<!--    <bean id="userController" class="at.luojia.spring6.iocxml.auto.controller.UserController"-->
+<!--          autowire="byType">-->
+<!--        &lt;!&ndash; 配置了 autowire 之后会自动注入 不用手动的写下面的依赖 &ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="userService" ref="userService"></property>&ndash;&gt;-->
+<!--    </bean>-->
+
+<!--    <bean id="userService" class="at.luojia.spring6.iocxml.auto.server.UserServiceImpl"-->
+<!--          autowire="byType">-->
+<!--&lt;!&ndash;        <property name="userDao" ref="userDao"></property>&ndash;&gt;-->
+<!--    </bean>-->
+
+<!--    <bean id="userDao" class="at.luojia.spring6.iocxml.auto.dao.UserDaoImpl"></bean>-->
+
+
+    <bean id="userController" class="at.luojia.spring6.iocxml.auto.controller.UserController"
+          autowire="byName"></bean>
+
+    <bean id="userService" class="at.luojia.spring6.iocxml.auto.server.UserServiceImpl"
+          autowire="byName"></bean>
+
+    <bean id="userDao" class="at.luojia.spring6.iocxml.auto.dao.UserDaoImpl"></bean>
+</beans>
