@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring6-ioc-xml</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
