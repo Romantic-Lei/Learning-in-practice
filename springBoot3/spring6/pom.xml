@@ -10,6 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring6-ioc-xml</module>
+        <module>spring6-ioc-annotation</module>
+        <module>spring6-reflect</module>
     </modules>
 
     <properties>
@@ -25,6 +27,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>6.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>2.1.1</version>
         </dependency>
 
         <!--junit5测试-->
