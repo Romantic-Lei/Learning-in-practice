@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void out() {
-        // userDao.print();
+        userDao.print();
         System.out.println("Service层执行结束");
     }
 }
