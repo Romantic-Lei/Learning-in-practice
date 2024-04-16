@@ -144,15 +144,6 @@ public class AnnotationApplicationContext implements MyApplicationContext{
                     }
                 }
             }
-
-
         }
-
-
-        
-    }
-
-    public static void main(String[] args) {
-
     }
 }
