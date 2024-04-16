@@ -1,15 +1,18 @@
 package com.luojia.bean;
 
 import com.luojia.anotation.Bean;
+import com.luojia.anotation.Di;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class AnnotationApplicationContext implements MyApplicationContext{
 
@@ -57,6 +60,9 @@ public class AnnotationApplicationContext implements MyApplicationContext{
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+
+        // 属性注入
+        loadDi();
     }
 
     // 包扫描过程，实例化
@@ -107,6 +113,43 @@ public class AnnotationApplicationContext implements MyApplicationContext{
                 }
             }
         }
+    }
+
+    // 属性注入
+    private void loadDi() {
+        // 实例化对象在 beanFactory 的map 集合里面
+        // 1.遍历 beanFactory 的map集合
+        Set<Map.Entry<Class, Object>> entries = beanFactory.entrySet();
+        for (Map.Entry<Class, Object> entry : entries) {
+            // 2.获取 map 集合每个对象（value），每个对象的属性都获取到
+            Object obj = entry.getValue();
+            Class<?> clazz = obj.getClass();
+
+            // 获取每个对象属性
+            Field[] declaredFields = clazz.getDeclaredFields();
+            // 3.遍历得到每个对象属性数组，得到每个属性
+            for (Field field : declaredFields) {
+                // 4.判断属性上是否有 @Di注解
+                Di annotation = field.getAnnotation(Di.class);
+                if (null != annotation) {
+                    // 如果私有属性，设置为可以设置值
+                    field.setAccessible(true);
+                    // 5.如果有 @Di 注解，把对象进行设置（注入）
+                    try {
+                        // set第一个参数是设置的对象，第二个事值，
+                        // 将字段类型取出，比如是service还是dao
+                        field.set(obj, beanFactory.get(field.getType()));
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+
+        }
+
+
+        
     }
 
     public static void main(String[] args) {
