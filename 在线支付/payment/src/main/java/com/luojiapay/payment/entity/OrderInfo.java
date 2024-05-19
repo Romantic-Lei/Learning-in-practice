@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @TableName("t_order_info")
-public class OrderInfo  extends BaseEntity{
+public class OrderInfo extends BaseEntity{
 
     private String title;//订单标题
 

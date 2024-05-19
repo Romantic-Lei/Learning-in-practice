@@ -9,12 +9,15 @@ import com.luojiapay.payment.mapper.OrderInfoMapper;
 import com.luojiapay.payment.mapper.ProductMapper;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.util.OrderNoUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
+@Slf4j
 public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo> implements OrderInfoService {
     
     @Resource
@@ -50,6 +53,37 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setCodeUrl(codeUrl);
         orderInfoMapper.update(orderInfo, new QueryWrapper<OrderInfo>()
                 .eq("order_no", orderNo));
+    }
+
+    @Override
+    public List<OrderInfo> queryOrderByCreateTimeDesc() {
+        List<OrderInfo> list = orderInfoMapper.selectList(new QueryWrapper<OrderInfo>()
+                .orderByDesc("create_time"));
+        return list;
+    }
+
+    /**
+     * 更新订单状态信息
+     * @param outTradeNo
+     * @param orderStatus
+     */
+    @Override
+    public void updateStatusByOrderNo(String outTradeNo, OrderStatus orderStatus) {
+        log.info("更新订单状态：{}", orderStatus.getType());
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOrderStatus(orderStatus.getType());
+        orderInfoMapper.update(orderInfo, new QueryWrapper<OrderInfo>()
+                .eq("order_no", outTradeNo));
+    }
+
+    @Override
+    public String getOrderStatus(String outTradeNo) {
+        OrderInfo orderInfo = orderInfoMapper.selectOne(new QueryWrapper<OrderInfo>()
+                .eq("order_no", outTradeNo));
+        if (orderInfo == null) {
+            return null;
+        }
+        return orderInfo.getOrderStatus();
     }
 
     /**

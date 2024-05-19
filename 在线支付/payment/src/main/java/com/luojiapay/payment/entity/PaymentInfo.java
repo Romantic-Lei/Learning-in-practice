@@ -17,6 +17,10 @@ public class PaymentInfo extends BaseEntity{
 
     private String tradeState;//交易状态
 
+    private String tradeStateDesc;//交易状态
+
+    private Integer total;//订单总金额(分)
+
     private Integer payerTotal;//支付金额(分)
 
     private String content;//通知参数
