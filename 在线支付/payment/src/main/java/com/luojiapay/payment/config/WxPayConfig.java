@@ -1,7 +1,9 @@
 package com.luojiapay.payment.config;
 
+import com.luojiapay.payment.util.OrderNoUtils;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
+import com.wechat.pay.java.core.util.PemUtil;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.wechat.pay.java.service.payments.nativepay.model.Amount;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
@@ -47,7 +49,7 @@ public class WxPayConfig {
      * @return
      */
     @Bean
-    public Config getPrivateKey() {
+    public Config rsaAutoConfig() {
         Config config =
                 new RSAAutoCertificateConfig.Builder()
                         .merchantId(mchId)
@@ -59,6 +61,8 @@ public class WxPayConfig {
     }
 
     public static void main(String[] args) {
+
+        PrivateKey privateKey = PemUtil.loadPrivateKeyFromPath("apiclient_key.pem");
         // 使用自动更新平台证书的RSA配置
         // 一个商户号只能初始化一个配置，否则会因为重复的下载任务报错
         Config config =
@@ -79,7 +83,7 @@ public class WxPayConfig {
         request.setMchid("1558950191");
         request.setDescription("测试商品标题");
         request.setNotifyUrl("https://notify_url");
-        request.setOutTradeNo("out_trade_no_00111");
+        request.setOutTradeNo(OrderNoUtils.getOrderNo());
         // 调用下单方法，得到应答
         PrepayResponse response = service.prepay(request);
         // 使用微信扫描 code_url 对应的二维码，即可体验Native支付
