@@ -86,6 +86,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderInfo.getOrderStatus();
     }
 
+    @Override
+    public OrderInfo getOrderByOrderNo(String orderNo) {
+        return orderInfoMapper.selectOne(new QueryWrapper<OrderInfo>()
+                .eq("order_no", orderNo));
+    }
+
     /**
      * 微信支付二维码有效期两小时，此处可以存放订单的二维码，
      * 用户下单未支付再次下单时可以直接拿到第一次申请的二维码

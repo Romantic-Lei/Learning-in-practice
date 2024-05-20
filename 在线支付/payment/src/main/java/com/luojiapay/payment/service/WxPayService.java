@@ -8,4 +8,8 @@ public interface WxPayService {
     Map<String, Object> nativePay(Long productId);
 
     void processOrder(Transaction transaction);
+
+    void cancelOrder(String orderNo);
+
+    void refund(String orderNo, String reason);
 }

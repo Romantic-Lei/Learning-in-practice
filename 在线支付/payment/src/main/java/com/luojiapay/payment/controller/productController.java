@@ -29,7 +29,7 @@ public class productController {
         return Result.ok().data("message", "hello").data("now", new Date());
     }
 
-    @ApiOperation("测试接口")
+    @ApiOperation("商品列表接口")
     @GetMapping("/list")
     public Result list() {
         List<Product> list = productService.list();

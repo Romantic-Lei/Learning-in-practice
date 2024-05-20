@@ -2,18 +2,24 @@ package com.luojiapay.payment.service.impl;
 
 import com.luojiapay.payment.config.WxPayConfig;
 import com.luojiapay.payment.entity.OrderInfo;
+import com.luojiapay.payment.entity.RefundInfo;
 import com.luojiapay.payment.enums.OrderStatus;
 import com.luojiapay.payment.enums.wxpay.WxNotifyType;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.PaymentInfoService;
+import com.luojiapay.payment.service.RefundInfoService;
 import com.luojiapay.payment.service.WxPayService;
-import com.luojiapay.payment.util.OrderNoUtils;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.wechat.pay.java.service.payments.nativepay.model.Amount;
+import com.wechat.pay.java.service.payments.nativepay.model.CloseOrderRequest;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
+import com.wechat.pay.java.service.refund.RefundService;
+import com.wechat.pay.java.service.refund.model.AmountReq;
+import com.wechat.pay.java.service.refund.model.CreateRequest;
+import com.wechat.pay.java.service.refund.model.Refund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +40,8 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     OrderInfoService orderInfoService;
     @Autowired
+    RefundInfoService refundInfoService;
+    @Autowired
     PaymentInfoService paymentInfoService;
 
     private final ReentrantLock lock = new ReentrantLock();
@@ -45,7 +53,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public Map<String, Object> nativePay(Long productId) {
-        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, 1l);
+        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, 1L);
         if (null != orderInfo && StringUtils.hasText(orderInfo.getCodeUrl())) {
             log.info("订单已存在，二维码已保存");
             Map<String, Object> returnMap = new HashMap<>();
@@ -106,5 +114,49 @@ public class WxPayServiceImpl implements WxPayService {
             }
         }
 
+    }
+
+    /**
+     * 用户取消订单
+     * @param orderNo
+     */
+    @Override
+    public void cancelOrder(String orderNo) {
+        // 调用微信支付的关单接口
+        NativePayService service = new NativePayService.Builder().config(config).build();
+        CloseOrderRequest request = new CloseOrderRequest();
+        request.setOutTradeNo(orderNo);
+        request.setMchid(wxPayConfig.getMchId());
+        service.closeOrder(request);
+
+        // 更新商户端的订单状态
+        orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CANCEL);
+    }
+
+    @Override
+    public void refund(String orderNo, String reason) {
+        // 创建退款信息
+        RefundInfo refundInfo = refundInfoService.createRefundByOrderNo(orderNo, reason);
+        // 调用微信支付的退款接口
+        RefundService service = new RefundService.Builder().config(config).build();
+        CreateRequest request = new CreateRequest();
+        request.setOutTradeNo(orderNo);// 订单编号
+        request.setOutRefundNo(refundInfo.getRefundNo());// 退款单编号
+        request.setReason(reason);
+        request.setNotifyUrl(wxPayConfig.getDomain().concat(WxNotifyType.REFUND_NOTIFY.getType()));
+        AmountReq amount = new AmountReq();
+        // 退款金额
+        amount.setRefund(refundInfo.getRefund().longValue());
+        // 原订单金额
+        amount.setTotal(refundInfo.getTotalFee().longValue());
+        // 退款币种
+        amount.setCurrency("CNY");
+        request.setAmount(amount);
+        Refund refund = service.create(request);
+
+        // 更新订单信息，正在退款中
+        orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.REFUND_PROCESSING);
+        // 更新退款单
+        refundInfoService.updateRefund(refund);
     }
 }

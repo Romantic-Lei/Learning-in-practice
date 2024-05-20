@@ -84,20 +84,33 @@ public class WxPayController {
         }
         log.error("sign verification success");
 
-        // 如果处理失败，应返回 4xx/5xx 的状态码，例如 500 INTERNAL_SERVER_ERROR
-        // if (/* process error */) {
-        //     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
-        // }
-
         // todo: 验签解密后处理订单
         wxPayService.processOrder(transaction);
-
 
         // 成功应答
         response.setStatus(200);
         map.put("code", "SUCCESS");
         map.put("message", "成功");
         return gson.toJson(map);
+    }
+
+    @ApiOperation("取消订单")
+    @PostMapping("/cancel/{orderNo}")
+    public Result cancel(@PathVariable String orderNo) {
+        log.info("取消订单，订单号：{}", orderNo);
+        wxPayService.cancelOrder(orderNo);
+
+        return Result.ok();
+    }
+
+    @ApiOperation("申请退款")
+    @PostMapping("/refunds/{orderNo}/{reason}")
+    public Result refunds(@PathVariable String orderNo,
+                          @PathVariable String reason) {
+        log.info("申请退款，订单号：{}, 退款原因：{}", orderNo, reason);
+        wxPayService.refund(orderNo, reason);
+
+        return Result.ok();
     }
 
 }
