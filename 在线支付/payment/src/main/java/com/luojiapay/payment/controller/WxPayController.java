@@ -103,6 +103,15 @@ public class WxPayController {
         return Result.ok();
     }
 
+    @ApiOperation("查询订单")
+    @GetMapping("/query/{orderNo}")
+    public Result queryOrder(@PathVariable String orderNo) {
+        log.info("查询订单，订单号：{}", orderNo);
+        com.wechat.pay.java.service.payments.model.Transaction result = wxPayService.queryOrder(orderNo);
+
+        return Result.ok().setMessage("查询成功").data("result", result);
+    }
+
     @ApiOperation("申请退款")
     @PostMapping("/refunds/{orderNo}/{reason}")
     public Result refunds(@PathVariable String orderNo,

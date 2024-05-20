@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -90,6 +92,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     public OrderInfo getOrderByOrderNo(String orderNo) {
         return orderInfoMapper.selectOne(new QueryWrapper<OrderInfo>()
                 .eq("order_no", orderNo));
+    }
+
+    /**
+     * 查询创建超过minutes分钟并且未支付的订单
+     * @param minutes
+     * @return
+     */
+    @Override
+    public List<OrderInfo> getNoPayOrderByDuration(int minutes) {
+        Instant instant = Instant.now().minus(Duration.ofMinutes(minutes));
+        List<OrderInfo> orderInfos = orderInfoMapper.selectList(new QueryWrapper<OrderInfo>()
+                .eq("order_status", OrderStatus.NOTPAY.getType())
+                .le("create_time", instant));
+        return orderInfos;
     }
 
     /**

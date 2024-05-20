@@ -5,17 +5,16 @@ import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.entity.RefundInfo;
 import com.luojiapay.payment.enums.OrderStatus;
 import com.luojiapay.payment.enums.wxpay.WxNotifyType;
+import com.luojiapay.payment.enums.wxpay.WxTradeState;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.PaymentInfoService;
 import com.luojiapay.payment.service.RefundInfoService;
 import com.luojiapay.payment.service.WxPayService;
 import com.wechat.pay.java.core.Config;
+import com.wechat.pay.java.service.partnerpayments.model.TransactionAmount;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
-import com.wechat.pay.java.service.payments.nativepay.model.Amount;
-import com.wechat.pay.java.service.payments.nativepay.model.CloseOrderRequest;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayRequest;
-import com.wechat.pay.java.service.payments.nativepay.model.PrepayResponse;
+import com.wechat.pay.java.service.payments.nativepay.model.*;
 import com.wechat.pay.java.service.refund.RefundService;
 import com.wechat.pay.java.service.refund.model.AmountReq;
 import com.wechat.pay.java.service.refund.model.CreateRequest;
@@ -122,15 +121,30 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public void cancelOrder(String orderNo) {
+        closeOrder(orderNo);
+        // 更新商户端的订单状态
+        orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CANCEL);
+    }
+
+    public void closeOrder(String orderNo) {
         // 调用微信支付的关单接口
         NativePayService service = new NativePayService.Builder().config(config).build();
         CloseOrderRequest request = new CloseOrderRequest();
         request.setOutTradeNo(orderNo);
         request.setMchid(wxPayConfig.getMchId());
         service.closeOrder(request);
+    }
 
-        // 更新商户端的订单状态
-        orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CANCEL);
+
+    @Override
+    public com.wechat.pay.java.service.payments.model.Transaction queryOrder(String orderNo) {
+        log.info("查询接口调用 ===> {}", orderNo);
+        NativePayService service = new NativePayService.Builder().config(config).build();
+        QueryOrderByOutTradeNoRequest request = new QueryOrderByOutTradeNoRequest();
+        request.setMchid(wxPayConfig.getMchId());
+        request.setOutTradeNo(orderNo);
+        com.wechat.pay.java.service.payments.model.Transaction transaction = service.queryOrderByOutTradeNo(request);
+        return transaction;
     }
 
     @Override
@@ -158,5 +172,40 @@ public class WxPayServiceImpl implements WxPayService {
         orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.REFUND_PROCESSING);
         // 更新退款单
         refundInfoService.updateRefund(refund);
+    }
+
+    /**
+     * 根据订单号查询微信支付查单接口，核实订单状态
+     * 如果订单已支付，则更新商户端订单状态
+     * 如果订单未支付，则调用关单接口关闭订单，并更新商户端订单状态
+     * @param orderNo
+     */
+    @Override
+    public void checkOrderStatus(String orderNo) {
+        log.info("根据订单号核实订单状态：{}", orderNo);
+        com.wechat.pay.java.service.payments.model.Transaction transaction = queryOrder(orderNo);
+
+        // 获取微信支付端订单状态
+        if (WxTradeState.SUCCESS.getType().equals(transaction.getTradeState().name())) {
+            log.info("核实订单已支付 ===> {}", orderNo);
+            // 订单已支付则更新本地订单状态
+            orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.SUCCESS);
+            Transaction nativeTransaction = new Transaction();
+            nativeTransaction.setOutTradeNo(transaction.getOutTradeNo());
+            nativeTransaction.setTransactionId(transaction.getTransactionId());
+            
+            // nativeTransaction.setTradeType();
+            // nativeTransaction.setTradeState();
+            nativeTransaction.setTradeStateDesc(transaction.getTradeStateDesc());
+            TransactionAmount amount = new TransactionAmount();
+            amount.setTotal(transaction.getAmount().getTotal());
+            amount.setPayerTotal(transaction.getAmount().getPayerTotal());
+            nativeTransaction.setAmount(amount);
+            // 支付记录日志创建
+            paymentInfoService.createPaymentInfo(nativeTransaction);
+        } else if (WxTradeState.NOTPAY.getType().equals(transaction.getTradeState().name())) {
+            closeOrder(orderNo);
+            orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CLOSED);
+        }
     }
 }
