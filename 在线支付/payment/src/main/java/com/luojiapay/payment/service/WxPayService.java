@@ -22,4 +22,6 @@ public interface WxPayService {
     Refund queryReFund(String refundNo);
 
     void processRefund(RefundNotification transaction);
+
+    String queryBill(String billDate, String type);
 }

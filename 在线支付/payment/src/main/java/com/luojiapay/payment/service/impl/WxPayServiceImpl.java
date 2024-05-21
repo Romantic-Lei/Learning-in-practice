@@ -5,6 +5,7 @@ import com.luojiapay.payment.config.WxPayConfig;
 import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.entity.RefundInfo;
 import com.luojiapay.payment.enums.OrderStatus;
+import com.luojiapay.payment.enums.wxpay.WxApiType;
 import com.luojiapay.payment.enums.wxpay.WxNotifyType;
 import com.luojiapay.payment.enums.wxpay.WxTradeState;
 import com.luojiapay.payment.mapper.RefundInfoMapper;
@@ -13,6 +14,10 @@ import com.luojiapay.payment.service.PaymentInfoService;
 import com.luojiapay.payment.service.RefundInfoService;
 import com.luojiapay.payment.service.WxPayService;
 import com.wechat.pay.java.core.Config;
+import com.wechat.pay.java.service.billdownload.BillDownloadService;
+import com.wechat.pay.java.service.billdownload.model.GetFundFlowBillRequest;
+import com.wechat.pay.java.service.billdownload.model.GetTradeBillRequest;
+import com.wechat.pay.java.service.billdownload.model.QueryBillEntity;
 import com.wechat.pay.java.service.partnerpayments.model.TransactionAmount;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
@@ -250,5 +255,24 @@ public class WxPayServiceImpl implements WxPayService {
                 lock.unlock();
             }
         }
+    }
+
+    @Override
+    public String queryBill(String billDate, String type) {
+        BillDownloadService service = new BillDownloadService.Builder().config(config).build();
+        QueryBillEntity tradeBill = null;
+        //申请交易账单API
+        if ("tradebill".equals(type)) {
+            GetTradeBillRequest request = new GetTradeBillRequest();
+            request.setBillDate(billDate);
+            tradeBill = service.getTradeBill(request);
+        } else if ("fundflowbill".equals(type)) {
+            // 申请资金账单API
+            GetFundFlowBillRequest request = new GetFundFlowBillRequest();
+            request.setBillDate(billDate);
+            tradeBill = service.getFundFlowBill(request);
+        }
+        String downloadUrl = tradeBill.getDownloadUrl();
+        return downloadUrl;
     }
 }

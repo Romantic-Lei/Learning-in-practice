@@ -49,7 +49,7 @@ public class WxPayController {
         return Result.ok().setData(map);
     }
 
-    @ApiOperation("微信回调通知报文")
+    @ApiOperation("微信支付-微信回调通知报文")
     @PostMapping("/native/notify")
     public String nativeNotify(HttpServletRequest request, HttpServletResponse response) {
         Gson gson = new Gson();
@@ -178,5 +178,15 @@ public class WxPayController {
         map.put("code", "SUCCESS");
         map.put("message", "成功");
         return gson.toJson(map);
+    }
+
+    @ApiOperation("交易账单/资金账单查询")
+    @PostMapping("/querybill/{billDate}/{type}")
+    public Result refundsNotify(@PathVariable String billDate,
+                                @PathVariable String type) {
+        log.info("获取账单url");
+
+        String downloadUrl = wxPayService.queryBill(billDate, type);
+        return Result.ok().setMessage("获取账单url成功").data("downloadUrl", downloadUrl);
     }
 }
