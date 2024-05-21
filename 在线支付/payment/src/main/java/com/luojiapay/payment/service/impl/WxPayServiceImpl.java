@@ -1,11 +1,13 @@
 package com.luojiapay.payment.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luojiapay.payment.config.WxPayConfig;
 import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.entity.RefundInfo;
 import com.luojiapay.payment.enums.OrderStatus;
 import com.luojiapay.payment.enums.wxpay.WxNotifyType;
 import com.luojiapay.payment.enums.wxpay.WxTradeState;
+import com.luojiapay.payment.mapper.RefundInfoMapper;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.PaymentInfoService;
 import com.luojiapay.payment.service.RefundInfoService;
@@ -15,10 +17,9 @@ import com.wechat.pay.java.service.partnerpayments.model.TransactionAmount;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.wechat.pay.java.service.payments.nativepay.model.*;
+import com.wechat.pay.java.service.payments.nativepay.model.Amount;
 import com.wechat.pay.java.service.refund.RefundService;
-import com.wechat.pay.java.service.refund.model.AmountReq;
-import com.wechat.pay.java.service.refund.model.CreateRequest;
-import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,8 @@ public class WxPayServiceImpl implements WxPayService {
     RefundInfoService refundInfoService;
     @Autowired
     PaymentInfoService paymentInfoService;
+    @Autowired
+    RefundInfoMapper refundInfoMapper;
 
     private final ReentrantLock lock = new ReentrantLock();
 
@@ -157,7 +160,7 @@ public class WxPayServiceImpl implements WxPayService {
         request.setOutTradeNo(orderNo);// 订单编号
         request.setOutRefundNo(refundInfo.getRefundNo());// 退款单编号
         request.setReason(reason);
-        request.setNotifyUrl(wxPayConfig.getDomain().concat(WxNotifyType.REFUND_NOTIFY.getType()));
+        request.setNotifyUrl(wxPayConfig.getNotifyDomain().concat(WxNotifyType.REFUND_NOTIFY.getType()));
         AmountReq amount = new AmountReq();
         // 退款金额
         amount.setRefund(refundInfo.getRefund().longValue());
@@ -206,6 +209,46 @@ public class WxPayServiceImpl implements WxPayService {
         } else if (WxTradeState.NOTPAY.getType().equals(transaction.getTradeState().name())) {
             closeOrder(orderNo);
             orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CLOSED);
+        }
+    }
+
+    @Override
+    public Refund queryReFund(String refundNo) {
+        RefundService service = new RefundService.Builder().config(config).build();
+        QueryByOutRefundNoRequest request = new QueryByOutRefundNoRequest();
+        request.setOutRefundNo(refundNo);
+        Refund refund = service.queryByOutRefundNo(request);
+        return refund;
+    }
+
+    @Override
+    public void processRefund(RefundNotification transaction) {
+        // 订单号
+        String outTradeNo = transaction.getOutTradeNo();
+
+        // 在对业务数据进行状态检查和处理之前，要采用数据锁进行并发控制，
+        // 以避免函数重入造成的数据混乱
+        // 处理重复通知,获取锁成功则返回true，否则返回false
+        if (lock.tryLock()) {
+            try {
+                String orderStatus = orderInfoService.getOrderStatus(outTradeNo);
+                if (!OrderStatus.REFUND_PROCESSING.getType().equals(orderStatus)) {
+                    return;
+                }
+
+                // 更新订单状态
+                orderInfoService.updateStatusByOrderNo(outTradeNo, OrderStatus.REFUND_SUCCESS);
+                // 记录支付日志
+                RefundInfo refundInfo = new RefundInfo();
+                refundInfo.setRefundId(transaction.getRefundId());// 微信支付退款单号
+                refundInfo.setRefundStatus(transaction.getRefundStatus().name());// 退款状态
+                refundInfo.setContentNotify(transaction.toString());
+
+                refundInfoMapper.update(refundInfo, new QueryWrapper<RefundInfo>()
+                        .eq("refund_no", transaction.getOutRefundNo()));
+            } finally {
+                lock.unlock();
+            }
         }
     }
 }

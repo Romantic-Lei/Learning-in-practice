@@ -11,6 +11,8 @@ import com.wechat.pay.java.core.notification.NotificationConfig;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.core.notification.RequestParam;
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
+import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +86,7 @@ public class WxPayController {
         }
         log.error("sign verification success");
 
-        // todo: 验签解密后处理订单
+        // 验签解密后处理订单
         wxPayService.processOrder(transaction);
 
         // 成功应答
@@ -122,4 +124,59 @@ public class WxPayController {
         return Result.ok();
     }
 
+    @ApiOperation("查询退款信息")
+    @GetMapping("/query-refund/{refundNo}")
+    public Result queryRefund(@PathVariable String refundNo) {
+        log.info("查询退款订单，退款单号：{}", refundNo);
+        Refund refund = wxPayService.queryReFund(refundNo);
+
+        return Result.ok().setMessage("查询成功").data("result", refund);
+    }
+
+    @ApiOperation("退款通知-微信回调商户客户端")
+    @PostMapping("/refunds/notify")
+    public String refundsNotify(HttpServletRequest request, HttpServletResponse response) {
+        Gson gson = new Gson();
+        Map<String, String> map = new HashMap<>();// 应答对象
+
+        // 处理通知参数
+        String body = HttpUtils.readData(request);
+        Map<String, Object> bodyMap = gson.fromJson(body, HashMap.class);
+        log.info("退款通知的完整数据 ===> {}", body);
+        log.info("退款通知的id ===> {}", bodyMap.get("id"));
+
+        // 验签
+        // 构造 RequestParam
+        RequestParam requestParam = new RequestParam.Builder()
+                .serialNumber(request.getHeader("Wechatpay-Serial"))
+                .nonce(request.getHeader("Wechatpay-Nonce"))
+                .signature(request.getHeader("Wechatpay-Signature"))
+                .timestamp(request.getHeader("Wechatpay-Timestamp"))
+                .body(body)
+                .build();
+        NotificationParser parser = new NotificationParser((NotificationConfig) config);
+
+        RefundNotification transaction = new RefundNotification();
+        try {
+            // 以支付通知回调为例，验签、解密并转换成 Transaction
+            transaction = parser.parse(requestParam, RefundNotification.class);
+        } catch (ValidationException e) {
+            // 签名验证失败，返回 401 UNAUTHORIZED 状态码
+            log.error("sign verification failed", e);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            map.put("code", "fail");
+            map.put("message", "失败");
+            return gson.toJson(map);
+        }
+
+        log.error("sign verification success");
+
+        // 验签解密后处理订单
+        wxPayService.processRefund(transaction);
+        // 成功应答
+        response.setStatus(200);
+        map.put("code", "SUCCESS");
+        map.put("message", "成功");
+        return gson.toJson(map);
+    }
 }

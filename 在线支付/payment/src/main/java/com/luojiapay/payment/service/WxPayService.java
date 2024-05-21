@@ -1,6 +1,8 @@
 package com.luojiapay.payment.service;
 
 import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
+import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 
 import java.util.Map;
 
@@ -16,4 +18,8 @@ public interface WxPayService {
     void refund(String orderNo, String reason);
 
     void checkOrderStatus(String orderNo);
+
+    Refund queryReFund(String refundNo);
+
+    void processRefund(RefundNotification transaction);
 }
