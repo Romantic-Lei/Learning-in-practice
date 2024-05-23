@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -23,12 +24,13 @@ public class WxPayTask {
     public void orderConfirm() {
         List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(5);
         for (OrderInfo orderInfo : orderInfoList) {
-            String orderNo = orderInfo.getOrderNo();
-            log.warn("超过订单====>{}", orderNo);
+            if (StringUtils.hasText(orderInfo.getCodeUrl())) {
+                String orderNo = orderInfo.getOrderNo();
+                log.warn("超过订单====>{}", orderNo);
 
-            // 核实订单状态，调用微信支付查单接口
-            wxPayService.checkOrderStatus(orderNo);
+                // 核实订单状态，调用微信支付查单接口
+                wxPayService.checkOrderStatus(orderNo);
+            }
         }
     }
-
 }
