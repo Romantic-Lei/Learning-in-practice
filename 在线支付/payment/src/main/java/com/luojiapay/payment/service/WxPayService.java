@@ -4,6 +4,7 @@ import com.wechat.pay.java.service.partnerpayments.nativepay.model.Transaction;
 import com.wechat.pay.java.service.refund.model.Refund;
 import com.wechat.pay.java.service.refund.model.RefundNotification;
 
+import java.io.IOException;
 import java.util.Map;
 
 public interface WxPayService {
@@ -24,4 +25,6 @@ public interface WxPayService {
     void processRefund(RefundNotification transaction);
 
     String queryBill(String billDate, String type);
+
+    String downloadbill(String billDate, String type) throws IOException;
 }

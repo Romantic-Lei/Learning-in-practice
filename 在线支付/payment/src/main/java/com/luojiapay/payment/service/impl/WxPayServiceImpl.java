@@ -14,7 +14,13 @@ import com.luojiapay.payment.service.PaymentInfoService;
 import com.luojiapay.payment.service.RefundInfoService;
 import com.luojiapay.payment.service.WxPayService;
 import com.wechat.pay.java.core.Config;
+import com.wechat.pay.java.core.http.DefaultHttpClientBuilder;
+import com.wechat.pay.java.core.http.HttpClient;
+import com.wechat.pay.java.core.http.okhttp.OkHttpClientAdapter;
+import com.wechat.pay.java.core.util.IOUtil;
 import com.wechat.pay.java.service.billdownload.BillDownloadService;
+import com.wechat.pay.java.service.billdownload.BillDownloadServiceExtension;
+import com.wechat.pay.java.service.billdownload.DigestBillEntity;
 import com.wechat.pay.java.service.billdownload.model.GetFundFlowBillRequest;
 import com.wechat.pay.java.service.billdownload.model.GetTradeBillRequest;
 import com.wechat.pay.java.service.billdownload.model.QueryBillEntity;
@@ -30,6 +36,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
@@ -260,7 +268,7 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     public String queryBill(String billDate, String type) {
         BillDownloadService service = new BillDownloadService.Builder().config(config).build();
-        QueryBillEntity tradeBill = null;
+        QueryBillEntity tradeBill = new QueryBillEntity();
         //申请交易账单API
         if ("tradebill".equals(type)) {
             GetTradeBillRequest request = new GetTradeBillRequest();
@@ -274,5 +282,33 @@ public class WxPayServiceImpl implements WxPayService {
         }
         String downloadUrl = tradeBill.getDownloadUrl();
         return downloadUrl;
+    }
+
+    @Override
+    public String downloadbill(String billDate, String type) throws IOException {
+        // 下载账单方式一：
+        // 获取账单url地址
+        String downloadUrl = queryBill(billDate, type);
+        HttpClient httpClient = new DefaultHttpClientBuilder().config(config).build();
+        InputStream inputStream = httpClient.download(downloadUrl);
+        // 非压缩的账单可使用 core.util.IOUtil 从流读入内存字符串，大账单请慎用
+        String respBody = IOUtil.toString(inputStream);
+        inputStream.close();
+        return respBody;
+
+        // 下载账单方式二：
+        // BillDownloadServiceExtension service = new BillDownloadServiceExtension.Builder().config(config).build();
+        // //下载交易账单API
+        // if ("tradebill".equals(type)) {
+        //     GetTradeBillRequest request = new GetTradeBillRequest();
+        //     request.setBillDate(billDate);
+        //     return IOUtil.toString(service.getTradeBill(request).getInputStream());
+        // } else if ("fundflowbill".equals(type)) {
+        //     // 下载资金账单API
+        //     GetFundFlowBillRequest request = new GetFundFlowBillRequest();
+        //     request.setBillDate(billDate);
+        //     return IOUtil.toString(service.getFundFlowBill(request).getInputStream());
+        // }
+        // return "";
     }
 }

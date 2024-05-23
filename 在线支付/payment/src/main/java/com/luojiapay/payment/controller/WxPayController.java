@@ -1,7 +1,6 @@
 package com.luojiapay.payment.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.luojiapay.payment.service.WxPayService;
 import com.luojiapay.payment.util.HttpUtils;
 import com.luojiapay.payment.vo.Result;
@@ -18,17 +17,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @CrossOrigin
-@Api("网站微信支付API")
+@Api(tags = "网站微信支付API")
 @RestController
 @RequestMapping("/api/wx-pay")
 @Slf4j
@@ -181,12 +179,22 @@ public class WxPayController {
     }
 
     @ApiOperation("交易账单/资金账单查询")
-    @PostMapping("/querybill/{billDate}/{type}")
-    public Result refundsNotify(@PathVariable String billDate,
+    @GetMapping("/querybill/{billDate}/{type}")
+    public Result querybill(@PathVariable String billDate,
                                 @PathVariable String type) {
         log.info("获取账单url");
 
         String downloadUrl = wxPayService.queryBill(billDate, type);
         return Result.ok().setMessage("获取账单url成功").data("downloadUrl", downloadUrl);
+    }
+
+    @ApiOperation("交易账单/资金账单下载")
+    @GetMapping("/downloadbill/{billDate}/{type}")
+    public Result downloadbill(@PathVariable String billDate,
+                                @PathVariable String type) throws IOException {
+        log.info("下载账单url");
+
+        String result = wxPayService.downloadbill(billDate, type);
+        return Result.ok().setMessage("获取账单url成功").data("result", result);
     }
 }
