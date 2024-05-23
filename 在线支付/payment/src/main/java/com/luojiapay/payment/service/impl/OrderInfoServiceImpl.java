@@ -43,7 +43,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setProductId(productId);
         orderInfo.setTotalFee(product.getPrice()); // 单位是分
         orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
-        orderInfo.setUserId(1l);
+        orderInfo.setUserId(userId);
         // 保存订单信息
         orderInfoMapper.insert(orderInfo);
         return orderInfo;

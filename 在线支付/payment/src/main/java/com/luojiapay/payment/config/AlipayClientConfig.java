@@ -17,7 +17,7 @@ public class AlipayClientConfig {
     Environment env;
 
     @Bean
-    public AlipayConfig alipayConfig() throws AlipayApiException {
+    public AlipayClient alipayClient() throws AlipayApiException {
         AlipayConfig alipayConfig = new AlipayConfig();
         //设置网关地址
         alipayConfig.setServerUrl(env.getProperty("alipay.gateway-url"));
@@ -35,6 +35,6 @@ public class AlipayClientConfig {
         alipayConfig.setSignType(AlipayConstants.SIGN_TYPE_RSA2);
         //构造client
         AlipayClient alipayClient = new DefaultAlipayClient(alipayConfig);
-        return alipayConfig;
+        return alipayClient;
     }
 }
