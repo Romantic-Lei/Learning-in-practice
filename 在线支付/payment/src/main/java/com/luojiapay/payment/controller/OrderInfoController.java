@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin
-@Api("商品订单管理API")
+@Api(tags = "商品订单管理API")
 @RestController
 @RequestMapping("/api/order-info")
 @Slf4j
