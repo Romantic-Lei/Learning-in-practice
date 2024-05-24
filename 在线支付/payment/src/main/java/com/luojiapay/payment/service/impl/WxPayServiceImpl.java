@@ -5,6 +5,7 @@ import com.luojiapay.payment.config.WxPayConfig;
 import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.entity.RefundInfo;
 import com.luojiapay.payment.enums.OrderStatus;
+import com.luojiapay.payment.enums.PayType;
 import com.luojiapay.payment.enums.wxpay.WxApiType;
 import com.luojiapay.payment.enums.wxpay.WxNotifyType;
 import com.luojiapay.payment.enums.wxpay.WxTradeState;
@@ -68,7 +69,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public Map<String, Object> nativePay(Long productId) {
-        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, 1L);
+        OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, 1L, PayType.WXPAY.getType());
         if (null != orderInfo && StringUtils.hasText(orderInfo.getCodeUrl())) {
             log.info("订单已存在，二维码已保存");
             Map<String, Object> returnMap = new HashMap<>();

@@ -28,7 +28,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     OrderInfoMapper orderInfoMapper;
 
     @Override
-    public OrderInfo createOrderByProductId(Long productId, Long userId) {
+    public OrderInfo createOrderByProductId(Long productId, Long userId, String payType) {
         // 查找已存在但是未支付订单
         OrderInfo orderInfo = getNoPayOrderByProductId(productId, userId);
         if (null != orderInfo)
@@ -41,6 +41,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setTitle(product.getTitle());
         orderInfo.setOrderNo(OrderNoUtils.getOrderNo()); // 获取订单号
         orderInfo.setProductId(productId);
+        orderInfo.setPaymentType(payType);
         orderInfo.setTotalFee(product.getPrice()); // 单位是分
         orderInfo.setOrderStatus(OrderStatus.NOTPAY.getType());
         orderInfo.setUserId(userId);

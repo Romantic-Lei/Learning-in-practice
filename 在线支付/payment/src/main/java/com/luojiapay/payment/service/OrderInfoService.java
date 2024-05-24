@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderInfoService extends IService<OrderInfo> {
 
-    OrderInfo createOrderByProductId(Long productId, Long userId);
+    OrderInfo createOrderByProductId(Long productId, Long userId, String payType);
 
     void saveCodeUrl(String orderNo, String codeUrl);
 
