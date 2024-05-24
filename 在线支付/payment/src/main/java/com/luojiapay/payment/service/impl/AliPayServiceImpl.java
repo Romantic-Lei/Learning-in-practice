@@ -10,16 +10,22 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.luojiapay.payment.config.AlipayClientConfig;
 import com.luojiapay.payment.entity.OrderInfo;
+import com.luojiapay.payment.enums.OrderStatus;
+import com.luojiapay.payment.enums.PayType;
 import com.luojiapay.payment.service.AliPayService;
 import com.luojiapay.payment.service.OrderInfoService;
+import com.luojiapay.payment.service.PaymentInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @Slf4j
@@ -28,14 +34,20 @@ public class AliPayServiceImpl implements AliPayService {
     @Autowired
     OrderInfoService orderInfoService;
     @Autowired
+    PaymentInfoService paymentInfoService;
+    @Autowired
     AlipayClient alipayClient;
+    @Autowired
+    Environment env;
+
+    private final ReentrantLock lock = new ReentrantLock();
 
     @Transactional
     @Override
     public String tradeCreate(Long productId) {
         try {
             // 生成订单
-            OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, 2L);
+            OrderInfo orderInfo = orderInfoService.createOrderByProductId(productId, 2L, PayType.ALIPAY.getType());
 
             // 调用支付宝支付接口
             // 构造请求参数以调用接口
@@ -79,6 +91,10 @@ public class AliPayServiceImpl implements AliPayService {
             model.setTotalAmount(divide.toString());
 
             request.setBizModel(model);
+            // 接口回调地址
+            request.setNotifyUrl(env.getProperty("alipay.notify-url"));
+            // 支付成功跳转页面
+            request.setReturnUrl(env.getProperty("alipay.return-url"));
             AlipayTradePagePayResponse response = alipayClient.pageExecute(request, "POST");
             // 如果需要返回GET请求，请使用
             // AlipayTradePagePayResponse response = alipayClient.pageExecute(request, "GET");
@@ -97,6 +113,34 @@ public class AliPayServiceImpl implements AliPayService {
             }
         } catch (AlipayApiException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 处理订单
+     * @param paramsMap
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void processOrder(Map<String, String> paramsMap) {
+        log.info("处理订单");
+        String outTradeNo = paramsMap.get("out_trade_no");
+        if (lock.tryLock()) {
+            try {
+                // 处理重复通知，保证接口的幂等性
+                String orderStatus = orderInfoService.getOrderStatus(outTradeNo);
+                if (!OrderStatus.NOTPAY.getType().equals(orderStatus)) {
+                    return;
+                }
+
+                // 更新订单状态
+                orderInfoService.updateStatusByOrderNo(outTradeNo, OrderStatus.SUCCESS);
+                // 记录支付日志
+                paymentInfoService.createPaymentInfoForAliPay(paramsMap);
+            } finally {
+                // 主动释放锁
+                lock.unlock();
+            }
         }
     }
 }
