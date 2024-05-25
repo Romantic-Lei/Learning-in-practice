@@ -1,5 +1,6 @@
 package com.luojiapay.payment.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.luojiapay.payment.config.WxPayConfig;
 import com.luojiapay.payment.entity.OrderInfo;
@@ -311,5 +312,19 @@ public class WxPayServiceImpl implements WxPayService {
         //     return IOUtil.toString(service.getFundFlowBill(request).getInputStream());
         // }
         // return "";
+    }
+
+    @Override
+    public void checkRefundStatus(String refundNo) {
+        Refund refund = queryReFund(refundNo);
+        if (null != refund) {
+            RefundInfo refundInfo = new RefundInfo();
+            refundInfo.setRefundId(refund.getRefundId());// 微信支付退款单号
+            refundInfo.setRefundStatus(refund.getStatus().name());// 退款状态
+            refundInfo.setContentNotify(JSON.toJSONString(refund));
+
+            refundInfoMapper.update(refundInfo, new QueryWrapper<RefundInfo>()
+                    .eq("refund_no", refundNo));
+        }
     }
 }

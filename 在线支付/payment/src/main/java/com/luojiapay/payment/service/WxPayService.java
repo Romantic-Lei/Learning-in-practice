@@ -27,4 +27,6 @@ public interface WxPayService {
     String queryBill(String billDate, String type);
 
     String downloadbill(String billDate, String type) throws IOException;
+
+    void checkRefundStatus(String refundNo);
 }

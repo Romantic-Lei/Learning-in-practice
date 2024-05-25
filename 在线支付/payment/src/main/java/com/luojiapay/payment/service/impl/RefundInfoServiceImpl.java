@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.entity.RefundInfo;
+import com.luojiapay.payment.enums.OrderStatus;
+import com.luojiapay.payment.enums.wxpay.WxRefundStatus;
 import com.luojiapay.payment.mapper.RefundInfoMapper;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.RefundInfoService;
@@ -12,6 +14,10 @@ import com.wechat.pay.java.service.refund.model.Refund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -50,5 +56,14 @@ public class RefundInfoServiceImpl extends ServiceImpl<RefundInfoMapper, RefundI
 
         baseMapper.update(refundInfo, new QueryWrapper<RefundInfo>()
                 .eq("refund_no", refund.getOutRefundNo()));
+    }
+
+    @Override
+    public List<RefundInfo> getNoRefundOrderByDuration(int minutes) {
+        Instant instant = Instant.now().minus(Duration.ofMinutes(minutes));
+        List<RefundInfo> refundInfos = baseMapper.selectList(new QueryWrapper<RefundInfo>()
+                .eq("refund_status", WxRefundStatus.PROCESSING.getType())
+                .le("create_time", instant));
+        return refundInfos;
     }
 }
