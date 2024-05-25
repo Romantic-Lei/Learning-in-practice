@@ -1,12 +1,15 @@
 package com.luojiapay.payment.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConfig;
 import com.alipay.api.diagnosis.DiagnosisUtils;
 import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.domain.GoodsDetail;
+import com.alipay.api.request.AlipayTradeCloseRequest;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.response.AlipayTradeCloseResponse;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.luojiapay.payment.config.AlipayClientConfig;
 import com.luojiapay.payment.entity.OrderInfo;
@@ -105,7 +108,6 @@ public class AliPayServiceImpl implements AliPayService {
                 log.info("调用成功，返回结果：{}", response.getBody());
                 return response.getBody();
             } else {
-                System.out.println("调用失败");
                 // sdk版本是"4.38.0.ALL"及以上,可以参考下面的示例获取诊断链接
                 String diagnosisUrl = DiagnosisUtils.getDiagnosisUrl(response);
                 log.error("调用失败，诊断链接：{}", diagnosisUrl);
@@ -141,6 +143,42 @@ public class AliPayServiceImpl implements AliPayService {
                 // 主动释放锁
                 lock.unlock();
             }
+        }
+    }
+
+    /**
+     * 用户取消订单
+     * @param orderNo
+     */
+    @Override
+    public void cancelOrder(String orderNo) {
+        // 调用支付宝提供的统一收单交易关闭接口
+        closeOrder(orderNo);
+        // 更新用户订单状态
+        orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CANCEL);
+    }
+
+    /**
+     * 关单接口
+     * @param orderNo
+     */
+    private void closeOrder(String orderNo) {
+        try {
+            AlipayTradeCloseRequest request = new AlipayTradeCloseRequest();
+            JSONObject bizContent = new JSONObject();
+            bizContent.put("out_trade_no", orderNo);
+            request.setBizContent(bizContent.toString());
+            AlipayTradeCloseResponse response = alipayClient.execute(request);
+            if (response.isSuccess()) {
+                log.info("调用成功，返回结果：{}", response.getBody());
+            } else {
+                // sdk版本是"4.38.0.ALL"及以上,可以参考下面的示例获取诊断链接
+                String diagnosisUrl = DiagnosisUtils.getDiagnosisUrl(response);
+                log.error("调用失败，诊断链接：{}", diagnosisUrl);
+                throw new RuntimeException("关闭支付交易失败");
+            }
+        } catch (AlipayApiException e) {
+            throw new RuntimeException(e);
         }
     }
 }

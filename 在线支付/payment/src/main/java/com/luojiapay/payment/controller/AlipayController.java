@@ -118,4 +118,12 @@ public class AlipayController {
         }
         return result;
     }
+
+    @ApiOperation("用户取消订单")
+    @PostMapping("/trade/close/{orderNo}")
+    public Result canel(@PathVariable String orderNo) {
+        log.info("支付宝支付取消订单");
+        aliPayService.cancelOrder(orderNo);
+        return Result.ok().setMessage("订单已取消");
+    }
 }
