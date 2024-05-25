@@ -10,4 +10,6 @@ public interface AliPayService {
     void processOrder(Map<String, String> paramsMap);
 
     void cancelOrder(String orderNo);
+
+    String queryOrder(String orderNo, String tradeNo);
 }

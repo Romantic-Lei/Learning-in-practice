@@ -30,7 +30,7 @@ public class AlipayClientConfig {
         //设置字符集
         alipayConfig.setCharset(AlipayConstants.CHARSET_UTF8);
         //设置支付宝公钥
-        alipayConfig.setAlipayPublicKey("alipay.alipay-public-key");
+        alipayConfig.setAlipayPublicKey(env.getProperty("alipay.alipay-public-key"));
         //设置签名类型
         alipayConfig.setSignType(AlipayConstants.SIGN_TYPE_RSA2);
         //构造client

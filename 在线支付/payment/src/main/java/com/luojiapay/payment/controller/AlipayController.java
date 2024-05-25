@@ -126,4 +126,13 @@ public class AlipayController {
         aliPayService.cancelOrder(orderNo);
         return Result.ok().setMessage("订单已取消");
     }
+
+    @ApiOperation("查询订单")
+    @GetMapping("/trade/query/{orderNo}")
+    public Result queryOrder(@PathVariable String orderNo, @RequestParam(required = false) String tradeNo) {
+        log.info("查询订单，订单号：{}, 支付宝交易号：{}", orderNo, tradeNo);
+
+        String result = aliPayService.queryOrder(orderNo, tradeNo);
+        return Result.ok().setMessage("查询成功").data("result", result);
+    }
 }
