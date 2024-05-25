@@ -15,6 +15,7 @@ import com.wechat.pay.java.service.refund.model.Refund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -27,6 +28,12 @@ public class RefundInfoServiceImpl extends ServiceImpl<RefundInfoMapper, RefundI
     @Autowired
     OrderInfoService orderInfoService;
 
+    /**
+     * 创建退款单，一笔订单可能有多笔退款，目前这里不考虑此情况
+     * @param orderNo
+     * @param reason
+     * @return
+     */
     @Override
     public RefundInfo createRefundByOrderNo(String orderNo, String reason) {
         OrderInfo orderInfo = orderInfoService.getOrderByOrderNo(orderNo);
@@ -76,5 +83,14 @@ public class RefundInfoServiceImpl extends ServiceImpl<RefundInfoMapper, RefundI
 
         baseMapper.update(refundInfo, new QueryWrapper<RefundInfo>()
                 .eq("refund_no", refundNo));
+    }
+
+    @Override
+    public RefundInfo queryRefundInfoByOrderNo(String orderNo) {
+        List<RefundInfo> refundInfos = baseMapper.selectList(new QueryWrapper<RefundInfo>()
+                .eq("order_no", orderNo));
+        if (CollectionUtils.isEmpty(refundInfos))
+            return null;
+        return refundInfos.get(0);
     }
 }

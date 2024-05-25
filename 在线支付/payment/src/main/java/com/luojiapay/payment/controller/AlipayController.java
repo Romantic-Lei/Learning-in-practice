@@ -145,4 +145,13 @@ public class AlipayController {
 
         return Result.ok();
     }
+
+    @ApiOperation("查询退款接口")
+    @GetMapping("/trade/fastpay/refund/query/{orderNo}")
+    public Result refunds(@PathVariable String orderNo) {
+        log.info("支付宝申请退款，订单号：{}", orderNo);
+        String result = aliPayService.queryRefund(orderNo);
+
+        return Result.ok().setMessage("查询成功").data("result", result);
+    }
 }

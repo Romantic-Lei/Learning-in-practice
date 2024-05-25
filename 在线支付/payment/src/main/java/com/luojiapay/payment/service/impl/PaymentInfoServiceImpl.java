@@ -55,7 +55,9 @@ public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoMapper, Payme
         String tradeStatus = paramsMap.get("trade_status");
         // 交易金额
         String totalAmount = paramsMap.get("total_amount");
+        String buyerPayAmount = paramsMap.get("buyer_pay_amount");
         int totalAmountValue = new BigDecimal(totalAmount).multiply(new BigDecimal(100)).intValue();
+        int buyerPayAmountValue = new BigDecimal(buyerPayAmount).multiply(new BigDecimal(100)).intValue();
 
         paymentInfo.setOrderNo(outTradeNo);
         paymentInfo.setPaymentType(PayType.ALIPAY.getType());
@@ -63,7 +65,7 @@ public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoMapper, Payme
         paymentInfo.setTradeType("电脑网站支付");
         paymentInfo.setTradeState(tradeStatus);
         paymentInfo.setTotal(totalAmountValue);
-        paymentInfo.setPayerTotal(totalAmountValue);
+        paymentInfo.setPayerTotal(buyerPayAmountValue);
         paymentInfo.setTradeStateDesc(tradeStatus);
         paymentInfo.setContent(JSON.toJSONString(paramsMap));
         baseMapper.insert(paymentInfo);

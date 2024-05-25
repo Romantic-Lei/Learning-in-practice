@@ -23,7 +23,7 @@ public class AliPayTask {
 
     @Scheduled(cron = "0/30 * * * * ?")
     public void orderConfirm() {
-        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(1, PayType.ALIPAY.getType());
+        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(5, PayType.ALIPAY.getType());
         for (OrderInfo orderInfo : orderInfoList) {
             String orderNo = orderInfo.getOrderNo();
             log.warn("超过订单====>{}", orderNo);
