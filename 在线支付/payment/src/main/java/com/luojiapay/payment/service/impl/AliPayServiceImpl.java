@@ -14,10 +14,13 @@ import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradeCloseResponse;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.luojiapay.payment.config.AlipayClientConfig;
 import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.enums.OrderStatus;
 import com.luojiapay.payment.enums.PayType;
+import com.luojiapay.payment.enums.alipay.AlipayTradeState;
 import com.luojiapay.payment.service.AliPayService;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.PaymentInfoService;
@@ -29,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
@@ -182,20 +186,60 @@ public class AliPayServiceImpl implements AliPayService {
 
             request.setBizModel(model);
             AlipayTradeQueryResponse response = alipayClient.execute(request);
-            System.out.println(response.getBody());
+            log.info("响应结果：{}", response.getBody());
 
             if (response.isSuccess()) {
                 log.info("调用成功");
                 return response.getBody();
             } else {
-                log.error("调用失败");
+                log.error("调用失败,订单在支付宝侧未创建");
                 // sdk版本是"4.38.0.ALL"及以上,可以参考下面的示例获取诊断链接
                 String diagnosisUrl = DiagnosisUtils.getDiagnosisUrl(response);
                 log.info("诊断链接:{}", diagnosisUrl);
-                throw new RuntimeException("支付宝查询交易接口调用失败");
+                return null;
             }
         } catch (AlipayApiException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 根据订单号查询支付宝支付查单接口，核实订单状态
+     * 如果订单未创建，直接更新商户端订单状态
+     * 如果订单未支付，则调用关单接口关闭订单，并更新商户端订单状态
+     * 如果订单已支付，则更新商户端订单状态
+     * @param orderNo
+     */
+    @Override
+    public void checkOrderStatus(String orderNo) {
+        String result = queryOrder(orderNo, null);
+
+        // 订单未创建
+        if (null == result) {
+            // 订单未创建，不需要调用支付宝关单接口
+            orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CLOSED);
+        }
+
+        // 解析所查单的响应结果
+        Gson gson = new Gson();
+        HashMap<String, LinkedTreeMap> resultMap = gson.fromJson(result, HashMap.class);
+        LinkedTreeMap alipayTradeQueryResponse = resultMap.get("alipay_trade_query_response");
+        // 订单状态
+        String tradeStatus = (String) alipayTradeQueryResponse.get("trade_status");
+        if (AlipayTradeState.NOTPAY.getType().equals(tradeStatus)) {
+            // 如果订单未支付，则调用关单接口关闭订单，并更新商户端订单状态
+            closeOrder(orderNo);
+            // 关闭商户的订单状态
+            orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.CLOSED);
+        }
+
+        if (AlipayTradeState.SUCCESS.getType().equals(tradeStatus)) {
+            log.info("核实订单已支付，更新订单状态并且记录支付日志");
+            // 关闭商户的订单状态
+            orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.SUCCESS);
+
+            // 订单支付成功，创建支付日志
+            paymentInfoService.createPaymentInfoFromAlipay(alipayTradeQueryResponse);
         }
     }
 
