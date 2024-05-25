@@ -101,10 +101,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
      * @return
      */
     @Override
-    public List<OrderInfo> getNoPayOrderByDuration(int minutes) {
+    public List<OrderInfo> getNoPayOrderByDuration(int minutes, String paymentType) {
         Instant instant = Instant.now().minus(Duration.ofMinutes(minutes));
         List<OrderInfo> orderInfos = orderInfoMapper.selectList(new QueryWrapper<OrderInfo>()
                 .eq("order_status", OrderStatus.NOTPAY.getType())
+                .eq("payment_type", paymentType)
                 .le("create_time", instant));
         return orderInfos;
     }

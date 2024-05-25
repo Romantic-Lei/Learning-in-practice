@@ -3,6 +3,7 @@ package com.luojiapay.payment.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.luojiapay.payment.entity.PaymentInfo;
 import com.luojiapay.payment.enums.PayType;
 import com.luojiapay.payment.mapper.PaymentInfoMapper;
@@ -65,6 +66,24 @@ public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoMapper, Payme
         paymentInfo.setPayerTotal(totalAmountValue);
         paymentInfo.setTradeStateDesc(tradeStatus);
         paymentInfo.setContent(JSON.toJSONString(paramsMap));
+        baseMapper.insert(paymentInfo);
+    }
+
+    @Override
+    public void createPaymentInfoFromAlipay(LinkedTreeMap alipayTradeQueryResponse) {
+        PaymentInfo paymentInfo = new PaymentInfo();
+
+        paymentInfo.setOrderNo((String) alipayTradeQueryResponse.get("out_trade_no"));
+        paymentInfo.setTransactionId((String) alipayTradeQueryResponse.get("trade_no"));
+        paymentInfo.setPaymentType(PayType.ALIPAY.getType());
+        paymentInfo.setTradeType("电脑网站支付");
+        paymentInfo.setTradeState((String) alipayTradeQueryResponse.get("trade_status"));
+        paymentInfo.setTradeStateDesc((String) alipayTradeQueryResponse.get("trade_status"));
+        int totalAmount = new BigDecimal((String) alipayTradeQueryResponse.get("total_amount")).multiply(new BigDecimal(100)).intValue();
+        int buyerPayAmount = new BigDecimal((String) alipayTradeQueryResponse.get("buyer_pay_amount")).multiply(new BigDecimal(100)).intValue();
+        paymentInfo.setTotal(totalAmount);
+        paymentInfo.setPayerTotal(buyerPayAmount);
+        paymentInfo.setContent(JSON.toJSONString(alipayTradeQueryResponse));
         baseMapper.insert(paymentInfo);
     }
 }
