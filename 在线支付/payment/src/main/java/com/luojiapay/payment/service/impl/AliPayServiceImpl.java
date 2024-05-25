@@ -7,23 +7,28 @@ import com.alipay.api.AlipayConfig;
 import com.alipay.api.diagnosis.DiagnosisUtils;
 import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.domain.AlipayTradeQueryModel;
+import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.domain.GoodsDetail;
 import com.alipay.api.request.AlipayTradeCloseRequest;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeCloseResponse;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.luojiapay.payment.config.AlipayClientConfig;
 import com.luojiapay.payment.entity.OrderInfo;
+import com.luojiapay.payment.entity.RefundInfo;
 import com.luojiapay.payment.enums.OrderStatus;
 import com.luojiapay.payment.enums.PayType;
 import com.luojiapay.payment.enums.alipay.AlipayTradeState;
 import com.luojiapay.payment.service.AliPayService;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.PaymentInfoService;
+import com.luojiapay.payment.service.RefundInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -45,6 +50,8 @@ public class AliPayServiceImpl implements AliPayService {
     OrderInfoService orderInfoService;
     @Autowired
     PaymentInfoService paymentInfoService;
+    @Autowired
+    RefundInfoService refundInfoService;
     @Autowired
     AlipayClient alipayClient;
     @Autowired
@@ -240,6 +247,59 @@ public class AliPayServiceImpl implements AliPayService {
 
             // 订单支付成功，创建支付日志
             paymentInfoService.createPaymentInfoFromAlipay(alipayTradeQueryResponse);
+        }
+    }
+
+    @Override
+    public void refund(String orderNo, String reason) {
+        try {
+            // 创建退款单
+            RefundInfo refundInfo = refundInfoService.createRefundByOrderNo(orderNo, reason);
+
+            // 构造请求参数以调用接口
+            AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+            AlipayTradeRefundModel model = new AlipayTradeRefundModel();
+            // 设置商户订单号
+            model.setOutTradeNo(orderNo);
+            // 设置查询选项
+            List<String> queryOptions = new ArrayList<String>();
+            queryOptions.add("refund_detail_item_list");
+            model.setQueryOptions(queryOptions);
+            BigDecimal divide = new BigDecimal(refundInfo.getTotalFee()).divide(new BigDecimal(100));
+            // 设置退款金额
+            model.setRefundAmount(divide.toString());
+            // 设置退款原因说明
+            model.setRefundReason(reason);
+            // 设置退款请求号
+            model.setOutRequestNo(refundInfo.getRefundNo());
+
+            request.setBizModel(model);
+            AlipayTradeRefundResponse response = alipayClient.execute(request);
+
+            if (response.isSuccess()) {
+                log.info("调用支付宝退款接口成功");
+                // 更新订单状态
+                orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.REFUND_SUCCESS);
+                // 更新退款单
+                refundInfoService.updateRefundForAliPay(
+                        refundInfo.getRefundNo(),
+                        response.getBody(),
+                        AlipayTradeState.REFUND_SUCCESS.getType());
+            } else {
+                log.info("调用失败");
+                // 更新订单状态
+                orderInfoService.updateStatusByOrderNo(orderNo, OrderStatus.REFUND_ABNORMAL);
+                // 更新退款单
+                refundInfoService.updateRefundForAliPay(
+                        refundInfo.getRefundNo(),
+                        response.getBody(),
+                        AlipayTradeState.REFUND_ERROR.getType());
+                // sdk版本是"4.38.0.ALL"及以上,可以参考下面的示例获取诊断链接
+                String diagnosisUrl = DiagnosisUtils.getDiagnosisUrl(response);
+                log.info("diagnosisUrl:{}", diagnosisUrl);
+            }
+        } catch (AlipayApiException e) {
+            throw new RuntimeException(e);
         }
     }
 

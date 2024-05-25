@@ -2,6 +2,7 @@ package com.luojiapay.payment.task;
 
 import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.entity.RefundInfo;
+import com.luojiapay.payment.enums.PayType;
 import com.luojiapay.payment.service.OrderInfoService;
 import com.luojiapay.payment.service.RefundInfoService;
 import com.luojiapay.payment.service.WxPayService;
@@ -26,15 +27,13 @@ public class WxPayTask {
 
     @Scheduled(cron = "0/30 * * * * ?")
     public void orderConfirm() {
-        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(5);
+        List<OrderInfo> orderInfoList = orderInfoService.getNoPayOrderByDuration(5, PayType.WXPAY.getType());
         for (OrderInfo orderInfo : orderInfoList) {
-            if (StringUtils.hasText(orderInfo.getCodeUrl())) {
-                String orderNo = orderInfo.getOrderNo();
-                log.warn("超过订单====>{}", orderNo);
+            String orderNo = orderInfo.getOrderNo();
+            log.warn("超过订单====>{}", orderNo);
 
-                // 核实订单状态，调用微信支付查单接口
-                wxPayService.checkOrderStatus(orderNo);
-            }
+            // 核实订单状态，调用微信支付查单接口
+            wxPayService.checkOrderStatus(orderNo);
         }
     }
 

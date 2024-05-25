@@ -14,4 +14,6 @@ public interface RefundInfoService extends IService<RefundInfo> {
     void updateRefund(Refund refund);
 
     List<RefundInfo> getNoRefundOrderByDuration(int minutes);
+
+    void updateRefundForAliPay(String refundNo, String body, String refundStatus);
 }

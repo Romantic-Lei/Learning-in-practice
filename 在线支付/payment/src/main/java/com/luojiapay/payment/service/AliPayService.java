@@ -14,4 +14,6 @@ public interface AliPayService {
     String queryOrder(String orderNo, String tradeNo);
 
     void checkOrderStatus(String orderNo);
+
+    void refund(String orderNo, String reason);
 }

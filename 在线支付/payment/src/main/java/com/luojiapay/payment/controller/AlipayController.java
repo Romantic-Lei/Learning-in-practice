@@ -135,4 +135,14 @@ public class AlipayController {
         String result = aliPayService.queryOrder(orderNo, tradeNo);
         return Result.ok().setMessage("查询成功").data("result", result);
     }
+
+    @ApiOperation("申请退款")
+    @PostMapping("/trade/refund/{orderNo}/{reason}")
+    public Result refunds(@PathVariable String orderNo,
+                          @PathVariable String reason) {
+        log.info("支付宝申请退款，订单号：{}, 退款原因：{}", orderNo, reason);
+        aliPayService.refund(orderNo, reason);
+
+        return Result.ok();
+    }
 }

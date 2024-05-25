@@ -321,10 +321,12 @@ public class WxPayServiceImpl implements WxPayService {
             RefundInfo refundInfo = new RefundInfo();
             refundInfo.setRefundId(refund.getRefundId());// 微信支付退款单号
             refundInfo.setRefundStatus(refund.getStatus().name());// 退款状态
-            refundInfo.setContentNotify(JSON.toJSONString(refund));
+            refundInfo.setContentReturn(JSON.toJSONString(refund));
 
             refundInfoMapper.update(refundInfo, new QueryWrapper<RefundInfo>()
                     .eq("refund_no", refundNo));
+            // 维护订单信息
+            orderInfoService.updateStatusByOrderNo(refund.getOutTradeNo(), OrderStatus.REFUND_SUCCESS);
         }
     }
 }

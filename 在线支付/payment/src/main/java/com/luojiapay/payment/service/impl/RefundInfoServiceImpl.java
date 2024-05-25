@@ -1,5 +1,6 @@
 package com.luojiapay.payment.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luojiapay.payment.entity.OrderInfo;
@@ -65,5 +66,15 @@ public class RefundInfoServiceImpl extends ServiceImpl<RefundInfoMapper, RefundI
                 .eq("refund_status", WxRefundStatus.PROCESSING.getType())
                 .le("create_time", instant));
         return refundInfos;
+    }
+
+    @Override
+    public void updateRefundForAliPay(String refundNo, String body, String refundStatus) {
+        RefundInfo refundInfo = new RefundInfo();
+        refundInfo.setContentReturn(JSON.toJSONString(body));
+        refundInfo.setRefundStatus(refundStatus);
+
+        baseMapper.update(refundInfo, new QueryWrapper<RefundInfo>()
+                .eq("refund_no", refundNo));
     }
 }
