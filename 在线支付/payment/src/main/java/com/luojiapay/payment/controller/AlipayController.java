@@ -155,7 +155,7 @@ public class AlipayController {
         return Result.ok().setMessage("查询成功").data("result", result);
     }
 
-    @ApiOperation("查询退款接口")
+    @ApiOperation("获取账单下载地址接口")
     @GetMapping("/bill/downloadurl/query/{billDate}/{type}")
     public Result queryBill(@PathVariable String billDate,
                           @PathVariable String type) {
