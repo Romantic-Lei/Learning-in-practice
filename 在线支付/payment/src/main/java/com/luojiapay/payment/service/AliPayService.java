@@ -18,4 +18,6 @@ public interface AliPayService {
     void refund(String orderNo, String reason);
 
     String queryRefund(String orderNo);
+
+    String queryBill(String billDate, String type);
 }

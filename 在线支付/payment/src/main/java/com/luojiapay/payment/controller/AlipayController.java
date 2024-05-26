@@ -154,4 +154,14 @@ public class AlipayController {
 
         return Result.ok().setMessage("查询成功").data("result", result);
     }
+
+    @ApiOperation("查询退款接口")
+    @GetMapping("/bill/downloadurl/query/{billDate}/{type}")
+    public Result queryBill(@PathVariable String billDate,
+                          @PathVariable String type) {
+        log.info("支付宝获取账单url");
+        String downloadUrl = aliPayService.queryBill(billDate, type);
+
+        return Result.ok().setMessage("获取账单url成功").data("downloadUrl", downloadUrl);
+    }
 }

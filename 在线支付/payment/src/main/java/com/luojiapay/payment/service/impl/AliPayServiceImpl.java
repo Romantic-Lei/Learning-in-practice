@@ -333,6 +333,35 @@ public class AliPayServiceImpl implements AliPayService {
         }
     }
 
+    @Override
+    public String queryBill(String billDate, String type) {
+        try {
+            AlipayDataDataserviceBillDownloadurlQueryRequest request = new AlipayDataDataserviceBillDownloadurlQueryRequest();
+            AlipayDataDataserviceBillDownloadurlQueryModel model = new AlipayDataDataserviceBillDownloadurlQueryModel();
+            model.setBillType(type);
+            model.setBillDate(billDate);
+            request.setBizModel(model);
+            AlipayDataDataserviceBillDownloadurlQueryResponse response = alipayClient.execute(request);
+
+            if (response.isSuccess()) {
+                log.info("调用成功，返回结果 ===> {}", response.getBody());
+                Gson gson = new Gson();
+                HashMap<String, LinkedTreeMap> hashMap = gson.fromJson(response.getBody(), HashMap.class);
+                LinkedTreeMap billDownloadurlResponse = hashMap.get("alipay_data_dataservice_bill_downloadurl_query_response");
+                String billDownloadUrl = (String)billDownloadurlResponse.get("bill_download_url");
+                return billDownloadUrl;
+            } else {
+                log.info("调用失败");
+                // sdk版本是"4.38.0.ALL"及以上,可以参考下面的示例获取诊断链接
+                String diagnosisUrl = DiagnosisUtils.getDiagnosisUrl(response);
+                log.error("diagnosisUrl:{}", diagnosisUrl);
+                return response.getBody();
+            }
+        } catch (AlipayApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * 关单接口
      * @param orderNo
