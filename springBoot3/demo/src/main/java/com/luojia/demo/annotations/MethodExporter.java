@@ -1,4 +1,4 @@
-package com.luojia.boot3webflux.annotations;
+package com.luojia.demo.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
