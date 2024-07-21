@@ -36,6 +36,7 @@ public class MethodExporterAspect {
         // 2.确定方法名后获得该方法上面配置的注解标签 MethodExporter
         MethodExporter methodExporterAnnotation = method.getAnnotation(MethodExporter.class);
 
+        // 其实只要能进入到这个方法，这里就不会为空
         if (methodExporterAnnotation != null) {
             // 3.获得方法里面的形参信息
             StringBuffer sb = new StringBuffer();
