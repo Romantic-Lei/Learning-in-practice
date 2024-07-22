@@ -6,8 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
+@MapperScan("com.luojia.demo.mapper")
 // @Import(RobotAutoConfiguration.class)
 // @EnableRobot
 // @ComponentScan("com.luojia.boot3robotstarter.robot")
