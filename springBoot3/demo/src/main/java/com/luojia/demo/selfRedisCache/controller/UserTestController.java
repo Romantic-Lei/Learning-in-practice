@@ -21,20 +21,4 @@ public class UserTestController {
     {
         return userService.getUserById(id);
     }
-
-
 }
-
-
-/*
-
-POST http://localhost:24618/user/add
-Accept: application/json
-Content-Type: application/json
-{
-"username": "尚硅谷04",
-"password": "13911111112",
-"sex": "1"
-}
-
-*/
