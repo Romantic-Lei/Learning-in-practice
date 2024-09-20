@@ -13,6 +13,7 @@ public class Prefix14 {
         String firstStr = strs[0];
         for (String str : strs) {
             while (!str.startsWith(firstStr)) {
+                // 前闭后开，firstStr 会每次减少一位
                 firstStr = firstStr.substring(0, firstStr.length() - 1);
                 if ("".equals(firstStr))
                     return "";
