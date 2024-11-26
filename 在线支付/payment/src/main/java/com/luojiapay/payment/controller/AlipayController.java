@@ -8,6 +8,7 @@ import com.luojiapay.payment.entity.OrderInfo;
 import com.luojiapay.payment.enums.OrderStatus;
 import com.luojiapay.payment.service.AliPayService;
 import com.luojiapay.payment.service.OrderInfoService;
+import com.luojiapay.payment.service.impl.AliPayServiceImpl;
 import com.luojiapay.payment.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +33,48 @@ public class AlipayController {
     OrderInfoService orderInfoService;
     @Autowired
     Environment env;
+
+    private static final Object resource1 = new Object();
+    private static final Object resource2 = new Object();
+
+    @GetMapping("/threadLock")
+    public void threadLock() {
+
+
+        Thread thread1 = new Thread(() -> {
+            synchronized (resource1) {
+                System.out.println(Thread.currentThread().getName() + " got resource1 lock >>>");
+                try {
+                    Thread.sleep(1000); // 模拟工作时间，让死锁更容易观察到
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName() + " trying to get resource2 lock.");
+                synchronized (resource2) { // 尝试获取resource2的锁
+                    System.out.println(Thread.currentThread().getName() + " got resource2 lock...");
+                }
+            }
+        }, "Thread 1");
+
+        Thread thread2 = new Thread(() -> {
+            synchronized (resource2) {
+                System.out.println(Thread.currentThread().getName() + " got resource2 lock >>>");
+                try {
+                    Thread.sleep(1000); // 模拟工作时间
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName() + " trying to get resource1 lock.");
+                synchronized (resource1) { // 尝试获取resource1的锁
+                    System.out.println(Thread.currentThread().getName() + " got resource1 lock...");
+                }
+            }
+        }, "Thread 2");
+
+        thread1.start();
+        thread2.start();
+    }
+
 
     @ApiOperation("统一收单下单并支付页面接口")
     @PostMapping("/trade/page/pay/{productId}")
