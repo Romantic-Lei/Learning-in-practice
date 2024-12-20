@@ -1,7 +1,5 @@
 package com.luojia.kafka.product;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
@@ -25,6 +23,17 @@ public class CustomProduct {
         // 2.发送 Kafka 消息
         for (int i = 0; i < 5; i++) {
             producer.send(new ProducerRecord<>("first", "kafka first msg : " + i));
+        }
+        // 发送回调消息
+        for (int i = 0; i < 5; i++) {
+            producer.send(new ProducerRecord<>("first", "kafka first callback msg : " + i), new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata metadata, Exception exception) {
+                    if (exception == null) {
+                        System.out.println("主题：" + metadata.topic() + "分区：" + metadata.partition());
+                    }
+                }
+            });
         }
 
          // 3.关闭资源
