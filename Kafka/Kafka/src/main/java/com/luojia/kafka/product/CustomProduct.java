@@ -1,4 +1,5 @@
 package com.luojia.kafka.product;
+import com.luojia.kafka.partitioner.MyPartitioner;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -17,6 +18,8 @@ public class CustomProduct {
         // 指定对应 key 和 value 序列化类型
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // 关联自定义分区器
+        properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, MyPartitioner.class.getName());
 
         // 1. 创建 Kafka 生产者对象
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
@@ -26,7 +29,7 @@ public class CustomProduct {
         }
         // 发送回调消息
         for (int i = 0; i < 5; i++) {
-            producer.send(new ProducerRecord<>("first", "kafka first callback msg : " + i), new Callback() {
+            producer.send(new ProducerRecord<>("first", "kafka first: luojia callback msg : " + i), new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
                     if (exception == null) {
