@@ -1,16 +1,13 @@
 package com.luojia.kafka.product;
+import com.luojia.kafka.partitioner.MyPartitioner;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
-/**
- * 同步发送消息
- */
-public class CustomProductSync {
+public class CustomProducer {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args) {
 
         // 配置属性类
         Properties properties = new Properties();
@@ -21,17 +18,18 @@ public class CustomProductSync {
         // 指定对应 key 和 value 序列化类型
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // 关联自定义分区器
+        properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, MyPartitioner.class.getName());
 
         // 1. 创建 Kafka 生产者对象
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
         // 2.发送 Kafka 消息
         for (int i = 0; i < 5; i++) {
-            // 和同步的区别仅仅只在这里，用get方法去阻塞发送，等一条消息发送完毕之后才能发送下一条消息
-            producer.send(new ProducerRecord<>("first", "kafka first msg : " + i)).get();
+            producer.send(new ProducerRecord<>("first", "kafka first msg : " + i));
         }
         // 发送回调消息
         for (int i = 0; i < 5; i++) {
-            producer.send(new ProducerRecord<>("first", "kafka first callback msg : " + i), new Callback() {
+            producer.send(new ProducerRecord<>("first", "kafka first: luojia callback msg : " + i), new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
                     if (exception == null) {
