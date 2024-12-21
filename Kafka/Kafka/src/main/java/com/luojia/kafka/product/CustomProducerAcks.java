@@ -18,7 +18,7 @@ public class CustomProducerAcks {
 
         // acks 配置
         properties.put(ProducerConfig.ACKS_CONFIG, "1");
-        // 重试次数
+        // 重试次数，默认的重试次数是 Max.Integer
         properties.put(ProducerConfig.RETRIES_CONFIG, 3);
 
         // 1. 创建 Kafka 生产者对象
