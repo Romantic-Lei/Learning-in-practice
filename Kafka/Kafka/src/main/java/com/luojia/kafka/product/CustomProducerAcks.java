@@ -29,7 +29,7 @@ public class CustomProducerAcks {
         }
         // 发送回调消息
         for (int i = 0; i < 5; i++) {
-            producer.send(new ProducerRecord<>("first", "kafka first: luojia callback msg : " + i), new Callback() {
+            producer.send(new ProducerRecord<>("first", 1, "hello", "kafka first: luojia callback msg : " + i), new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
                     if (exception == null) {
