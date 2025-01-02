@@ -1,22 +1,16 @@
 package com.luojia.kafka.consumer;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 指定 offset位置开始消费
  */
-public class CustomConsumerSeek {
+public class CustomConsumerSeekTime {
 
     public static void main(String[] args) {
         // 配置属性类
@@ -45,8 +39,19 @@ public class CustomConsumerSeek {
             assignment = kafkaConsumer.assignment();
         }
 
+        // 希望把时间转换为对应的 Offset
+        HashMap<TopicPartition, Long> topicPartitionLongHashMap = new HashMap<>();
+        // 获取到所有的分区信息
         for (TopicPartition topicPartition : assignment) {
-            kafkaConsumer.seek(topicPartition, 50);
+            // 从当前时间的前一天开始消费
+            topicPartitionLongHashMap.put(topicPartition, System.currentTimeMillis() - 1 * 24 * 3600 * 1000);
+        }
+
+        Map<TopicPartition, OffsetAndTimestamp> topicPartitionOffsetAndTimestampMap = kafkaConsumer.offsetsForTimes(topicPartitionLongHashMap);
+
+        for (TopicPartition topicPartition : assignment) {
+            OffsetAndTimestamp offsetAndTimestamp = topicPartitionOffsetAndTimestampMap.get(topicPartition);
+            kafkaConsumer.seek(topicPartition, offsetAndTimestamp.offset());
         }
 
         // 3 消费数据
