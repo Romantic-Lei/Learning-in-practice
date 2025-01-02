@@ -25,6 +25,8 @@ public class CustomConsumerSeek {
         // 反序列化
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+
         // 消费者必须指定一个组ID
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "test1");
 

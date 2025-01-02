@@ -44,7 +44,7 @@ public class CustomConsumerOffsetCommitSync {
                 System.out.println(records.topic() + ":" + records.key() + ":" + records.value());
             }
 
-            // 手动提交，如果这里注释掉，每次重启服务都会重新消费
+            // 手动异步提交，如果这里注释掉，每次重启服务都会重新消费
             kafkaConsumer.commitAsync();
         }
 
