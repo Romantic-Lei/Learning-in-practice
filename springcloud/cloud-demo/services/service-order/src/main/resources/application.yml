@@ -2,16 +2,41 @@ server:
   port: 8000
 
 spring:
+  profiles:
+#    激活某一个环境
+    active: dev
   application:
     name: service-order
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848
       config:
-        namespace: d773890e-2efb-40a7-8b93-dce26ba02b26
-        group: order
+        namespace: ${spring.profiles.active:d773890e-2efb-40a7-8b93-dce26ba02b26}
+#          以前是默认写死的值，写的命名空间ID
+#        namespace: d773890e-2efb-40a7-8b93-dce26ba02b26
 
+# 分隔配置文件
+---
+spring:
   config:
     import:
       - nacos:common.properties?group=order
       - nacos:database.properties?group=order
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+    activate:
+      on-profile: test
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+    activate:
+      on-profile: prod
