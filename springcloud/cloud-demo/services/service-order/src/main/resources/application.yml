@@ -15,6 +15,12 @@ spring:
 #          以前是默认写死的值，写的命名空间ID
 #        namespace: d773890e-2efb-40a7-8b93-dce26ba02b26
 
+
+# Fegin 日志打印，指定包才会打印
+logging:
+  level:
+    com.luojia.order: debug
+
 # 分隔配置文件
 ---
 spring:
