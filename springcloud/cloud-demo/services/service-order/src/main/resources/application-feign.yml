@@ -1,0 +1,16 @@
+# 对应feign接口调用时 连接时间和读取时间等的配置
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+#          需要配置指定微服务的连接时间和读取时间
+          service-product:
+            logger-level: full
+            connect-timeout: 3000
+            read-timeout: 5000
+#            如果每个微服务都单独配置就太麻烦了，这里就提供了默认值
+          default:
+            logger-level: full
+            connect-timeout: 1000
+            read-timeout: 2000

@@ -5,6 +5,8 @@ spring:
   profiles:
 #    激活某一个环境
     active: dev
+#    包含 feign 环境的配置文件
+    include: feign
   application:
     name: service-order
   cloud:
