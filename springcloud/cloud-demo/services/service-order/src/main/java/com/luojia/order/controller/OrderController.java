@@ -1,9 +1,11 @@
 package com.luojia.order.controller;
 
 import com.luojia.order.config.OrderProperties;
+import com.luojia.order.feign.ProductFeignClient;
 import com.luojia.order.feign.WeatherFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,6 +16,9 @@ public class OrderController {
 
     @Autowired
     WeatherFeignClient weatherFeignClient;
+
+    @Autowired
+    ProductFeignClient productFeignClient;
 
     @GetMapping("config")
     public String config(){
@@ -30,6 +35,12 @@ public class OrderController {
 
         System.out.println("weather = " + weather);
         return weather;
+    }
+
+    @GetMapping("product/{id}")
+    public String product(@PathVariable Long id){
+        String productById = productFeignClient.getProductById(id);
+        return productById;
     }
 
 }

@@ -23,10 +23,10 @@ public class OrderConfig {
      * Feign 默认是不开启重试的，这里我们手动的配置开启重试
      * @return
      */
-    @Bean
-    Retryer retryer() {
-        return new Retryer.Default();
-
-    }
+    // @Bean
+    // Retryer retryer() {
+    //     return new Retryer.Default();
+    //
+    // }
 
 }
