@@ -14,6 +14,11 @@ spring:
             logger-level: full
             connect-timeout: 1000
             read-timeout: 2000
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+#     sentinel 控制台默认是懒加载，控制台不会主动加载注册的服务，这里设置成非懒加载
+      eager: true
 feign:
   sentinel:
     enabled: true
