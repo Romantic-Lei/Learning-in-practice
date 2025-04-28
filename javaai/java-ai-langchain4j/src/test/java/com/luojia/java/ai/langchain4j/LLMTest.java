@@ -1,5 +1,6 @@
 package com.luojia.java.ai.langchain4j;
 
+import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,11 @@ public class LLMTest {
     }
 
     @Autowired
-    private OpenAiChatModel openAiChatModel;
+    // private OpenAiChatModel openAiChatModel;
+    private OllamaChatModel ollamaChatModel;
     @Test
     public void testSpringBoot() {
-        String chat = openAiChatModel.chat("你是什么大模型？");
+        String chat = ollamaChatModel.chat("你是什么大模型？");
         System.out.println(chat);
     }
 }

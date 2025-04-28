@@ -45,6 +45,15 @@
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-ollama-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-dashscope-spring-boot-starter</artifactId>
+        </dependency>
+        <!--langchain4j 高级功能-->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -57,9 +66,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--langchain4j的依赖清单-->
             <dependency>
                 <groupId>dev.langchain4j</groupId>
                 <artifactId>langchain4j-bom</artifactId>
+                <version>${langchain4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--引入阿里百联大模型依赖管理清单-->
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-community-bom</artifactId>
                 <version>${langchain4j.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
