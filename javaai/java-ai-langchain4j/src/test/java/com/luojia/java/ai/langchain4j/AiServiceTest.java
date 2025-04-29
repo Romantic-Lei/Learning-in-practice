@@ -2,6 +2,8 @@ package com.luojia.java.ai.langchain4j;
 
 import com.luojia.java.ai.langchain4j.assistant.Assistant;
 import com.luojia.java.ai.langchain4j.assistant.MemoryChatAssistant;
+import com.luojia.java.ai.langchain4j.assistant.SeparateChatAssistant;
+import com.luojia.java.ai.langchain4j.config.SeparateChatAssistantConfig;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.Test;
@@ -39,4 +41,17 @@ public class AiServiceTest {
         System.out.println(answer2);
     }
 
+    @Autowired
+    private SeparateChatAssistant separateChatAssistant;
+
+    @Test
+    public void testAssistant2() {
+        String answer1 = separateChatAssistant.chat(1, "我是小蹦蹦");
+        System.out.println(answer1);
+        String answer2 = separateChatAssistant.chat(1,"我是谁");
+        System.out.println(answer2);
+
+        String answer3 = separateChatAssistant.chat(2, "我是谁");
+        System.out.println(answer3);
+    }
 }
