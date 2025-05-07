@@ -13,6 +13,6 @@ import dev.langchain4j.service.spring.AiServiceWiringMode;
 public interface XiaoLuoAgent {
 
     @SystemMessage(fromResource = "xiaoluo-prompt-template.txt")
-    String chat(@MemoryId String memoryId, @UserMessage String userMessage);
+    String chat(@MemoryId Long memoryId, @UserMessage String userMessage);
 
 }
