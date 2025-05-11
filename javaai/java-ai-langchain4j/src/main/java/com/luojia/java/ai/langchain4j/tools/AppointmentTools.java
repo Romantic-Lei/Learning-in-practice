@@ -15,8 +15,8 @@ public class AppointmentTools {
     @Autowired
     private AppointmentService appointmentService;
 
-//    @Tool(name = "预约挂号", value = "根据参数，先执行工具方法 queryAppointment 查询是否可预约，并直接给用户回答是否可预约，并让用户确认所有预约信息，用户确认后再进行预约")
-    @Tool(name = "预约挂号", value = "根据参数，先执行工具方法 queryAppointment 查询是否可预约，并直接给用户回答是否可预约，将字段填充到Appointment对象中，true 执行工具方法 bookAppointment；false不可预约")
+    @Tool(name = "预约挂号", value = "根据参数，先执行工具方法 queryAppointment 查询是否可预约，并直接给用户回答是否可预约，并让用户确认所有预约信息，用户确认后再进行预约。如果用户没有提供具体的医生姓名，请从向量存储中找到一位医生。")
+//    @Tool(name = "预约挂号", value = "根据参数，先执行工具方法 queryAppointment 查询是否可预约，并直接给用户回答是否可预约，将字段填充到Appointment对象中，true 执行工具方法 bookAppointment；false不可预约")
     public String bookAppointment(@P(value = "姓名") String username,
                                   @P(value = "科室名称") String department,
                                   @P(value = "身份证") String idCard,
