@@ -1,6 +1,9 @@
 package com.luojia.java.ai.langchain4j;
 
+import dev.langchain4j.model.LambdaStreamingResponseHandler;
+import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.ollama.OllamaChatModel;
+import dev.langchain4j.model.ollama.OllamaStreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +30,13 @@ public class LLMTest {
     public void testSpringBoot() {
         String chat = ollamaChatModel.chat("你是什么大模型？");
         System.out.println(chat);
+    }
+
+    @Autowired
+    private OllamaStreamingChatModel ollamaStreamingChatModel;
+    @Test
+    public void testOllamaStreamingChatModel() {
+//        ollamaStreamingChatModel.generate("")
+        System.out.println("---");
     }
 }
