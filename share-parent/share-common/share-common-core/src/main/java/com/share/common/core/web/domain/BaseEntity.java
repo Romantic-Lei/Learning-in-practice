@@ -18,8 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  *
  * @author share
  */
-public class BaseEntity implements Serializable
-{
+public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)

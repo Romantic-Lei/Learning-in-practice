@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.share.device.mapper.StationMapper">
+
+    <resultMap type="com.share.device.domain.Station" id="StationResult" autoMapping="true">
+    </resultMap>
+
+    <sql id="selectStationVo">
+        select id, name, image_url, business_hours, longitude, latitude, province_code, city_code, district_code,address, full_address, head_name, head_phone, cabinet_id, fee_rule_id, status, create_time, create_by, update_time, update_by, del_flag, remark from station
+    </sql>
+
+    <select id="selectStationList" parameterType="com.share.device.domain.Station" resultMap="StationResult">
+        <include refid="selectStationVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="provinceCode != null  and provinceCode != ''">
+                and provinceCode = #{province_code}
+            </if>
+            <if test="cityCode != null  and cityCode != ''">
+                and cityCode = #{city_code}
+             </if>
+            <if test="districtCode != null  and districtCode != ''">
+                and districtCode = #{district_code}
+            </if>
+            <if test="address != null  and address != ''">
+                and address = #{address}
+            </if>
+            <if test="headName != null  and headName != ''">
+                and head_name like concat('%', #{headName}, '%')
+            </if>
+            <if test="headPhone != null  and headPhone != ''">
+                and head_phone = #{headPhone}
+            </if>
+            and del_flag = 0
+        </where>
+    </select>
+
+</mapper>
