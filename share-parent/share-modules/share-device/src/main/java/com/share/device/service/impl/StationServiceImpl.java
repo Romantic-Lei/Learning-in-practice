@@ -5,17 +5,22 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.share.device.domain.Cabinet;
 import com.share.device.domain.Region;
 import com.share.device.domain.Station;
+import com.share.device.domain.StationLocation;
 import com.share.device.mapper.RegionMapper;
 import com.share.device.mapper.StationMapper;
+import com.share.device.repository.StationLocationRepository;
 import com.share.device.service.ICabinetService;
 import com.share.device.service.IRegionService;
 import com.share.device.service.IStationService;
 import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +36,8 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
     private ICabinetService cabinetService;
     @Autowired
     private IRegionService regionService;
+    @Autowired
+    private StationLocationRepository stationLocationRepository;
 
     @Override
     public List<Station> selectStationList(Station station) {
@@ -58,6 +65,13 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
         station.setFullAddress(provinceName + cityName + districtName + station.getAddress());
         this.save(station);
 
+        //同步站点位置信息到MongoDB
+        StationLocation stationLocation = new StationLocation();
+        stationLocation.setId(ObjectId.get().toString());
+        stationLocation.setStationId(station.getId());
+        stationLocation.setLocation(new GeoJsonPoint(station.getLongitude().doubleValue(), station.getLatitude().doubleValue()));
+        stationLocation.setCreateTime(new Date());
+        stationLocationRepository.save(stationLocation);
         return 1;
     }
 
@@ -70,6 +84,10 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
         station.setFullAddress(provinceName + cityName + districtName + station.getAddress());
         this.updateById(station);
 
+        //同步站点位置信息到MongoDB，先查询旧值，在更新新值
+        StationLocation stationLocation = stationLocationRepository.getByStationId(station.getId());
+        stationLocation.setLocation(new GeoJsonPoint(station.getLongitude().doubleValue(), station.getLatitude().doubleValue()));
+        stationLocationRepository.save(stationLocation);
         return 1;
     }
     
