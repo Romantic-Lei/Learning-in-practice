@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.share.device.mapper.CabinetMapper">
+
+    <resultMap type="com.share.device.domain.Cabinet" id="CabinetResult" autoMapping="true">
+    </resultMap>
+
+    <sql id="selectCabinetVo">
+        select c.id, c.cabinet_no, c.name, c.cabinet_type_id, c.total_slots, c.free_slots, c.used_slots, c.available_num, c.description, c.location_id, c.status, c.del_flag, c.create_by, c.create_time, c.update_by, c.update_time, c.remark,
+               ct.name as cabinet_type_name
+        from cabinet c
+                 left join cabinet_type ct on c.cabinet_type_id = ct.id
+    </sql>
+
+    <select id="selectCabinetList" parameterType="com.share.device.domain.Cabinet" resultMap="CabinetResult">
+        <include refid="selectCabinetVo"/>
+        <where>
+            <if test="cabinetNo != null  and cabinetNo != ''">
+                and c.cabinet_no = #{cabinetNo}
+            </if>
+            <if test="name != null  and name != ''">
+                and c.name like concat('%', #{name}, '%')
+            </if>
+            <if test="cabinetTypeId != null ">
+                and c.cabinet_type_id = #{cabinetTypeId}
+             </if>
+            <if test="status != null  and status != ''">
+                and c.status = #{status}
+             </if>
+            and c.del_flag = 0
+            and ct.del_flag = 0
+        </where>
+    </select>
+
+</mapper>

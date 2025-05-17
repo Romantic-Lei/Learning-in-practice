@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.share.device.mapper.CabinetTypeMapper">
+
+    <resultMap type="com.share.device.domain.CabinetType" id="CabinetTypeResult" autoMapping="true">
+    </resultMap>
+
+    <sql id="selectCabinetTypeVo">
+        select id, name, total_slots, description, status, del_flag, create_by, create_time, update_by, update_time, remark from cabinet_type
+    </sql>
+
+    <select id="selectCabinetTypeList" parameterType="com.share.device.domain.CabinetType" resultMap="CabinetTypeResult">
+        <include refid="selectCabinetTypeVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="totalSlots != null ">
+                and total_slots = #{totalSlots}
+             </if>
+            <if test="description != null  and description != ''">
+                and description = #{description}
+            </if>
+            <if test="status != null  and status != ''">
+                and status = #{status}
+            </if>
+            and del_flag = 0
+        </where>
+    </select>
+
+</mapper>

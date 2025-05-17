@@ -23,4 +23,11 @@
         share-modules业务模块
     </description>
 
+<!--    <dependencies>-->
+<!--        <dependency>-->
+<!--            <groupId>com.share</groupId>-->
+<!--            <artifactId>share-common-security</artifactId>-->
+<!--        </dependency>-->
+<!--    </dependencies>-->
+
 </project>
