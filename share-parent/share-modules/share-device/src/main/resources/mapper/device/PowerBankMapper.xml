@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.share.device.mapper.PowerBankMapper">
+
+    <resultMap type="com.share.device.domain.PowerBank" id="PowerBankResult" autoMapping="true">
+    </resultMap>
+
+    <sql id="selectPowerBankVo">
+        select id, power_bank_no, electricity, description, status, del_flag, create_by, create_time, update_by, update_time, remark from power_bank
+    </sql>
+
+    <select id="selectPowerBankList" parameterType="com.share.device.domain.PowerBank" resultMap="PowerBankResult">
+        <include refid="selectPowerBankVo"/>
+        <where>
+            <if test="powerBankNo != null  and powerBankNo != ''">
+                and power_bank_no = #{powerBankNo}
+            </if>
+            <if test="electricity != null ">
+                and electricity = #{electricity}
+             </if>
+            <if test="description != null  and description != ''">
+                and description = #{description}
+            </if>
+            <if test="status != null  and status != ''">
+                and status = #{status}
+            </if>
+            and del_flag = 0
+        </where>
+    </select>
+
+</mapper>
