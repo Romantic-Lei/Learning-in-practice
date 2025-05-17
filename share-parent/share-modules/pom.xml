@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.share</groupId>
+        <artifactId>share</artifactId>
+        <version>3.6.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>share-system</module>
+        <module>share-gen</module>
+        <module>share-job</module>
+        <module>share-file</module>
+        <module>share-device</module>
+    </modules>
+
+    <artifactId>share-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        share-modules业务模块
+    </description>
+
+</project>
