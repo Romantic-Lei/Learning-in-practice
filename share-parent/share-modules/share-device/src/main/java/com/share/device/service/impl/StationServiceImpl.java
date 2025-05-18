@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,5 +87,25 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
         stationLocationRepository.save(stationLocation);
         return 1;
     }
-    
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean removeStationByIds(Collection<?> list) {
+        for (Object id : list) {
+            stationLocationRepository.deleteByStationId(Long.parseLong(id.toString()));
+        }
+        return super.removeByIds(list);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int setData(Station station) {
+        this.updateById(station);
+        //更正柜机使用状态
+        Cabinet cabinet = cabinetService.getById(station.getCabinetId());
+        cabinet.setStatus("1");
+        cabinetService.updateById(cabinet);
+        return 1;
+    }
+
 }

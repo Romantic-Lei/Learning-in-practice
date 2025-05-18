@@ -3,6 +3,9 @@ package com.share.device.controller;
 import com.share.common.core.web.controller.BaseController;
 import com.share.common.core.web.domain.AjaxResult;
 import com.share.common.core.web.page.TableDataInfo;
+import com.share.common.log.annotation.Log;
+import com.share.common.log.enums.BusinessType;
+import com.share.common.security.annotation.RequiresPermissions;
 import com.share.device.domain.CabinetType;
 import com.share.device.service.ICabinetTypeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +32,7 @@ public class CabinetTypeController extends BaseController
     }
 
     @Operation(summary = "添加数据")
+    @RequiresPermissions("device:cabinetType:add")
     @PostMapping()
     public AjaxResult add(@RequestBody CabinetType cabinetType) {
         boolean isSuccess = cabinetTypeService.save(cabinetType);
@@ -60,6 +64,7 @@ public class CabinetTypeController extends BaseController
      * 查询柜机类型列表
      */
     @Operation(summary = "分页查询柜机类型列表")
+    @Log(title = "柜机类型", businessType = BusinessType.OTHER)
     @GetMapping("/list")
     public TableDataInfo list(CabinetType cabinetType) {
         // 封装分页参数数据

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface StationLocationRepository extends MongoRepository<StationLocation, String> {
 
     StationLocation getByStationId(Long stationId);
+
+    void deleteByStationId(Long stationId);
 }
