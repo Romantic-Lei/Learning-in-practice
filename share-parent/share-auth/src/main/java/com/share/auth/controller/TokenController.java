@@ -23,8 +23,7 @@ import com.share.system.api.model.LoginUser;
  * @author share
  */
 @RestController
-public class TokenController
-{
+public class TokenController {
     @Autowired
     private TokenService tokenService;
 
@@ -32,8 +31,7 @@ public class TokenController
     private SysLoginService sysLoginService;
 
     @PostMapping("login")
-    public R<?> login(@RequestBody LoginBody form)
-    {
+    public R<?> login(@RequestBody LoginBody form) {
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
         // 获取登录token
@@ -41,8 +39,7 @@ public class TokenController
     }
 
     @DeleteMapping("logout")
-    public R<?> logout(HttpServletRequest request)
-    {
+    public R<?> logout(HttpServletRequest request) {
         String token = SecurityUtils.getToken(request);
         if (StringUtils.isNotEmpty(token))
         {
@@ -56,8 +53,7 @@ public class TokenController
     }
 
     @PostMapping("refresh")
-    public R<?> refresh(HttpServletRequest request)
-    {
+    public R<?> refresh(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (StringUtils.isNotNull(loginUser))
         {
@@ -69,8 +65,7 @@ public class TokenController
     }
 
     @PostMapping("register")
-    public R<?> register(@RequestBody RegisterBody registerBody)
-    {
+    public R<?> register(@RequestBody RegisterBody registerBody) {
         // 用户注册
         sysLoginService.register(registerBody.getUsername(), registerBody.getPassword());
         return R.ok();

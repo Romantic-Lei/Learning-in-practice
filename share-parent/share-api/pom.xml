@@ -10,6 +10,7 @@
 
     <modules>
         <module>share-api-system</module>
+        <module>share-api-user</module>
     </modules>
 
     <artifactId>share-api</artifactId>

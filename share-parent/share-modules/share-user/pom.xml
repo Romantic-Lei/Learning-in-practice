@@ -1,21 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.share</groupId>
-        <artifactId>share</artifactId>
+        <artifactId>share-modules</artifactId>
         <version>3.6.3</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>share-auth</artifactId>
-
-    <description>
-        share-auth认证授权中心
-    </description>
+    <groupId>com.share.user</groupId>
+    <artifactId>share-user</artifactId>
 
     <dependencies>
-
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -34,22 +31,34 @@
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 
-        <!-- SpringBoot Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- SpringBoot Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Security-->
+        <!-- Mysql Connector -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common DataSource -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.share</groupId>-->
+        <!--            <artifactId>share-common-datasource</artifactId>-->
+        <!--        </dependency>-->
+
+        <!-- RuoYi Common DataScope -->
         <dependency>
             <groupId>com.share</groupId>
-            <artifactId>share-common-security</artifactId>
+            <artifactId>share-common-datascope</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Log -->
+        <dependency>
+            <groupId>com.share</groupId>
+            <artifactId>share-common-log</artifactId>
         </dependency>
 
         <dependency>
@@ -58,23 +67,15 @@
             <version>3.6.3</version>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
