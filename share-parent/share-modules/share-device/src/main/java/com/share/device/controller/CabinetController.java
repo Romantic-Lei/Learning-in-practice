@@ -37,6 +37,12 @@ public class CabinetController extends BaseController {
         return success(cabinetService.getById(id));
     }
 
+    @Operation(summary = "获取充电宝柜机详细信息")
+    @GetMapping(value = "/getAllInfo/{id}")
+    public AjaxResult getAllInfo(@PathVariable("id") Long id) {
+        return success(cabinetService.getAllInfo(id));
+    }
+
     @Operation(summary = "新增充电宝柜机")
     @PostMapping
     public AjaxResult add(@RequestBody Cabinet cabinet) {

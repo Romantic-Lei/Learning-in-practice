@@ -7,8 +7,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "充电宝柜机")
-public class Cabinet extends BaseEntity
-{
+public class Cabinet extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 机柜编号 */

@@ -2,6 +2,7 @@ package com.share.device.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.share.device.domain.Cabinet;
+import com.share.device.vo.CabinetAndCabinetSlotVo;
 
 import java.util.List;
 
@@ -21,5 +22,7 @@ public interface ICabinetService extends IService<Cabinet> {
      * @return
      */
     List<Cabinet> searchNoUseList(String keyword);
+
+    CabinetAndCabinetSlotVo getAllInfo(Long id);
     
 }

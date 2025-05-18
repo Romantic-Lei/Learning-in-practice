@@ -1,15 +1,16 @@
-package com.share.device.domain;
+package com.share.device.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.share.common.core.web.domain.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.share.device.domain.PowerBank;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-@Schema(description = "柜机插槽")
-public class CabinetSlot extends BaseEntity {
-    private static final long serialVersionUID = 1L;
+public class CabinetSlotVo {
 
     /** 柜机id */
     @Schema(description = "柜机id")
@@ -27,5 +28,10 @@ public class CabinetSlot extends BaseEntity {
     /** 状态（1占用 0空闲 2锁定） */
     @Schema(description = "状态")
     private String status;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    private PowerBank powerBank;
 
 }

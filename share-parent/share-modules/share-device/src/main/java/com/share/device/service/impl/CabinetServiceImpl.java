@@ -7,16 +7,25 @@ import com.share.common.security.utils.SecurityUtils;
 import com.share.device.domain.Cabinet;
 import com.share.device.domain.CabinetSlot;
 import com.share.device.domain.CabinetType;
+import com.share.device.domain.PowerBank;
 import com.share.device.mapper.CabinetMapper;
 import com.share.device.mapper.CabinetSlotMapper;
 import com.share.device.mapper.CabinetTypeMapper;
 import com.share.device.service.ICabinetService;
+import com.share.device.service.IPowerBankService;
+import com.share.device.vo.CabinetAndCabinetSlotVo;
+import com.share.device.vo.CabinetSlotVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CabinetServiceImpl extends ServiceImpl<CabinetMapper, Cabinet> implements ICabinetService {
@@ -26,6 +35,8 @@ public class CabinetServiceImpl extends ServiceImpl<CabinetMapper, Cabinet> impl
     private CabinetTypeMapper cabinetTypeMapper;
     @Autowired
     private CabinetSlotMapper cabinetSlotMapper;
+    @Autowired
+    private IPowerBankService iPowerBankService;
 
     @Override
     public List<Cabinet> selectCabinetList(Cabinet cabinet) {
@@ -127,5 +138,38 @@ public class CabinetServiceImpl extends ServiceImpl<CabinetMapper, Cabinet> impl
                 .like(Cabinet::getCabinetNo, keyword)
                 .eq(Cabinet::getStatus, "0")
         );
+    }
+
+    @Override
+    public CabinetAndCabinetSlotVo getAllInfo(Long id) {
+        Cabinet cabinet = cabinetMapper.selectById(id);
+        if (null == cabinet)
+            return new CabinetAndCabinetSlotVo();
+
+        CabinetAndCabinetSlotVo cabinetAndCabinetSlotVo = new CabinetAndCabinetSlotVo();
+        cabinetAndCabinetSlotVo.setCabinet(cabinet);
+
+        // 柜机id查询柜机插槽信息
+        List<CabinetSlot> cabinetSlots = cabinetSlotMapper.selectList(new LambdaQueryWrapper<CabinetSlot>()
+                .eq(CabinetSlot::getCabinetId, id)
+                .eq(CabinetSlot::getDelFlag, 0));
+        if (CollectionUtils.isEmpty(cabinetSlots))
+            return cabinetAndCabinetSlotVo;
+
+        List<Long> collect = cabinetSlots.stream().map(CabinetSlot::getPowerBankId).collect(Collectors.toList());
+        Map<Long, PowerBank> powerBankMap = iPowerBankService.list(new LambdaQueryWrapper<PowerBank>().in(PowerBank::getId, collect))
+                .stream().collect(Collectors.toMap(PowerBank::getId, p -> p));
+
+        List<CabinetSlotVo> cabinetSlotVoList = new ArrayList<>();
+        for (CabinetSlot cabinetSlot : cabinetSlots) {
+            CabinetSlotVo cabinetSlotVo = new CabinetSlotVo();
+            PowerBank powerBank = powerBankMap.get(cabinetSlot.getPowerBankId());
+            BeanUtils.copyProperties(cabinetSlot, cabinetSlotVo);
+            cabinetSlotVo.setPowerBank(powerBank);
+            cabinetSlotVoList.add(cabinetSlotVo);
+        }
+
+        cabinetAndCabinetSlotVo.setCabinetSlotList(cabinetSlotVoList);
+        return cabinetAndCabinetSlotVo;
     }
 }
