@@ -12,8 +12,7 @@ import com.share.user.domain.UserInfo;
  * @author atguigu
  * @date 2025-05-18
  */
-public interface IUserInfoService extends IService<UserInfo>
-{
+public interface IUserInfoService extends IService<UserInfo> {
 
     /**
      * 查询用户列表

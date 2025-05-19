@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "wx.mminiapp")
+@ConfigurationProperties(prefix = "wx.miniapp")
 public class WxProperties {
 
     private String appId;

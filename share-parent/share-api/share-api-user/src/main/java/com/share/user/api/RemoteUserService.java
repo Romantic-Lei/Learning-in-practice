@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(contextId = "remoteUserService",
+@FeignClient(contextId = "remoteUserInfoService",
         value = ServiceNameConstants.SHARE_USER,
         fallbackFactory = RemoteUserFallbackFacotry.class)
 public interface RemoteUserService {

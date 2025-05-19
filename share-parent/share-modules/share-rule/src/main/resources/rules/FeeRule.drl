@@ -1,0 +1,61 @@
+package  com.share.rules
+
+import com.share.rules.domain.vo.FeeRuleRequest;
+
+global com.share.rules.domain.vo.FeeRuleResponse feeRuleResponse;
+
+rule "前5分钟免费"
+    salience 10          //指定优先级，数值越大优先级越高，不指定的情况下由上到下执行
+    no-loop true         //防止陷入死循环
+    when
+        /*规则条件，到工作内存中查找FeeRuleRequest对象
+        里面出来的结果只能是ture或者false
+        $rule是绑定变量名，可以任意命名，官方推荐$符号，定义了绑定变量名，可以在then部分操作fact对象*/
+        $rule:FeeRuleRequest(durations >= 0)
+    then
+        feeRuleResponse.setFreeDescription("前5分钟免费");
+        feeRuleResponse.setTotalAmount(0.0);
+        feeRuleResponse.setFreePrice(0.0);
+        feeRuleResponse.setExceedPrice(0.0);
+        System.out.println("前5分钟免费");
+end
+rule "每1小时3元，24小时35"
+    salience 10          //指定优先级，数值越大优先级越高，不指定的情况下由上到下执行
+    no-loop true         //防止陷入死循环
+    when
+        /*规则条件，到工作内存中查找FeeRuleRequest对象
+        里面出来的结果只能是ture或者false
+        $rule是绑定变量名，可以任意命名，官方推荐$符号，定义了绑定变量名，可以在then部分操作fact对象*/
+        $rule:FeeRuleRequest(durations > 5 && (durations - 5) <= 24*60)
+    then
+        int hour = ($rule.getDurations() - 5)/60;
+        double exceedPrice = (hour + 1) * 3.0;
+        if(exceedPrice > 35.0) {
+            exceedPrice = 35.0;
+        }
+        feeRuleResponse.setFreeDescription("前5分钟免费");
+        feeRuleResponse.setTotalAmount(exceedPrice);
+        feeRuleResponse.setFreePrice(0.0);
+        feeRuleResponse.setExceedPrice(exceedPrice);
+        int minute = $rule.getDurations() - 5;
+        feeRuleResponse.setExceedDescription("去除免费时长5分钟，计费时长："+ minute + "分钟");
+        System.out.println("24小时内费用：" + exceedPrice + "元");
+end
+
+rule "超24小时99元"
+    salience 10          //指定优先级，数值越大优先级越高，不指定的情况下由上到下执行
+    no-loop true         //防止陷入死循环
+    when
+        /*规则条件，到工作内存中查找FeeRuleRequest对象
+        里面出来的结果只能是ture或者false
+        $rule是绑定变量名，可以任意命名，官方推荐$符号，定义了绑定变量名，可以在then部分操作fact对象*/
+        $rule:FeeRuleRequest((durations - 5) > 24*60)
+    then
+        feeRuleResponse.setFreeDescription("前5分钟免费");
+        feeRuleResponse.setTotalAmount(99.0);
+        feeRuleResponse.setFreePrice(0.0);
+        feeRuleResponse.setExceedPrice(99.0);
+        int minute = $rule.getDurations() - 5;
+        feeRuleResponse.setExceedDescription("去除免费时长5分钟，计费时长："+ minute + "分钟，超24小时");
+        System.out.println("超24小时99元");
+end

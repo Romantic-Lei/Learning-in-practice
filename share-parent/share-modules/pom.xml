@@ -15,6 +15,7 @@
         <module>share-file</module>
         <module>share-device</module>
         <module>share-user</module>
+        <module>share-rule</module>
     </modules>
 
     <artifactId>share-modules</artifactId>
