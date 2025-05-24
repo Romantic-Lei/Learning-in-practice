@@ -28,9 +28,15 @@ public class DeviceApiControlller extends BaseController {
     @Operation(summary = "根据经纬度搜索附近门店（站点）")
     @RequiresLogin
     @GetMapping("/nearbyStation/{latitude}/{longitude}")
-    public AjaxResult nearbyStation(@PathVariable String latitude, @PathVariable String longitude)
-    {
+    public AjaxResult nearbyStation(@PathVariable String latitude, @PathVariable String longitude) {
         List<StationVo> stationVoList = deviceService.nearbyStation(latitude, longitude, DeviceConstants.SEARCH_H5_RADIUS);
         return success(stationVoList);
+    }
+
+    @Operation(summary = "根据id获取门店详情")
+    @RequiresLogin
+    @GetMapping("/getStation/{id}/{latitude}/{longitude}")
+    public AjaxResult getStation(@PathVariable Long id, @PathVariable String latitude, @PathVariable String longitude) {
+        return success(deviceService.getStation(id, latitude, longitude));
     }
 }

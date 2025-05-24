@@ -8,4 +8,6 @@ public interface IDeviceService {
 
     List<StationVo> nearbyStation(String latitude, String longitude, Integer radius);
 
+    StationVo getStation(Long id, String latitude, String longitude);
+
 }

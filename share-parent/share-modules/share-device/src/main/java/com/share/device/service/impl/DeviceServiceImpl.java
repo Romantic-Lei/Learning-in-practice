@@ -1,6 +1,7 @@
 package com.share.device.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.share.common.core.constant.SecurityConstants;
 import com.share.common.core.domain.R;
 import com.share.device.domain.Cabinet;
 import com.share.device.domain.Station;
@@ -107,6 +108,36 @@ public class DeviceServiceImpl implements IDeviceService {
             stationVoList.add(stationVo);
         });
         return stationVoList;
+    }
+
+    @Override
+    public StationVo getStation(Long id, String latitude, String longitude) {
+        Station station = stationService.getById(id);
+        StationVo stationVo = new StationVo();
+        BeanUtils.copyProperties(station, stationVo);
+        // 计算距离
+        Double distance = mapService.calculateDistance(longitude, latitude, station.getLongitude().toString(), station.getLatitude().toString());
+        stationVo.setDistance(distance);
+
+        // 获取柜机信息
+        Cabinet cabinet = cabinetService.getById(station.getCabinetId());
+        //可用充电宝数量大于0，可借用
+        if(cabinet.getAvailableNum() > 0) {
+            stationVo.setIsUsable("1");
+        } else {
+            stationVo.setIsUsable("0");
+        }
+        // 获取空闲插槽数量大于0，可归还
+        if (cabinet.getFreeSlots() > 0) {
+            stationVo.setIsReturn("1");
+        } else {
+            stationVo.setIsReturn("0");
+        }
+
+        // 获取费用规则
+        FeeRule feeRule = remoteFeeRuleService.getFeeRule(station.getFeeRuleId()).getData();
+        stationVo.setFeeRule(feeRule.getDescription());
+        return stationVo;
     }
 
 }
