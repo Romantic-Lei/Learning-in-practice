@@ -23,10 +23,13 @@ public class UserInfoApiController extends BaseController {
     @Autowired
     private IUserInfoService userInfoService;
 
+    @GetMapping("/test/{code}")
+    public R<UserInfo> test(@PathVariable String code) {
+        return R.ok(userInfoService.wxLogin(code));
+    }
 
     @Operation(summary = "小程序授权登录")
-    @InnerAuth
-    @GetMapping("/userInfo/wxLogin/{code}")
+    @GetMapping("/wxLogin/{code}")
     public R<UserInfo> wxLogin(@PathVariable String code) {
         return R.ok(userInfoService.wxLogin(code));
     }

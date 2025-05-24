@@ -5,7 +5,6 @@ import com.share.common.core.constant.SecurityConstants;
 import com.share.common.core.domain.R;
 import com.share.common.core.exception.ServiceException;
 import com.share.common.core.utils.StringUtils;
-import com.share.common.core.utils.ip.IpUtils;
 import com.share.user.api.RemoteUserService;
 import com.share.system.api.model.LoginUser;
 import com.share.user.domain.UserInfo;

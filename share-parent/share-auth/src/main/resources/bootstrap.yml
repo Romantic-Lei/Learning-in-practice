@@ -10,6 +10,8 @@ spring:
   profiles:
     # 环境配置
     active: dev
+  main:
+    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
   cloud:
     nacos:
       discovery:

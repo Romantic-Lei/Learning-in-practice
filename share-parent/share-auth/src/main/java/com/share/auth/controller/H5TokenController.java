@@ -1,19 +1,14 @@
 package com.share.auth.controller;
 
-import com.share.auth.form.LoginBody;
-import com.share.auth.form.RegisterBody;
 import com.share.auth.service.H5LoginService;
 import com.share.auth.service.SysLoginService;
 import com.share.common.core.domain.R;
-import com.share.common.core.utils.JwtUtils;
-import com.share.common.core.utils.StringUtils;
-import com.share.common.security.auth.AuthUtil;
 import com.share.common.security.service.TokenService;
-import com.share.common.security.utils.SecurityUtils;
 import com.share.system.api.model.LoginUser;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * token 控制

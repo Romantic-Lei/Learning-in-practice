@@ -1,4 +1,4 @@
-package com.share.user.factoey;
+package com.share.user.factory;
 
 import com.share.common.core.exception.ServiceException;
 import com.share.user.api.RemoteUserService;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class RemoteUserFallbackFacotry implements FallbackFactory<RemoteUserService> {
+public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserService> {
     @Override
     public RemoteUserService create(Throwable cause) {
         log.info("用户服务调用失败:{}", cause.getMessage());
