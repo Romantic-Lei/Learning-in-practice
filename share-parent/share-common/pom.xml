@@ -16,6 +16,7 @@
         <module>share-common-security</module>
         <module>share-common-datascope</module>
         <module>share-common-datasource</module>
+        <module>share-common-rabbit</module>
     </modules>
 
     <artifactId>share-common</artifactId>

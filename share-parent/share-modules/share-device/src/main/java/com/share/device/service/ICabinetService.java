@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ICabinetService extends IService<Cabinet> {
 
-    public List<Cabinet> selectCabinetList(Cabinet cabinet);
+    List<Cabinet> selectCabinetList(Cabinet cabinet);
 
     int saveCabinet(Cabinet cabinet);
 
@@ -24,5 +24,7 @@ public interface ICabinetService extends IService<Cabinet> {
     List<Cabinet> searchNoUseList(String keyword);
 
     CabinetAndCabinetSlotVo getAllInfo(Long id);
+
+    Cabinet getBtCabineNo(String cabinetNo);
     
 }

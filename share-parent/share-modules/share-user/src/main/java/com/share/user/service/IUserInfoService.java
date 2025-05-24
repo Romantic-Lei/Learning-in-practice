@@ -1,6 +1,7 @@
 package com.share.user.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.share.user.api.domain.UpdateUserLogin;
@@ -26,4 +27,9 @@ public interface IUserInfoService extends IService<UserInfo> {
 
     Boolean updateUserLogin(UpdateUserLogin updateUserLogin);
 
+    Boolean isFreeDeposit();
+
+    //统计2024年每个月注册人数
+    //远程调用：统计用户注册数据
+    Map<String, Object> getUserCount();
 }

@@ -172,4 +172,10 @@ public class CabinetServiceImpl extends ServiceImpl<CabinetMapper, Cabinet> impl
         cabinetAndCabinetSlotVo.setCabinetSlotList(cabinetSlotVoList);
         return cabinetAndCabinetSlotVo;
     }
+
+    @Override
+    public Cabinet getBtCabineNo(String cabinetNo) {
+        return cabinetMapper.selectOne(new LambdaQueryWrapper<Cabinet>()
+                .eq(Cabinet::getCabinetNo, cabinetNo));
+    }
 }

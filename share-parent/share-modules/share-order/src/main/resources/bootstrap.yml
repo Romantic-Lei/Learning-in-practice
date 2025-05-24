@@ -1,0 +1,30 @@
+# Tomcat
+server:
+  port: 19207
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: share-order
+  profiles:
+    # 环境配置
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.200.130:8848
+        namespace:  d707b2cd-8895-445d-acc6-d229b4ccb096
+      config:
+        # 配置中心地址
+        server-addr: 192.168.200.130:8848
+        namespace:  d707b2cd-8895-445d-acc6-d229b4ccb096
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+

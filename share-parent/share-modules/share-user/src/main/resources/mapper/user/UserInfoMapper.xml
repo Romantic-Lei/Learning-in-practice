@@ -24,4 +24,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <select id="selectUserCount" resultType="com.share.user.domain.UserCountVo">
+        SELECT DATE_FORMAT(create_time,'%Y-%m') AS registerDate,
+               COUNT(id) AS `count`
+        FROM user_info
+        WHERE YEAR(create_time)=2024
+        GROUP BY DATE_FORMAT(create_time,'%Y-%m')
+        ORDER BY registerDate
+    </select>
+
 </mapper>

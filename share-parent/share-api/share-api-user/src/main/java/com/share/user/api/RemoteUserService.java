@@ -8,12 +8,18 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(contextId = "remoteUserInfoService1",
+@FeignClient(contextId = "remoteUserInfoService",
         value = ServiceNameConstants.SHARE_USER,
         fallbackFactory = RemoteUserFallbackFactory.class)
 public interface RemoteUserService {
 
     @GetMapping("/userInfo/wxLogin/{code}")
     public R<UserInfo> wxLogin(@PathVariable("code") String code);
+
+    @GetMapping(value = "/userInfo/getUserInfo/{id}")
+    public R<UserInfo> getInfo(@PathVariable("id") Long id);
+
+    @GetMapping("/userInfo/getUserCount")
+    public R getUserCount();
 
 }
