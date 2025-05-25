@@ -88,5 +88,15 @@
             <artifactId>share-api-user</artifactId>
             <version>3.6.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.share</groupId>
+            <artifactId>share-common-rabbit</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.share</groupId>
+            <artifactId>share-api-rule</artifactId>
+            <version>3.6.3</version>
+        </dependency>
     </dependencies>
 </project>

@@ -37,7 +37,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     private RemoteFeeRuleService remoteFeeRuleService;
 
     @Autowired
-    private RemoteUserService remoteUserInfoService;
+    private RemoteUserService remoteUserService;
 
     @Autowired
     private OrderBillMapper orderBillMapper;
@@ -129,7 +129,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setCreateTime(new Date());
         orderInfo.setCreateBy(SecurityUtils.getUsername());
         //用户昵称
-        UserInfo userInfo = remoteUserInfoService.getInfo(orderInfo.getUserId()).getData();
+        UserInfo userInfo = remoteUserService.getInfo(orderInfo.getUserId()).getData();
         //orderInfo.setNick(userInfo.getNickname());
 
         baseMapper.insert(orderInfo);
@@ -284,7 +284,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 .selectList(new LambdaQueryWrapper<OrderBill>().eq(OrderBill::getOrderId, id));
         orderInfo.setOrderBillList(orderBillList);
 
-        R<UserInfo> userInfoR = remoteUserInfoService.getInfo(orderInfo.getUserId());
+        R<UserInfo> userInfoR = remoteUserService.getInfo(orderInfo.getUserId());
         UserInfo userInfo = userInfoR.getData();
         UserInfoVo userInfoVo = new UserInfoVo();
         BeanUtils.copyProperties(userInfo,userInfoVo);

@@ -9,6 +9,7 @@ import com.share.order.domain.SubmitOrderVo;
 import com.share.order.service.IOrderInfoService;
 import lombok.SneakyThrows;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Slf4j
 public class OrderReceiver {
 
     @Autowired
@@ -58,6 +60,7 @@ public class OrderReceiver {
     }
 
     //充电宝弹出，接收消息生成订单
+    @SneakyThrows
     @RabbitListener(bindings = @QueueBinding(
             exchange = @Exchange(value = MqConst.EXCHANGE_ORDER,durable = "true"),
             value = @Queue(value = MqConst.QUEUE_SUBMIT_ORDER, durable = "true"),
@@ -67,12 +70,21 @@ public class OrderReceiver {
         //把content转换对象
         SubmitOrderVo submitOrderVo = JSONObject.parseObject(content, SubmitOrderVo.class);
         //TODO 防止重复请求 setnx实现
+        String key = "order:submit:" + submitOrderVo.getMessageNo();
+        Boolean isExist = redisTemplate.opsForValue().setIfAbsent(key, submitOrderVo.getMessageNo(), 1, TimeUnit.HOURS);
+        if (Boolean.FALSE.equals(isExist)) {
+            log.info("重复请求: {}", content);
+            return;
+        }
         try {
             //调用service方法创建订单
             orderInfoService.saveOrder(submitOrderVo);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("订单服务：订单归还失败，订单编号：{}", submitOrderVo.getMessageNo(), e);
+            redisTemplate.delete(key);
+            // 消费异常，重新入队
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
         }
     }
 
