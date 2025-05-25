@@ -294,36 +294,4 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return orderInfo;
     }
 
-    public static void main(String[] args) {
-        // 假设这是从JSON解析得到的List<Map<String, Object>>
-        List<Map<String, Object>> dataList = new ArrayList<>();
-        Map<String, Object> map1 = new HashMap<>();
-        map1.put("MONTH", "2024-10");
-        map1.put("order_count", 1);
-        dataList.add(map1);
-
-        Map<String, Object> map2 = new HashMap<>();
-        map2.put("MONTH", "2024-11");
-        map2.put("order_count", 4);
-        dataList.add(map2);
-
-        Map<String, Object> map3 = new HashMap<>();
-        map3.put("MONTH", "2024-12");
-        map3.put("order_count", 1);
-        dataList.add(map3);
-
-        Map dataMap = new HashMap<>();
-
-        List<Object> monthList = new ArrayList<>();
-        List<Object> orderCountList = new ArrayList<>();
-
-        for (Map<String, Object> map : dataList) {
-            monthList.add(map.get("MONTH"));
-            orderCountList.add(map.get("order_count"));
-        }
-
-        dataMap.put("dateList", monthList);
-        dataMap.put("countList", orderCountList);
-
-    }
 }

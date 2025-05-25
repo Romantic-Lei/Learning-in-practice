@@ -42,7 +42,7 @@ public class DeviceApiControlller extends BaseController {
 
     @Operation(summary = "扫码充电")
     @RequiresLogin
-    @GetMapping("scanCharge/{cabinetNo}")
+    @GetMapping("/scanCharge/{cabinetNo}")
     public AjaxResult scanCharge(@PathVariable String cabinetNo) {
         return success(deviceService.scanCharge(cabinetNo));
     }

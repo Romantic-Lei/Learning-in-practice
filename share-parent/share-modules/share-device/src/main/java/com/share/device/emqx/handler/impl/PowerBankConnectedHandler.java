@@ -10,12 +10,12 @@ import com.share.device.domain.CabinetSlot;
 import com.share.device.domain.PowerBank;
 import com.share.device.domain.Station;
 import com.share.device.emqx.annotation.JiaEmqx;
+import com.share.device.emqx.constant.EmqxConstants;
 import com.share.device.emqx.handler.MessageHandler;
 import com.share.device.service.ICabinetService;
 import com.share.device.service.ICabinetSlotService;
 import com.share.device.service.IPowerBankService;
 import com.share.device.service.IStationService;
-import com.share.order.api.RemoteOrderInfoService;
 import com.share.order.domain.EndOrderVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,13 +25,11 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@JiaEmqx(topic = com.share.device.emqx.constant.EmqxConstants.TOPIC_POWERBANK_CONNECTED)
+@JiaEmqx(topic = EmqxConstants.TOPIC_POWERBANK_CONNECTED)
 public class PowerBankConnectedHandler implements MessageHandler {
 
     @Autowired
