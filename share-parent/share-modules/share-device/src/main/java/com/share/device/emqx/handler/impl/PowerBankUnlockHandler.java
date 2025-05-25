@@ -80,7 +80,7 @@ public class PowerBankUnlockHandler implements MessageHandler {
         }
 
         // 3.根据柜机编号获取柜机信息
-        Cabinet cabinet = cabinetService.getBtCabineNo(cabinetNo);
+        Cabinet cabinet = cabinetService.getBtCabinetNo(cabinetNo);
         // 4.获取充电宝信息根据充电宝编号
         PowerBank powerBank = powerBankService.getByPowerBankNo(powerBankNo);
         // 5.根据柜机Id+插槽编号获取插槽信息

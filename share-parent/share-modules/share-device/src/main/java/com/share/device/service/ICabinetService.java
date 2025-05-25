@@ -25,6 +25,6 @@ public interface ICabinetService extends IService<Cabinet> {
 
     CabinetAndCabinetSlotVo getAllInfo(Long id);
 
-    Cabinet getBtCabineNo(String cabinetNo);
+    Cabinet getBtCabinetNo(String cabinetNo);
     
 }

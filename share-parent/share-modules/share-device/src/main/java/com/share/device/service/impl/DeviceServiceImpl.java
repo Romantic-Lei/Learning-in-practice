@@ -221,7 +221,7 @@ public class DeviceServiceImpl implements IDeviceService {
         // 1.创建 AvailableProwerBankVo 对象
         AvailableProwerBankVo availableProwerBankVo = new AvailableProwerBankVo();
         // 2.查询柜机信息
-        Cabinet cabinet = cabinetService.getBtCabineNo(cabinetNo);
+        Cabinet cabinet = cabinetService.getBtCabinetNo(cabinetNo);
         // 3.判断柜机是否为空
         if (cabinet != null) {
             if (cabinet.getAvailableNum() == 0) {
