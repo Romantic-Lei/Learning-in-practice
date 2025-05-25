@@ -45,7 +45,7 @@ public class OrderReceiver {
         String messageNo = endOrderVo.getMessageNo();
         String key = "order:endorder:"+messageNo;
         Boolean ifAbsent = redisTemplate.opsForValue().setIfAbsent(key, messageNo, 1, TimeUnit.HOURS);
-        if(!ifAbsent) {
+        if(Boolean.FALSE.equals(ifAbsent)) {
             return;
         }
         try {

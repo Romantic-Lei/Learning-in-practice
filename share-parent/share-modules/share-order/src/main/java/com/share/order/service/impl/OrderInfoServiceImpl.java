@@ -190,7 +190,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         freeOrderBill.setBillAmount(new BigDecimal(0));
         orderBillMapper.insert(freeOrderBill);
 
-        //4 插入收费账单数据（超过免费时间账单数据）
+        //4 插入收费账 单数据（超过免费时间账单数据）
         BigDecimal exceedPrice = feeRuleResponseVo.getExceedPrice();
         if(exceedPrice.doubleValue()>0) {
             OrderBill exceedOrderBill = new OrderBill();

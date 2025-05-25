@@ -53,7 +53,7 @@ public class PowerBankUnlockHandler implements MessageHandler {
     public void handleMessage(JSONObject message) {
         log.info("handleMessage: {}", message.toJSONString());
         // 1.获取messageNo，防止重复提交
-        String messageNo = message.getString("messageNo");
+        String messageNo = message.getString("mNo");
         // 基于Redis实现重复提交
         String key = "powerBank:unlock:" + messageNo;
         Boolean ifAbsent = redisTemplate.opsForValue().setIfAbsent(key, messageNo,
