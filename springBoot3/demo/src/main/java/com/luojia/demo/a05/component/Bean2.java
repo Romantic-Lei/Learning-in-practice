@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class Bean2 {
 
-
     public Bean2() {
         log.info("Bean2 创建");
     }
